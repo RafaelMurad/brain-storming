@@ -1,0 +1,133 @@
+// PulseWatch Database Schema
+// Social Listening & Lead Generation Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User accounts
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  apiKey    String   @unique
+  plan      String   @default("free") // free, pro, enterprise
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  monitors  Monitor[]
+  alerts    Alert[]
+  mentions  Mention[]
+}
+
+// Keyword monitors (what to track)
+model Monitor {
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  keywords    String   // JSON array of keywords
+  subreddits  String?  // JSON array of subreddits to monitor
+  platforms   String   @default("reddit") // comma-separated: reddit,twitter,hackernews
+  isActive    Boolean  @default(true)
+  minScore    Int      @default(0) // Minimum lead score to alert
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mentions Mention[]
+  alerts   Alert[]
+
+  @@index([userId])
+  @@index([isActive])
+}
+
+// Social media mentions found
+model Mention {
+  id            String   @id @default(uuid())
+  userId        String
+  monitorId     String
+  platform      String   // reddit, twitter, hackernews
+  externalId    String   // Platform-specific ID
+  title         String?
+  content       String
+  author        String
+  url           String
+  subreddit     String?
+  score         Int      @default(0) // Platform score (upvotes, likes)
+  numComments   Int      @default(0)
+  sentiment     String?  // positive, negative, neutral
+  sentimentScore Float?  // -1 to 1
+  leadScore     Int?     // 0-100 AI-generated lead score
+  leadReason    String?  // Why this is a good lead
+  matchedKeywords String // JSON array of matched keywords
+  isRead        Boolean  @default(false)
+  isArchived    Boolean  @default(false)
+  isFlagged     Boolean  @default(false)
+  postedAt      DateTime
+  createdAt     DateTime @default(now())
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  monitor Monitor @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+
+  @@unique([platform, externalId])
+  @@index([userId])
+  @@index([monitorId])
+  @@index([leadScore])
+  @@index([createdAt])
+  @@index([isRead])
+}
+
+// Alert configurations
+model Alert {
+  id          String   @id @default(uuid())
+  userId      String
+  monitorId   String?
+  type        String   // email, webhook, slack
+  destination String   // email address, webhook URL, slack channel
+  minScore    Int      @default(50) // Minimum lead score to trigger
+  isActive    Boolean  @default(true)
+  lastSentAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  monitor Monitor? @relation(fields: [monitorId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([monitorId])
+}
+
+// Scan history for tracking
+model ScanLog {
+  id          String   @id @default(uuid())
+  monitorId   String
+  platform    String
+  postsScanned Int     @default(0)
+  mentionsFound Int    @default(0)
+  duration    Int      // milliseconds
+  error       String?
+  createdAt   DateTime @default(now())
+
+  @@index([monitorId])
+  @@index([createdAt])
+}
+
+// Feature flags
+model FeatureFlag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  enabled     Boolean  @default(false)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

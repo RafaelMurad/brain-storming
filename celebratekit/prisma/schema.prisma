@@ -1,0 +1,129 @@
+// CelebrateKit Database Schema
+// Embeddable Celebration & Gamification API
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// API Keys for apps using CelebrateKit
+model App {
+  id            String   @id @default(uuid())
+  apiKey        String   @unique
+  name          String
+  domain        String?  // Allowed domain for CORS
+  plan          String   @default("free")
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  celebrations  Celebration[]
+  achievements  Achievement[]
+  userProgress  UserProgress[]
+  themes        Theme[]
+}
+
+// Celebration events
+model Celebration {
+  id            String   @id @default(uuid())
+  appId         String
+  userId        String?  // Optional user identifier from client app
+  type          String   // confetti, fireworks, stars, hearts, custom
+  trigger       String?  // What triggered the celebration
+  metadata      String?  // JSON metadata
+  createdAt     DateTime @default(now())
+
+  // Relations
+  app           App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@index([appId])
+  @@index([createdAt])
+}
+
+// Achievement definitions
+model Achievement {
+  id            String   @id @default(uuid())
+  appId         String
+  code          String   // Unique code within app
+  name          String
+  description   String
+  icon          String   @default("trophy") // trophy, star, medal, badge, crown
+  points        Int      @default(10)
+  rarity        String   @default("common") // common, rare, epic, legendary
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  app           App            @relation(fields: [appId], references: [id], onDelete: Cascade)
+  unlocks       AchievementUnlock[]
+
+  @@unique([appId, code])
+  @@index([appId])
+}
+
+// User achievement unlocks
+model AchievementUnlock {
+  id            String   @id @default(uuid())
+  achievementId String
+  userId        String   // User identifier from client app
+  unlockedAt    DateTime @default(now())
+
+  // Relations
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([achievementId, userId])
+  @@index([userId])
+}
+
+// User progress/stats
+model UserProgress {
+  id            String   @id @default(uuid())
+  appId         String
+  userId        String
+  points        Int      @default(0)
+  level         Int      @default(1)
+  streak        Int      @default(0)
+  lastActiveAt  DateTime @default(now())
+  metadata      String?  // JSON for custom stats
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  app           App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@unique([appId, userId])
+  @@index([appId])
+  @@index([points])
+}
+
+// Custom themes
+model Theme {
+  id            String   @id @default(uuid())
+  appId         String
+  name          String
+  colors        String   // JSON array of colors
+  particleShape String   @default("square") // square, circle, star, heart
+  animation     String   @default("fall") // fall, explode, spiral
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  app           App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@index([appId])
+}
+
+// Feature flags
+model FeatureFlag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  enabled     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

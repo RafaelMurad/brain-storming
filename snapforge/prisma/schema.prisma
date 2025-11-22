@@ -1,0 +1,99 @@
+// SnapForge Database Schema
+// Professional Screenshot & PDF API Service
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// API Keys for authentication
+model ApiKey {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  name        String
+  userId      String?
+  permissions String   @default("read,write") // comma-separated permissions
+  rateLimit   Int      @default(100) // requests per minute
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  expiresAt   DateTime?
+
+  // Relations
+  screenshots Screenshot[]
+  usageLogs   UsageLog[]
+}
+
+// Screenshot jobs and results
+model Screenshot {
+  id            String   @id @default(uuid())
+  apiKeyId      String
+  url           String
+  status        String   @default("pending") // pending, processing, completed, failed
+  format        String   @default("png") // png, jpeg, pdf
+  width         Int      @default(1280)
+  height        Int      @default(720)
+  fullPage      Boolean  @default(false)
+  delay         Int      @default(0) // ms to wait before capture
+  selector      String?  // CSS selector to capture specific element
+  filePath      String?
+  fileSize      Int?
+  errorMessage  String?
+  processingMs  Int?
+  createdAt     DateTime @default(now())
+  completedAt   DateTime?
+
+  // Relations
+  apiKey        ApiKey   @relation(fields: [apiKeyId], references: [id])
+
+  @@index([apiKeyId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Usage tracking for analytics and billing
+model UsageLog {
+  id          String   @id @default(uuid())
+  apiKeyId    String
+  endpoint    String
+  method      String
+  statusCode  Int
+  responseMs  Int
+  requestSize Int?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  apiKey      ApiKey   @relation(fields: [apiKeyId], references: [id])
+
+  @@index([apiKeyId])
+  @@index([createdAt])
+}
+
+// Feature flags for gradual rollouts
+model FeatureFlag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  enabled     Boolean  @default(false)
+  description String?
+  metadata    String?  // JSON string for additional config
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Webhook configurations
+model Webhook {
+  id          String   @id @default(uuid())
+  apiKeyId    String?
+  url         String
+  events      String   // comma-separated events: screenshot.completed, screenshot.failed
+  secret      String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([apiKeyId])
+}

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapForge - Professional Screenshot & PDF API</title>
+  <meta name="description" content="Capture screenshots and generate PDFs from any URL with our simple, powerful API. Built for developers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Scandinavian Design System */
+    :root {
+      --color-bg: #FAFAFA;
+      --color-surface: #FFFFFF;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #6B7280;
+      --color-accent: #2563EB;
+      --color-accent-hover: #1D4ED8;
+      --color-border: #E5E7EB;
+      --color-success: #10B981;
+      --color-error: #EF4444;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --radius: 8px;
+      --radius-lg: 12px;
+      --transition: 150ms ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation */
+    nav {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-accent);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--color-text);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-text-secondary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 100px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--color-text-secondary);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Demo Section */
+    .demo-section {
+      padding: 60px 0;
+    }
+
+    .demo-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .demo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .demo-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .demo-form {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .input-group {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      transition: border-color var(--transition);
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .result-area {
+      margin-top: 24px;
+      min-height: 200px;
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-area img {
+      max-width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+    }
+
+    .result-area.loading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .features > p {
+      text-align: center;
+      color: var(--color-text-secondary);
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: all var(--transition);
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--color-accent);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: var(--color-text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Code Example */
+    .code-section {
+      padding: 80px 0;
+      background: var(--color-surface);
+    }
+
+    .code-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 48px;
+    }
+
+    .code-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .code-tab {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      transition: all var(--transition);
+    }
+
+    .code-tab.active {
+      background: var(--color-text);
+      color: white;
+      border-color: var(--color-text);
+    }
+
+    .code-block {
+      background: #1E1E1E;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      margin: 0;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .code-block code {
+      color: #D4D4D4;
+    }
+
+    .code-string { color: #CE9178; }
+    .code-keyword { color: #569CD6; }
+    .code-function { color: #DCDCAA; }
+    .code-comment { color: #6A9955; }
+    .code-number { color: #B5CEA8; }
+
+    /* Pricing */
+    .pricing {
+      padding: 80px 0;
+    }
+
+    .pricing h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .pricing > p {
+      text-align: center;
+      color: var(--color-text-secondary);
+      margin-bottom: 48px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .pricing-card.featured::before {
+      content: 'Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-accent);
+      color: white;
+      padding: 4px 12px;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .pricing-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .pricing-price {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 16px 0;
+    }
+
+    .pricing-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      margin: 24px 0;
+    }
+
+    .pricing-features li {
+      padding: 8px 0;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--color-success);
+      font-weight: bold;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      padding: 48px 0;
+      margin-top: 80px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-text);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">
+        <span class="logo-icon">S</span>
+        SnapForge
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#docs">Docs</a>
+        <a href="#" class="btn btn-primary">Get API Key</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Screenshots & PDFs<br>Made Simple</h1>
+        <p>Capture any webpage as an image or PDF with a single API call. Fast, reliable, and built for scale.</p>
+        <div class="hero-buttons">
+          <a href="#demo" class="btn btn-primary">Try the Demo</a>
+          <a href="#docs" class="btn btn-secondary">View Documentation</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section" id="demo">
+      <div class="container">
+        <div class="demo-card">
+          <div class="demo-header">
+            <h2>Live Demo</h2>
+          </div>
+          <div class="demo-form">
+            <div class="input-group">
+              <input type="url" id="demo-url" placeholder="Enter URL (e.g., https://example.com)" value="https://example.com">
+            </div>
+            <button class="btn btn-primary" id="demo-capture">Capture Screenshot</button>
+          </div>
+          <div class="result-area" id="demo-result">
+            <span>Screenshot preview will appear here</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <h2>Everything you need</h2>
+        <p>A complete toolkit for programmatic screenshot and PDF generation</p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📸</div>
+            <h3>Multiple Formats</h3>
+            <p>Export as PNG, JPEG, or PDF. Full control over quality and compression settings.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📐</div>
+            <h3>Custom Viewports</h3>
+            <p>Set any resolution up to 1920x1080. Perfect for responsive design testing.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📄</div>
+            <h3>Full Page Capture</h3>
+            <p>Capture entire scrollable pages, not just the visible viewport.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Element Selector</h3>
+            <p>Target specific elements with CSS selectors for precise captures.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⏱️</div>
+            <h3>Delay Capture</h3>
+            <p>Wait for animations, lazy-loaded content, or JavaScript to execute.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure & Private</h3>
+            <p>Screenshots are stored securely and deleted after 24 hours.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-section" id="docs">
+      <div class="container">
+        <h2>Simple Integration</h2>
+        <div class="code-tabs">
+          <button class="code-tab active" data-lang="curl">cURL</button>
+          <button class="code-tab" data-lang="js">JavaScript</button>
+          <button class="code-tab" data-lang="python">Python</button>
+        </div>
+        <div class="code-block">
+          <pre><code id="code-example"><span class="code-comment"># Take a screenshot</span>
+curl -X POST https://api.snapforge.dev/v1/screenshot \
+  -H <span class="code-string">"Authorization: Bearer YOUR_API_KEY"</span> \
+  -H <span class="code-string">"Content-Type: application/json"</span> \
+  -d <span class="code-string">'{
+    "url": "https://example.com",
+    "format": "png",
+    "width": 1280,
+    "height": 720,
+    "fullPage": false
+  }'</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <h2>Simple Pricing</h2>
+        <p>Pay only for what you use. No hidden fees.</p>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <h3>Free</h3>
+            <div class="pricing-price">$0<span>/month</span></div>
+            <ul class="pricing-features">
+              <li>100 screenshots/month</li>
+              <li>PNG & JPEG formats</li>
+              <li>1280x720 max resolution</li>
+              <li>Community support</li>
+            </ul>
+            <a href="#" class="btn btn-secondary" style="width: 100%;">Get Started</a>
+          </div>
+          <div class="pricing-card featured">
+            <h3>Pro</h3>
+            <div class="pricing-price">$29<span>/month</span></div>
+            <ul class="pricing-features">
+              <li>10,000 screenshots/month</li>
+              <li>PNG, JPEG & PDF formats</li>
+              <li>1920x1080 max resolution</li>
+              <li>Full page capture</li>
+              <li>Element selectors</li>
+              <li>Priority support</li>
+            </ul>
+            <a href="#" class="btn btn-primary" style="width: 100%;">Start Free Trial</a>
+          </div>
+          <div class="pricing-card">
+            <h3>Enterprise</h3>
+            <div class="pricing-price">Custom</div>
+            <ul class="pricing-features">
+              <li>Unlimited screenshots</li>
+              <li>Custom resolution</li>
+              <li>Webhooks</li>
+              <li>SLA guarantee</li>
+              <li>Dedicated support</li>
+            </ul>
+            <a href="#" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <span>© 2024 SnapForge. All rights reserved.</span>
+        <div class="footer-links">
+          <a href="#">Documentation</a>
+          <a href="#">Status</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Code examples for different languages
+    const codeExamples = {
+      curl: `<span class="code-comment"># Take a screenshot</span>
+curl -X POST https://api.snapforge.dev/v1/screenshot \\
+  -H <span class="code-string">"Authorization: Bearer YOUR_API_KEY"</span> \\
+  -H <span class="code-string">"Content-Type: application/json"</span> \\
+  -d <span class="code-string">'{
+    "url": "https://example.com",
+    "format": "png",
+    "width": 1280,
+    "height": 720,
+    "fullPage": false
+  }'</span>`,
+
+      js: `<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'https://api.snapforge.dev/v1/screenshot'</span>, {
+  method: <span class="code-string">'POST'</span>,
+  headers: {
+    <span class="code-string">'Authorization'</span>: <span class="code-string">'Bearer YOUR_API_KEY'</span>,
+    <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>,
+  },
+  body: JSON.<span class="code-function">stringify</span>({
+    url: <span class="code-string">'https://example.com'</span>,
+    format: <span class="code-string">'png'</span>,
+    width: <span class="code-number">1280</span>,
+    height: <span class="code-number">720</span>,
+  }),
+});
+
+<span class="code-keyword">const</span> { downloadUrl } = <span class="code-keyword">await</span> response.<span class="code-function">json</span>();`,
+
+      python: `<span class="code-keyword">import</span> requests
+
+response = requests.<span class="code-function">post</span>(
+    <span class="code-string">'https://api.snapforge.dev/v1/screenshot'</span>,
+    headers={
+        <span class="code-string">'Authorization'</span>: <span class="code-string">'Bearer YOUR_API_KEY'</span>,
+        <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>,
+    },
+    json={
+        <span class="code-string">'url'</span>: <span class="code-string">'https://example.com'</span>,
+        <span class="code-string">'format'</span>: <span class="code-string">'png'</span>,
+        <span class="code-string">'width'</span>: <span class="code-number">1280</span>,
+        <span class="code-string">'height'</span>: <span class="code-number">720</span>,
+    }
+)
+
+download_url = response.<span class="code-function">json</span>()[<span class="code-string">'downloadUrl'</span>]`
+    };
+
+    // Tab switching
+    document.querySelectorAll('.code-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('code-example').innerHTML = codeExamples[tab.dataset.lang];
+      });
+    });
+
+    // Demo functionality
+    document.getElementById('demo-capture').addEventListener('click', async () => {
+      const url = document.getElementById('demo-url').value;
+      const resultArea = document.getElementById('demo-result');
+
+      if (!url) {
+        resultArea.innerHTML = '<span style="color: var(--color-error)">Please enter a URL</span>';
+        return;
+      }
+
+      resultArea.innerHTML = '<span>Capturing screenshot...</span>';
+      resultArea.classList.add('loading');
+
+      // Simulate API call (in production, this would call the real API)
+      setTimeout(() => {
+        resultArea.classList.remove('loading');
+        resultArea.innerHTML = `
+          <div style="text-align: center; padding: 20px;">
+            <p style="margin-bottom: 16px; color: var(--color-text-secondary);">
+              Demo mode: In production, this would capture a screenshot of:
+            </p>
+            <code style="background: var(--color-bg); padding: 8px 16px; border-radius: 4px;">
+              ${url}
+            </code>
+            <p style="margin-top: 16px; font-size: 0.9rem; color: var(--color-text-secondary);">
+              Get an API key to start capturing real screenshots
+            </p>
+          </div>
+        `;
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

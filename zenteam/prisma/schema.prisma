@@ -1,0 +1,156 @@
+// ZenTeam Database Schema
+// Team Culture & Burnout Prevention Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Workspace/Organization
+model Workspace {
+  id            String   @id @default(uuid())
+  slackTeamId   String?  @unique
+  name          String
+  apiKey        String   @unique
+  plan          String   @default("free")
+  timezone      String   @default("UTC")
+  checkinTime   String   @default("09:00")
+  checkinDays   String   @default("1,2,3,4,5") // Mon-Fri
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  members       Member[]
+  checkins      Checkin[]
+  activities    Activity[]
+  alerts        BurnoutAlert[]
+}
+
+// Team members
+model Member {
+  id            String   @id @default(uuid())
+  workspaceId   String
+  slackUserId   String?
+  email         String?
+  name          String
+  role          String   @default("member") // member, manager, admin
+  department    String?
+  isActive      Boolean  @default(true)
+  wellnessScore Int      @default(75) // 0-100, rolling average
+  lastCheckinAt DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  workspace     Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  checkins      Checkin[]
+  feedback      Feedback[]
+  alertsReceived BurnoutAlert[]
+
+  @@unique([workspaceId, slackUserId])
+  @@unique([workspaceId, email])
+  @@index([workspaceId])
+  @@index([wellnessScore])
+}
+
+// Daily check-ins
+model Checkin {
+  id            String   @id @default(uuid())
+  workspaceId   String
+  memberId      String
+  mood          Int      // 1-5 scale
+  energy        Int      // 1-5 scale
+  workload      Int      // 1-5 scale (1=light, 5=overwhelmed)
+  stress        Int      // 1-5 scale
+  note          String?  // Optional free-form note
+  sentiment     String?  // positive, neutral, negative
+  sentimentScore Float?
+  wellnessScore Int      // Calculated 0-100
+  isAnonymous   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([memberId])
+  @@index([createdAt])
+}
+
+// Team activities suggestions
+model Activity {
+  id            String   @id @default(uuid())
+  workspaceId   String
+  type          String   // icebreaker, team_lunch, wellness_break, celebration
+  title         String
+  description   String
+  suggestedDate DateTime?
+  status        String   @default("suggested") // suggested, scheduled, completed, cancelled
+  participants  String?  // JSON array of member IDs
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([status])
+}
+
+// Anonymous feedback
+model Feedback {
+  id            String   @id @default(uuid())
+  workspaceId   String
+  memberId      String?  // null if anonymous
+  category      String   // workload, management, culture, tools, other
+  content       String
+  sentiment     String?
+  isAnonymous   Boolean  @default(true)
+  isResolved    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  member        Member?   @relation(fields: [memberId], references: [id], onDelete: SetNull)
+
+  @@index([workspaceId])
+  @@index([category])
+}
+
+// Burnout alerts
+model BurnoutAlert {
+  id            String   @id @default(uuid())
+  workspaceId   String
+  memberId      String
+  severity      String   // warning, critical
+  reason        String
+  wellnessScore Int
+  isAcknowledged Boolean @default(false)
+  acknowledgedBy String?
+  acknowledgedAt DateTime?
+  createdAt     DateTime @default(now())
+
+  // Relations
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([memberId])
+  @@index([severity])
+  @@index([isAcknowledged])
+}
+
+// Feature flags
+model FeatureFlag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  enabled     Boolean  @default(false)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
