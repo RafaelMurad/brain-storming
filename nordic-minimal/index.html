@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nordic Minimal - Clean Scandinavian Developer Portfolio">
+  <title>Nordic Minimal | Developer Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Minimal background -->
+  <div class="bg-gradient"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" width="32" height="32">
+          <rect x="0" y="0" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"/>
+          <line x1="0" y1="20" x2="40" y2="20" stroke="currentColor" stroke-width="2"/>
+          <line x1="20" y1="0" x2="20" y2="40" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span class="logo-text">Nordic</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#work" class="nav-link">Work</a>
+        <a href="#expertise" class="nav-link">Expertise</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-content">
+      <a href="#about" class="mobile-link">About</a>
+      <a href="#work" class="mobile-link">Work</a>
+      <a href="#expertise" class="mobile-link">Expertise</a>
+      <a href="#contact" class="mobile-link">Contact</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-label">Full-Stack Developer</p>
+      <h1 class="hero-title">
+        Crafting digital<br>
+        <span class="highlight">experiences</span> with<br>
+        purpose & precision
+      </h1>
+      <p class="hero-description">
+        Building thoughtful, accessible, and performant web applications
+        with a focus on clean code and minimal design.
+      </p>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary">View Work</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="geometric-shape">
+        <div class="shape-line"></div>
+        <div class="shape-line"></div>
+        <div class="shape-line"></div>
+        <div class="shape-circle"></div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h2 class="section-title">About</h2>
+        </div>
+        <div class="section-content">
+          <p class="lead-text">
+            I believe in the power of simplicity. Great software should feel
+            intuitive, not overwhelming. Every line of code, every design decision
+            should serve a purpose.
+          </p>
+          <div class="about-details">
+            <div class="detail-block">
+              <h3 class="detail-title">Philosophy</h3>
+              <p class="detail-text">
+                Minimalism isn't about having less—it's about making room for what matters.
+                I apply this principle to create focused, efficient solutions.
+              </p>
+            </div>
+            <div class="detail-block">
+              <h3 class="detail-title">Approach</h3>
+              <p class="detail-text">
+                User-centered design meets technical excellence. I build applications
+                that are accessible, performant, and a joy to use.
+              </p>
+            </div>
+            <div class="detail-block">
+              <h3 class="detail-title">Values</h3>
+              <p class="detail-text">
+                Quality over quantity. Clarity over complexity. Function over form.
+                These principles guide every project I take on.
+              </p>
+            </div>
+          </div>
+          <div class="about-stats">
+            <div class="stat">
+              <span class="stat-number">5+</span>
+              <span class="stat-label">Years Experience</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Projects Delivered</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Client Satisfaction</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Section -->
+  <section class="section work" id="work">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h2 class="section-title">Selected Work</h2>
+        </div>
+        <div class="section-content">
+          <div class="projects-list">
+            <article class="project-item">
+              <div class="project-info">
+                <span class="project-year">2024</span>
+                <h3 class="project-name">Flux Commerce</h3>
+                <p class="project-desc">A minimalist e-commerce platform focused on sustainable fashion brands.</p>
+                <div class="project-tags">
+                  <span>Next.js</span>
+                  <span>Stripe</span>
+                  <span>Sanity</span>
+                </div>
+              </div>
+              <div class="project-preview minimal-1"></div>
+              <a href="#" class="project-link" aria-label="View Flux Commerce project"></a>
+            </article>
+            <article class="project-item">
+              <div class="project-info">
+                <span class="project-year">2024</span>
+                <h3 class="project-name">Serene Dashboard</h3>
+                <p class="project-desc">Clean analytics interface for wellness and meditation apps.</p>
+                <div class="project-tags">
+                  <span>React</span>
+                  <span>D3.js</span>
+                  <span>Node.js</span>
+                </div>
+              </div>
+              <div class="project-preview minimal-2"></div>
+              <a href="#" class="project-link" aria-label="View Serene Dashboard project"></a>
+            </article>
+            <article class="project-item">
+              <div class="project-info">
+                <span class="project-year">2023</span>
+                <h3 class="project-name">Nordic API</h3>
+                <p class="project-desc">High-performance REST API with elegant documentation and developer experience.</p>
+                <div class="project-tags">
+                  <span>Go</span>
+                  <span>PostgreSQL</span>
+                  <span>Redis</span>
+                </div>
+              </div>
+              <div class="project-preview minimal-3"></div>
+              <a href="#" class="project-link" aria-label="View Nordic API project"></a>
+            </article>
+            <article class="project-item">
+              <div class="project-info">
+                <span class="project-year">2023</span>
+                <h3 class="project-name">Clarity Notes</h3>
+                <p class="project-desc">Distraction-free writing app with markdown support and cloud sync.</p>
+                <div class="project-tags">
+                  <span>TypeScript</span>
+                  <span>Electron</span>
+                  <span>SQLite</span>
+                </div>
+              </div>
+              <div class="project-preview minimal-4"></div>
+              <a href="#" class="project-link" aria-label="View Clarity Notes project"></a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expertise Section -->
+  <section class="section expertise" id="expertise">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <h2 class="section-title">Expertise</h2>
+        </div>
+        <div class="section-content">
+          <div class="expertise-grid">
+            <div class="expertise-card">
+              <div class="expertise-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18"/>
+                </svg>
+              </div>
+              <h3 class="expertise-title">Frontend Development</h3>
+              <p class="expertise-desc">React, Vue, TypeScript, Next.js, Tailwind CSS</p>
+              <div class="expertise-level">
+                <div class="level-bar" style="--level: 95%"></div>
+              </div>
+            </div>
+            <div class="expertise-card">
+              <div class="expertise-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="6" width="20" height="12" rx="2"/>
+                  <path d="M6 12h.01M10 12h.01"/>
+                </svg>
+              </div>
+              <h3 class="expertise-title">Backend Development</h3>
+              <p class="expertise-desc">Node.js, Go, Python, PostgreSQL, GraphQL</p>
+              <div class="expertise-level">
+                <div class="level-bar" style="--level: 90%"></div>
+              </div>
+            </div>
+            <div class="expertise-card">
+              <div class="expertise-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 2a10 10 0 0 0 0 20"/>
+                  <path d="M2 12h20"/>
+                </svg>
+              </div>
+              <h3 class="expertise-title">Cloud & DevOps</h3>
+              <p class="expertise-desc">AWS, Docker, Kubernetes, CI/CD, Terraform</p>
+              <div class="expertise-level">
+                <div class="level-bar" style="--level: 85%"></div>
+              </div>
+            </div>
+            <div class="expertise-card">
+              <div class="expertise-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5"/>
+                  <path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <h3 class="expertise-title">Architecture</h3>
+              <p class="expertise-desc">System Design, Microservices, API Design</p>
+              <div class="expertise-level">
+                <div class="level-bar" style="--level: 88%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tools-section">
+            <h3 class="tools-title">Tools & Technologies</h3>
+            <div class="tools-grid">
+              <span class="tool">Git</span>
+              <span class="tool">VS Code</span>
+              <span class="tool">Figma</span>
+              <span class="tool">Notion</span>
+              <span class="tool">Linear</span>
+              <span class="tool">Vercel</span>
+              <span class="tool">Prisma</span>
+              <span class="tool">Jest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-header">
+          <span class="section-number">04</span>
+          <h2 class="section-title">Contact</h2>
+        </div>
+        <div class="section-content">
+          <div class="contact-intro">
+            <p class="lead-text">
+              Have a project in mind? Let's create something meaningful together.
+            </p>
+          </div>
+          <div class="contact-grid">
+            <form class="contact-form" id="contactForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="name">Name</label>
+                  <input type="text" id="name" class="form-input" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="email">Email</label>
+                  <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="message">Message</label>
+                <textarea id="message" class="form-input form-textarea" placeholder="Tell me about your project..." rows="5" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full">
+                Send Message
+              </button>
+            </form>
+            <div class="contact-info">
+              <div class="contact-block">
+                <h3 class="contact-label">Email</h3>
+                <a href="mailto:hello@nordic.dev" class="contact-value">hello@nordic.dev</a>
+              </div>
+              <div class="contact-block">
+                <h3 class="contact-label">Location</h3>
+                <span class="contact-value">Stockholm, Sweden</span>
+              </div>
+              <div class="contact-block">
+                <h3 class="contact-label">Social</h3>
+                <div class="social-links">
+                  <a href="#" class="social-link">GitHub</a>
+                  <a href="#" class="social-link">LinkedIn</a>
+                  <a href="#" class="social-link">Twitter</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <span class="footer-logo">Nordic</span>
+          <p class="footer-tagline">Simplicity is the ultimate sophistication.</p>
+        </div>
+        <div class="footer-right">
+          <p class="footer-copy">&copy; 2025 Nordic Minimal. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NeonGrid - Cyberpunk Developer Portfolio">
+  <title>NeonGrid | Developer Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Scanlines overlay -->
+  <div class="scanlines"></div>
+
+  <!-- Grid background -->
+  <div class="grid-bg"></div>
+
+  <!-- Glitch container -->
+  <div class="glitch-container">
+    <div class="glitch-line"></div>
+    <div class="glitch-line"></div>
+    <div class="glitch-line"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">NEON</span>
+        <span class="logo-accent">GRID</span>
+        <span class="logo-bracket">]</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about" class="nav-link" data-text="ABOUT">ABOUT</a>
+        <a href="#skills" class="nav-link" data-text="SKILLS">SKILLS</a>
+        <a href="#projects" class="nav-link" data-text="PROJECTS">PROJECTS</a>
+        <a href="#contact" class="nav-link" data-text="CONTACT">CONTACT</a>
+      </div>
+      <button class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mobile-link">ABOUT</a>
+    <a href="#skills" class="mobile-link">SKILLS</a>
+    <a href="#projects" class="mobile-link">PROJECTS</a>
+    <a href="#contact" class="mobile-link">CONTACT</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="status-dot"></span>
+        <span>SYSTEM ONLINE</span>
+      </div>
+      <h1 class="hero-title" data-text="DEVELOPER">
+        <span class="glitch-text" data-text="FULL-STACK">FULL-STACK</span>
+        <span class="hero-name">DEVELOPER</span>
+      </h1>
+      <p class="hero-subtitle">
+        <span class="typing-text">
+          > Initializing neural interface...<br>
+          > Loading skill modules...<br>
+          > Ready to build the future_
+        </span>
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value" data-count="50">0</span>
+          <span class="stat-label">PROJECTS</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" data-count="5">0</span>
+          <span class="stat-label">YEARS EXP</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" data-count="100">0</span>
+          <span class="stat-label">CLIENTS</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          <span class="btn-text">VIEW PROJECTS</span>
+          <span class="btn-icon">&#9654;</span>
+        </a>
+        <a href="#contact" class="btn btn-secondary">
+          <span class="btn-text">CONNECT</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="holo-display">
+        <div class="holo-ring"></div>
+        <div class="holo-ring"></div>
+        <div class="holo-ring"></div>
+        <div class="holo-core"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">&lt;PROFILE&gt;</span>
+        <h2 class="section-title">ABOUT_ME</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-terminal">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">profile.exe</span>
+          </div>
+          <div class="terminal-body">
+            <p class="terminal-line"><span class="prompt">$</span> cat about.txt</p>
+            <p class="terminal-output">
+              A passionate developer navigating the digital frontier.
+              Specialized in crafting high-performance applications
+              and immersive user experiences.
+            </p>
+            <p class="terminal-line"><span class="prompt">$</span> skills --list</p>
+            <p class="terminal-output">
+              [FRONTEND] React, Vue, TypeScript, WebGL<br>
+              [BACKEND] Node.js, Python, Go, Rust<br>
+              [DATABASE] PostgreSQL, MongoDB, Redis<br>
+              [DEVOPS] Docker, K8s, AWS, CI/CD
+            </p>
+            <p class="terminal-line"><span class="prompt">$</span> <span class="cursor">_</span></p>
+          </div>
+        </div>
+        <div class="about-cards">
+          <div class="info-card">
+            <div class="card-icon">&#9733;</div>
+            <h3 class="card-title">MISSION</h3>
+            <p class="card-text">Building cutting-edge solutions that push technological boundaries.</p>
+          </div>
+          <div class="info-card">
+            <div class="card-icon">&#9889;</div>
+            <h3 class="card-title">APPROACH</h3>
+            <p class="card-text">Clean code, optimal performance, and futuristic design principles.</p>
+          </div>
+          <div class="info-card">
+            <div class="card-icon">&#9881;</div>
+            <h3 class="card-title">EXPERTISE</h3>
+            <p class="card-text">Full-stack development with focus on scalable architectures.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section skills" id="skills">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">&lt;MODULES&gt;</span>
+        <h2 class="section-title">SKILL_MATRIX</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-module" data-skill="95">
+          <div class="module-header">
+            <span class="module-name">JavaScript/TypeScript</span>
+            <span class="module-level">EXPERT</span>
+          </div>
+          <div class="module-bar">
+            <div class="module-progress" style="--progress: 95%"></div>
+          </div>
+          <div class="module-stats">
+            <span>PWR: 95%</span>
+            <span>EXP: 5+ YRS</span>
+          </div>
+        </div>
+        <div class="skill-module" data-skill="90">
+          <div class="module-header">
+            <span class="module-name">React/Vue</span>
+            <span class="module-level">EXPERT</span>
+          </div>
+          <div class="module-bar">
+            <div class="module-progress" style="--progress: 90%"></div>
+          </div>
+          <div class="module-stats">
+            <span>PWR: 90%</span>
+            <span>EXP: 4+ YRS</span>
+          </div>
+        </div>
+        <div class="skill-module" data-skill="85">
+          <div class="module-header">
+            <span class="module-name">Node.js/Express</span>
+            <span class="module-level">ADVANCED</span>
+          </div>
+          <div class="module-bar">
+            <div class="module-progress" style="--progress: 85%"></div>
+          </div>
+          <div class="module-stats">
+            <span>PWR: 85%</span>
+            <span>EXP: 4+ YRS</span>
+          </div>
+        </div>
+        <div class="skill-module" data-skill="80">
+          <div class="module-header">
+            <span class="module-name">Python</span>
+            <span class="module-level">ADVANCED</span>
+          </div>
+          <div class="module-bar">
+            <div class="module-progress" style="--progress: 80%"></div>
+          </div>
+          <div class="module-stats">
+            <span>PWR: 80%</span>
+            <span>EXP: 3+ YRS</span>
+          </div>
+        </div>
+        <div class="skill-module" data-skill="75">
+          <div class="module-header">
+            <span class="module-name">Docker/Kubernetes</span>
+            <span class="module-level">PROFICIENT</span>
+          </div>
+          <div class="module-bar">
+            <div class="module-progress" style="--progress: 75%"></div>
+          </div>
+          <div class="module-stats">
+            <span>PWR: 75%</span>
+            <span>EXP: 2+ YRS</span>
+          </div>
+        </div>
+        <div class="skill-module" data-skill="70">
+          <div class="module-header">
+            <span class="module-name">AWS/Cloud</span>
+            <span class="module-level">PROFICIENT</span>
+          </div>
+          <div class="module-bar">
+            <div class="module-progress" style="--progress: 70%"></div>
+          </div>
+          <div class="module-stats">
+            <span>PWR: 70%</span>
+            <span>EXP: 2+ YRS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="section projects" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">&lt;ARCHIVE&gt;</span>
+        <h2 class="section-title">PROJECT_DATABASE</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card">
+          <div class="project-image">
+            <div class="project-overlay">
+              <span class="project-id">PRJ_001</span>
+            </div>
+            <div class="project-visual cyber"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-status">
+              <span class="status-indicator active"></span>
+              <span>DEPLOYED</span>
+            </div>
+            <h3 class="project-title">NEURAL_COMMERCE</h3>
+            <p class="project-desc">AI-powered e-commerce platform with predictive analytics and real-time personalization.</p>
+            <div class="project-tech">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">TensorFlow</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">DEMO &#9654;</a>
+              <a href="#" class="project-link">CODE &#9741;</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-image">
+            <div class="project-overlay">
+              <span class="project-id">PRJ_002</span>
+            </div>
+            <div class="project-visual matrix"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-status">
+              <span class="status-indicator active"></span>
+              <span>DEPLOYED</span>
+            </div>
+            <h3 class="project-title">QUANTUM_DASH</h3>
+            <p class="project-desc">Real-time analytics dashboard with WebSocket streaming and 3D data visualization.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Vue.js</span>
+              <span class="tech-tag">Three.js</span>
+              <span class="tech-tag">Go</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">DEMO &#9654;</a>
+              <a href="#" class="project-link">CODE &#9741;</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-image">
+            <div class="project-overlay">
+              <span class="project-id">PRJ_003</span>
+            </div>
+            <div class="project-visual hologram"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-status">
+              <span class="status-indicator beta"></span>
+              <span>BETA</span>
+            </div>
+            <h3 class="project-title">SYNTH_CLOUD</h3>
+            <p class="project-desc">Serverless infrastructure management with auto-scaling and cost optimization AI.</p>
+            <div class="project-tech">
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">AWS</span>
+              <span class="tech-tag">Terraform</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">DEMO &#9654;</a>
+              <a href="#" class="project-link">CODE &#9741;</a>
+            </div>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-image">
+            <div class="project-overlay">
+              <span class="project-id">PRJ_004</span>
+            </div>
+            <div class="project-visual neon"></div>
+          </div>
+          <div class="project-content">
+            <div class="project-status">
+              <span class="status-indicator active"></span>
+              <span>DEPLOYED</span>
+            </div>
+            <h3 class="project-title">CRYPTO_NEXUS</h3>
+            <p class="project-desc">Decentralized trading platform with smart contracts and cross-chain bridges.</p>
+            <div class="project-tech">
+              <span class="tech-tag">Solidity</span>
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Rust</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link">DEMO &#9654;</a>
+              <a href="#" class="project-link">CODE &#9741;</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">&lt;TRANSMIT&gt;</span>
+        <h2 class="section-title">INIT_CONTACT</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3 class="contact-heading">ESTABLISH CONNECTION</h3>
+          <p class="contact-text">Ready to collaborate on your next project? Send a transmission and let's build something extraordinary.</p>
+          <div class="contact-channels">
+            <a href="mailto:hello@neongrid.dev" class="channel-item">
+              <span class="channel-icon">@</span>
+              <span class="channel-label">EMAIL</span>
+              <span class="channel-value">hello@neongrid.dev</span>
+            </a>
+            <a href="#" class="channel-item">
+              <span class="channel-icon">&#9741;</span>
+              <span class="channel-label">GITHUB</span>
+              <span class="channel-value">github.com/neongrid</span>
+            </a>
+            <a href="#" class="channel-item">
+              <span class="channel-icon">&#9998;</span>
+              <span class="channel-label">LINKEDIN</span>
+              <span class="channel-value">linkedin.com/in/neongrid</span>
+            </a>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label class="form-label">IDENTIFIER</label>
+            <input type="text" class="form-input" placeholder="Your Name" required>
+            <div class="input-line"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">TRANSMISSION_FREQ</label>
+            <input type="email" class="form-input" placeholder="your@email.com" required>
+            <div class="input-line"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">MESSAGE_DATA</label>
+            <textarea class="form-input form-textarea" placeholder="Your message..." rows="4" required></textarea>
+            <div class="input-line"></div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            <span class="btn-text">TRANSMIT MESSAGE</span>
+            <span class="btn-icon">&#10148;</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <span class="logo-bracket">[</span>
+          <span class="logo-text">NEON</span>
+          <span class="logo-accent">GRID</span>
+          <span class="logo-bracket">]</span>
+        </div>
+        <p class="footer-text">Designed & Developed in the Digital Frontier</p>
+        <p class="footer-copy">&copy; 2025 NeonGrid. All systems operational.</p>
+      </div>
+    </div>
+    <div class="footer-grid"></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

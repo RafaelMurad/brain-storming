@@ -1,6 +1,6 @@
 # Brain-Storming: Portfolio Projects Collection
 
-A collection of 4 production-ready MVP projects built with modern TypeScript, following Scandinavian design principles (minimal, functional, clean).
+A collection of 4 production-ready MVP projects built with modern TypeScript, and 5 futuristic portfolio websites, all following Scandinavian design principles (minimal, functional, clean).
 
 ## Projects Overview
 
@@ -247,6 +247,43 @@ Each project is designed to be:
 - Easy to deploy and scale
 - Simple to extend with new features
 - Monetizable as a SaaS product
+
+---
+
+## Portfolio Websites
+
+5 futuristic portfolio website templates with unique themes:
+
+| Portfolio | Theme | Description |
+|-----------|-------|-------------|
+| [Cosmic Void](./cosmic-void/) | Deep Space | Parallax stars, floating planets, nebula effects |
+| [NeonGrid](./neon-grid/) | Cyberpunk | Neon colors, scanlines, glitch effects, terminal UI |
+| [AstralContact](./astral-contact/) | Alien | UFO animations, crop circles, signal frequencies |
+| [Nordic Minimal](./nordic-minimal/) | Scandinavian | Clean lines, whitespace, subtle animations |
+| [Galactic Gourmet](./galactic-gourmet/) | Space + Food | Culinary meets cosmos, menu-style skills |
+
+### Quick Start (Portfolios)
+
+```bash
+# Navigate to any portfolio
+cd cosmic-void  # or neon-grid, astral-contact, nordic-minimal, galactic-gourmet
+
+# Serve locally
+python -m http.server 8000
+# or
+npx serve .
+```
+
+### Portfolio Features
+
+All portfolio websites include:
+- **Responsive Design**: Mobile-first approach
+- **Smooth Animations**: CSS animations and JavaScript effects
+- **Interactive Elements**: Hover states, parallax, scroll reveals
+- **Easter Eggs**: Hidden surprises (try Konami code or secret keywords!)
+- **No Build Process**: Pure HTML/CSS/JS - just open in browser
+- **Google Fonts**: Carefully selected typography
+- **Cross-browser Compatible**: Works in all modern browsers
 
 ---
 
