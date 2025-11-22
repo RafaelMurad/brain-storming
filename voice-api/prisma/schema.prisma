@@ -1,0 +1,213 @@
+// Voice API - AI-Powered Speech Recognition
+// Prisma Schema for transcriptions, custom vocabularies, and configurations
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// API Key for authentication
+model ApiKey {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  name        String
+  projectId   String
+  permissions String   @default("read,write") // comma-separated
+  rateLimit   Int      @default(60) // requests per minute
+
+  // Usage limits
+  monthlyMinutes Int?   // max transcription minutes per month
+  dailyMinutes   Int?   // max transcription minutes per day
+
+  isActive    Boolean  @default(true)
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  transcriptions Transcription[]
+}
+
+// Project/App using Voice API
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+
+  // Default configuration (JSON)
+  defaultConfig String @default("{}")
+
+  // Provider keys
+  openaiKey   String?
+  assemblyaiKey String?
+  deepgramKey String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  apiKeys      ApiKey[]
+  transcriptions Transcription[]
+  vocabularies Vocabulary[]
+  configs      TranscriptionConfig[]
+}
+
+// Transcription job
+model Transcription {
+  id          String   @id @default(uuid())
+  projectId   String
+  apiKeyId    String?
+  configId    String?  // Optional config preset
+
+  // Audio file info
+  fileName    String?
+  fileSize    Int?     // bytes
+  mimeType    String?
+  duration    Float?   // seconds
+
+  // Source
+  sourceType  String   @default("upload") // "upload", "url", "stream"
+  sourceUrl   String?
+
+  // Processing options
+  language    String   @default("en") // ISO language code or "auto"
+  provider    String   @default("openai") // "openai", "assemblyai", "deepgram"
+  model       String   @default("whisper-1")
+
+  // Advanced options (JSON)
+  options     String   @default("{}")
+  // Includes: temperature, prompt, timestamps, diarization, punctuation, etc.
+
+  // Result
+  text        String?  // Transcribed text
+  segments    String?  // JSON array of segments with timestamps
+  words       String?  // JSON array of word-level timestamps
+  confidence  Float?   // Overall confidence score
+
+  // Status
+  status      String   @default("pending") // "pending", "processing", "completed", "failed"
+  errorMessage String?
+
+  // Metadata
+  metadata    String   @default("{}") // Custom metadata
+  processingTime Int?  // milliseconds
+
+  // Webhook callback
+  webhookUrl  String?
+  webhookSent Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  completedAt DateTime?
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  apiKey      ApiKey?  @relation(fields: [apiKeyId], references: [id], onDelete: SetNull)
+  config      TranscriptionConfig? @relation(fields: [configId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, status])
+  @@index([status, createdAt])
+}
+
+// Custom vocabulary/dictionary
+model Vocabulary {
+  id          String   @id @default(uuid())
+  projectId   String
+
+  name        String
+  description String?
+
+  // Words/phrases (JSON array)
+  words       String   @default("[]") // ["word1", "word2", "technical term"]
+
+  // Boost/weight
+  boost       Float    @default(1.0) // How much to boost these words
+
+  // Categorization
+  category    String?  // "names", "technical", "product", "industry"
+
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, name])
+}
+
+// Reusable transcription configuration presets
+model TranscriptionConfig {
+  id          String   @id @default(uuid())
+  projectId   String
+
+  name        String
+  description String?
+
+  // Provider settings
+  provider    String   @default("openai")
+  model       String   @default("whisper-1")
+  language    String   @default("auto")
+
+  // Advanced options
+  options     String   @default("{}")
+  // {
+  //   temperature: 0,
+  //   prompt: "Custom prompt for context",
+  //   timestamps: "word" | "segment" | "none",
+  //   diarization: true/false,
+  //   punctuation: true/false,
+  //   profanityFilter: true/false,
+  //   speakerLabels: true/false,
+  //   maxSpeakers: 4,
+  //   vocabulary: ["term1", "term2"],
+  //   responseFormat: "json" | "text" | "srt" | "vtt"
+  // }
+
+  // Linked vocabularies
+  vocabularyIds String @default("[]") // JSON array of vocabulary IDs
+
+  isDefault   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  transcriptions Transcription[]
+
+  @@unique([projectId, name])
+}
+
+// Usage tracking
+model UsageLog {
+  id          String   @id @default(uuid())
+  apiKeyId    String
+  date        DateTime // Day granularity
+
+  // Metrics
+  requestCount Int     @default(0)
+  totalMinutes Float   @default(0) // Audio minutes processed
+  totalCost   Float    @default(0) // USD
+
+  // Breakdown
+  byProvider  String   @default("{}") // JSON {provider: {requests, minutes, cost}}
+  byLanguage  String   @default("{}") // JSON {language: {requests, minutes}}
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([apiKeyId, date])
+  @@index([date])
+}
+
+// Feature flags
+model FeatureFlag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  isEnabled   Boolean  @default(false)
+  percentage  Int      @default(100)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
