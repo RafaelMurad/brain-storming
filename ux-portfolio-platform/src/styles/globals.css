@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --cursor-size: 20px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ux-bg text-ux-text antialiased;
+    cursor: none;
+  }
+
+  ::selection {
+    @apply bg-ux-primary/30 text-white;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-ux-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ux-border rounded-full hover:bg-ux-muted/50;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-to-r from-ux-primary via-ux-secondary to-ux-accent bg-clip-text text-transparent;
+    background-size: 200% auto;
+  }
+
+  .btn-primary {
+    @apply relative px-8 py-4 bg-ux-primary text-white font-medium rounded-full
+           overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-ux-primary/25
+           hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply px-8 py-4 border border-ux-border text-ux-text font-medium rounded-full
+           transition-all duration-300 hover:border-ux-primary hover:text-ux-primary
+           hover:-translate-y-0.5;
+  }
+
+  .card {
+    @apply bg-ux-card border border-ux-border rounded-2xl overflow-hidden
+           transition-all duration-500 hover:border-ux-primary/50;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-2xl hover:shadow-ux-primary/10 hover:-translate-y-2;
+  }
+
+  .section-padding {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 md:px-8 lg:px-12;
+  }
+
+  .heading-xl {
+    @apply text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[0.9] tracking-tight;
+  }
+
+  .heading-lg {
+    @apply text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight;
+  }
+
+  .heading-md {
+    @apply text-3xl md:text-4xl font-display font-bold leading-tight;
+  }
+
+  .body-lg {
+    @apply text-lg md:text-xl text-ux-muted leading-relaxed;
+  }
+
+  .label {
+    @apply text-xs uppercase tracking-[0.2em] text-ux-muted font-medium;
+  }
+
+  /* Magnetic button effect */
+  .magnetic {
+    @apply transition-transform duration-200;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Grain overlay */
+  .grain {
+    @apply pointer-events-none fixed inset-0 z-50 opacity-[0.03];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* Process step line */
+  .process-line {
+    @apply absolute left-6 top-14 bottom-0 w-px bg-gradient-to-b from-ux-primary via-ux-secondary to-transparent;
+  }
+
+  /* Image reveal animation */
+  .image-reveal {
+    @apply relative overflow-hidden;
+  }
+
+  .image-reveal::after {
+    content: '';
+    @apply absolute inset-0 bg-ux-bg transform origin-right transition-transform duration-700;
+  }
+
+  .image-reveal.revealed::after {
+    @apply scale-x-0;
+  }
+
+  /* Metric card */
+  .metric-card {
+    @apply relative p-8 rounded-2xl bg-gradient-to-br from-ux-card to-ux-bg border border-ux-border;
+  }
+
+  .metric-value {
+    @apply text-5xl md:text-6xl font-display font-bold text-gradient;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Smooth reveal on scroll */
+  .reveal {
+    @apply opacity-0 translate-y-8 transition-all duration-700;
+  }
+
+  .reveal.visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Stagger children animation */
+  .stagger-children > * {
+    @apply opacity-0 translate-y-4;
+  }
+
+  .stagger-children.visible > * {
+    @apply opacity-100 translate-y-0 transition-all duration-500;
+  }
+
+  .stagger-children.visible > *:nth-child(1) { transition-delay: 0ms; }
+  .stagger-children.visible > *:nth-child(2) { transition-delay: 100ms; }
+  .stagger-children.visible > *:nth-child(3) { transition-delay: 200ms; }
+  .stagger-children.visible > *:nth-child(4) { transition-delay: 300ms; }
+  .stagger-children.visible > *:nth-child(5) { transition-delay: 400ms; }
+  .stagger-children.visible > *:nth-child(6) { transition-delay: 500ms; }
+}
