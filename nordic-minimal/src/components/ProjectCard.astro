@@ -1,0 +1,117 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  tags: string[];
+  year: string;
+  link?: string;
+  featured?: boolean;
+  index?: number;
+}
+
+const {
+  title,
+  description,
+  tags,
+  year,
+  link = '#',
+  featured = false,
+  index = 0,
+} = Astro.props;
+---
+
+<article
+  class={`group relative p-6 md:p-8 border border-nordic-gray-200 rounded-lg
+          hover:border-nordic-gray-300 hover:bg-nordic-gray-50/50
+          transition-all duration-400 ease-nordic ${featured ? 'lg:p-10' : ''}`}
+>
+  <!-- Featured badge -->
+  {
+    featured && (
+      <div class="absolute top-4 right-4 md:top-6 md:right-6">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-2xs font-medium uppercase tracking-wider bg-nordic-accent/10 text-nordic-accent rounded-full">
+          <span class="w-1 h-1 rounded-full bg-nordic-accent" />
+          Featured
+        </span>
+      </div>
+    )
+  }
+
+  <a href={link} class="block">
+    <div class="flex flex-col md:flex-row md:items-start gap-6">
+      <!-- Project number & year -->
+      <div
+        class="flex-shrink-0 md:w-20 flex md:flex-col items-center md:items-start gap-2 md:gap-1"
+      >
+        <span class="font-mono text-sm text-nordic-gray-400">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <span class="hidden md:block w-4 h-px bg-nordic-gray-300"></span>
+        <span class="text-xs text-nordic-gray-400">{year}</span>
+      </div>
+
+      <!-- Content -->
+      <div class="flex-1 space-y-4">
+        <div class="flex items-start justify-between gap-4">
+          <h3
+            class={`font-display font-semibold group-hover:text-nordic-accent
+                    transition-colors duration-300 ${featured ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'}`}
+          >
+            {title}
+          </h3>
+
+          <!-- Arrow icon -->
+          <div
+            class="flex-shrink-0 w-8 h-8 flex items-center justify-center
+                      rounded-full border border-nordic-gray-200
+                      group-hover:border-nordic-accent group-hover:bg-nordic-accent
+                      transition-all duration-300"
+          >
+            <svg
+              class="w-4 h-4 text-nordic-gray-400 group-hover:text-white
+                     transform -rotate-45 group-hover:rotate-0 transition-all duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </div>
+        </div>
+
+        <p
+          class={`text-nordic-gray-500 leading-relaxed ${featured ? 'text-base' : 'text-sm'}`}
+        >
+          {description}
+        </p>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 pt-2">
+          {
+            tags.map((tag) => (
+              <span
+                class="inline-block px-3 py-1 text-xs font-medium
+                           bg-nordic-gray-100 text-nordic-gray-600 rounded-full
+                           group-hover:bg-nordic-gray-200 transition-colors duration-300"
+              >
+                {tag}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- Hover line effect -->
+  <div
+    class="absolute bottom-0 left-0 right-0 h-0.5 bg-nordic-accent
+            transform origin-left scale-x-0 group-hover:scale-x-100
+            transition-transform duration-400 ease-nordic rounded-b-lg"
+  >
+  </div>
+</article>

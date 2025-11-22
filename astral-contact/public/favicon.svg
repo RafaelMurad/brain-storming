@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Background circle with glow effect -->
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="beamGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#39ff14" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#39ff14" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark background -->
+  <circle cx="24" cy="24" r="24" fill="#0a0a12"/>
+
+  <!-- Outer ring -->
+  <circle cx="24" cy="24" r="22" stroke="#39ff14" stroke-width="0.5" fill="none" opacity="0.3"/>
+
+  <!-- UFO body layers -->
+  <ellipse cx="24" cy="20" rx="14" ry="4" fill="#39ff14" opacity="0.2" filter="url(#glow)"/>
+  <ellipse cx="24" cy="18" rx="12" ry="3.5" fill="#39ff14" opacity="0.4"/>
+  <ellipse cx="24" cy="16" rx="9" ry="3" fill="#39ff14"/>
+
+  <!-- UFO dome -->
+  <path d="M18 16 C18 12 20.5 9 24 9 C27.5 9 30 12 30 16" stroke="#39ff14" stroke-width="1.5" fill="none" filter="url(#glow)"/>
+
+  <!-- UFO lights -->
+  <circle cx="17" cy="18" r="1.5" fill="#39ff14">
+    <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="24" cy="19" r="1.5" fill="#39ff14">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="31" cy="18" r="1.5" fill="#39ff14">
+    <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite" begin="0.5s"/>
+  </circle>
+
+  <!-- Tractor beam -->
+  <path d="M19 22 L14 38 L34 38 L29 22" fill="url(#beamGradient)"/>
+
+  <!-- Signal waves -->
+  <circle cx="24" cy="18" r="18" stroke="#9d4edd" stroke-width="0.5" fill="none" opacity="0.2">
+    <animate attributeName="r" values="10;18" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="24" cy="18" r="14" stroke="#2ec4b6" stroke-width="0.5" fill="none" opacity="0.2">
+    <animate attributeName="r" values="8;14" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+    <animate attributeName="opacity" values="0.4;0" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+  </circle>
+</svg>

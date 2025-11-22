@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-alien-void-lighter;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-alien-void min-h-screen;
+    background-image:
+      radial-gradient(ellipse at top, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(46, 196, 182, 0.05) 0%, transparent 50%);
+  }
+
+  ::selection {
+    @apply bg-alien-glow/30 text-alien-glow;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-alien-void;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-alien-glow/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-alien-glow/50;
+  }
+}
+
+@layer components {
+  .alien-text-glow {
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.8),
+                 0 0 20px rgba(57, 255, 20, 0.5),
+                 0 0 30px rgba(57, 255, 20, 0.3);
+  }
+
+  .alien-text-glow-purple {
+    text-shadow: 0 0 10px rgba(157, 78, 221, 0.8),
+                 0 0 20px rgba(157, 78, 221, 0.5),
+                 0 0 30px rgba(157, 78, 221, 0.3);
+  }
+
+  .alien-text-glow-teal {
+    text-shadow: 0 0 10px rgba(46, 196, 182, 0.8),
+                 0 0 20px rgba(46, 196, 182, 0.5),
+                 0 0 30px rgba(46, 196, 182, 0.3);
+  }
+
+  .alien-border-glow {
+    @apply border border-alien-glow/50;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3),
+                inset 0 0 10px rgba(57, 255, 20, 0.1);
+  }
+
+  .alien-card {
+    @apply bg-alien-void-light/80 backdrop-blur-sm rounded-xl;
+    @apply border border-alien-glow/20;
+    @apply transition-all duration-300;
+  }
+
+  .alien-card:hover {
+    @apply border-alien-glow/50;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.2),
+                inset 0 0 20px rgba(57, 255, 20, 0.05);
+  }
+
+  .hologram-effect {
+    @apply relative overflow-hidden;
+  }
+
+  .hologram-effect::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(57, 255, 20, 0.03) 50%,
+      transparent 100%
+    );
+    animation: scanLine 3s linear infinite;
+  }
+
+  .signal-ring {
+    @apply absolute rounded-full border-2 border-alien-glow/50;
+    animation: signalWave 2s ease-out infinite;
+  }
+
+  .particle {
+    @apply absolute w-1 h-1 rounded-full bg-alien-glow;
+    animation: particleRise 3s ease-out infinite;
+  }
+
+  .crop-circle-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='50' stroke='%2339ff14' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3Ccircle cx='60' cy='60' r='35' stroke='%2339ff14' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3Ccircle cx='60' cy='60' r='20' stroke='%2339ff14' stroke-width='0.5' fill='none' opacity='0.1'/%3E%3Cline x1='60' y1='10' x2='60' y2='110' stroke='%2339ff14' stroke-width='0.3' opacity='0.05'/%3E%3Cline x1='10' y1='60' x2='110' y2='60' stroke='%2339ff14' stroke-width='0.3' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  .star-twinkle {
+    animation: flicker 2s ease-in-out infinite;
+  }
+
+  .glass-panel {
+    @apply bg-alien-void-light/50 backdrop-blur-md;
+    @apply border border-alien-glow/10;
+  }
+
+  .input-alien {
+    @apply bg-alien-void-lighter border border-alien-glow/30 rounded-lg;
+    @apply px-4 py-3 text-gray-100 placeholder-gray-500;
+    @apply focus:outline-none focus:border-alien-glow focus:ring-1 focus:ring-alien-glow/50;
+    @apply transition-all duration-300;
+  }
+
+  .input-alien:focus {
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-alien {
+    @apply bg-gradient-to-r from-alien-glow via-alien-teal to-alien-purple;
+  }
+
+  .gradient-alien-text {
+    @apply bg-gradient-to-r from-alien-glow via-alien-teal to-alien-purple;
+    @apply bg-clip-text text-transparent;
+  }
+
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animate-delay-700 {
+    animation-delay: 700ms;
+  }
+
+  .animate-delay-1000 {
+    animation-delay: 1000ms;
+  }
+}

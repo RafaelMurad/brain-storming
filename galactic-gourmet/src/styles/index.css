@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-space text-cream font-sans antialiased;
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, rgba(212, 175, 55, 0.4), transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(254, 249, 231, 0.3), transparent),
+      radial-gradient(1px 1px at 90px 40px, rgba(212, 175, 55, 0.5), transparent),
+      radial-gradient(2px 2px at 160px 120px, rgba(254, 249, 231, 0.2), transparent),
+      radial-gradient(1px 1px at 230px 80px, rgba(212, 175, 55, 0.4), transparent),
+      radial-gradient(2px 2px at 300px 200px, rgba(254, 249, 231, 0.3), transparent),
+      radial-gradient(1px 1px at 400px 150px, rgba(212, 175, 55, 0.5), transparent),
+      radial-gradient(2px 2px at 500px 250px, rgba(254, 249, 231, 0.2), transparent);
+    background-size: 550px 300px;
+  }
+
+  ::selection {
+    @apply bg-gold text-space;
+  }
+}
+
+@layer components {
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold-light via-gold to-gold-dark bg-clip-text text-transparent;
+  }
+
+  .border-gold-gradient {
+    border-image: linear-gradient(135deg, #d4af37, #e6c65c, #d4af37) 1;
+  }
+
+  .glow-gold {
+    box-shadow:
+      0 0 20px rgba(212, 175, 55, 0.3),
+      0 0 40px rgba(212, 175, 55, 0.1);
+  }
+
+  .glow-burgundy {
+    box-shadow:
+      0 0 20px rgba(114, 47, 55, 0.3),
+      0 0 40px rgba(114, 47, 55, 0.1);
+  }
+
+  .star-decoration {
+    position: relative;
+  }
+
+  .star-decoration::before,
+  .star-decoration::after {
+    content: '\2726';
+    @apply text-gold absolute;
+  }
+
+  .star-decoration::before {
+    left: -1.5rem;
+  }
+
+  .star-decoration::after {
+    right: -1.5rem;
+  }
+
+  .menu-item {
+    @apply relative pl-6 before:content-['\2605'] before:absolute before:left-0 before:text-gold before:text-sm;
+  }
+
+  .divider-stars {
+    @apply flex items-center justify-center gap-4 py-8;
+  }
+
+  .divider-stars::before,
+  .divider-stars::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent;
+  }
+
+  .floating-food {
+    @apply absolute text-4xl opacity-60 pointer-events-none select-none;
+  }
+
+  .glass-card {
+    @apply bg-space-light/80 backdrop-blur-sm border border-gold/20 rounded-lg;
+  }
+
+  .menu-card {
+    @apply bg-gradient-to-b from-space-light to-space border-2 border-gold/30 rounded-lg p-6;
+    background-image:
+      linear-gradient(to bottom, rgba(20, 20, 31, 0.9), rgba(10, 10, 18, 0.95)),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .constellation-line {
+    stroke: rgba(212, 175, 55, 0.3);
+    stroke-width: 1;
+    stroke-dasharray: 5, 5;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animate-delay-700 {
+    animation-delay: 700ms;
+  }
+
+  .animate-delay-1000 {
+    animation-delay: 1000ms;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-space;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gold/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gold/70;
+}

@@ -1,0 +1,39 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/Header.astro';
+import Hero from '@/components/Hero.astro';
+import About from '@/components/About.astro';
+import Projects from '@/components/Projects.astro';
+import Skills from '@/components/Skills.astro';
+import Contact from '@/components/Contact.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<Layout
+  title="Nordic Minimal | Designer & Developer Portfolio"
+  description="A clean, Scandinavian-inspired portfolio showcasing thoughtful design and modern development practices."
+>
+  <Header />
+
+  <main class="flex-1">
+    <Hero />
+
+    <div class="divider-nordic my-0"></div>
+
+    <About />
+
+    <div class="divider-nordic my-0"></div>
+
+    <Projects />
+
+    <div class="divider-nordic my-0"></div>
+
+    <Skills />
+
+    <div class="divider-nordic my-0"></div>
+
+    <Contact />
+  </main>
+
+  <Footer />
+</Layout>

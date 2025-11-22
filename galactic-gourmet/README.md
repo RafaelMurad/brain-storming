@@ -1,76 +1,129 @@
-# Galactic Gourmet Portfolio
+# GalacticGourmet Portfolio
 
-A space meets culinary art fusion portfolio with elegant food-themed design elements.
-
-## Features
-
-- **Star Field Background**: Animated twinkling stars
-- **Floating Food Particles**: Random food emoji floating upward
-- **Dish Orbit Animation**: Orbital rings around hero dish
-- **Menu-Style Skills**: Restaurant menu format for skill presentation
-- **Gold Accents**: Elegant gold color scheme
-- **Sparkle Effects**: Form submission sparkles
-- **Easter Egg**: Type "CHEF" to unlock a secret recipe!
+A stunning space + culinary fusion themed developer portfolio built with SolidJS, TypeScript, and Tailwind CSS.
 
 ## Theme
 
-Space + Fine Dining fusion with:
-- Deep space background (#0a0a12)
-- Elegant gold (#d4af37)
-- Burgundy accents (#722f37)
-- Cream highlights (#fef9e7)
+GalacticGourmet combines the elegance of fine dining with the wonder of the cosmos. Skills are presented as menu items, projects as signature recipes, and the contact form as a reservation system.
 
-## Design Concept
+### Color Palette
 
-Merging the precision of coding with the artistry of culinary creation:
-- Skills presented as menu items (appetizers, mains, sides, desserts)
-- Projects described as "signature recipes"
-- Contact section styled as a "reservation"
-- Chef/developer metaphor throughout
+- **Gold** (`#d4af37`) - Primary accent, represents luxury and excellence
+- **Burgundy** (`#722f37`) - Secondary accent, represents warmth and passion
+- **Space Black** (`#0a0a12`) - Background, represents the cosmic void
+- **Cream** (`#fef9e7`) - Text, represents elegance and readability
+
+## Features
+
+- Floating food emoji animations with orbit effects
+- Restaurant menu-style skills presentation
+- Recipe card format for projects
+- Reservation-themed contact form
+- Star decorations and constellation patterns
+- Responsive design for all devices
+- Smooth scroll navigation
+- Interactive hover effects with gold accents
+
+## Tech Stack
+
+- **Framework**: SolidJS
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Build Tool**: Vite
+- **Fonts**: Playfair Display (serif), Montserrat (sans-serif)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Project Structure
+
+```
+galactic-gourmet/
+├── public/
+│   └── favicon.svg          # Star + chef hat logo
+├── src/
+│   ├── components/
+│   │   ├── Header.tsx       # Navigation with star logo
+│   │   ├── Hero.tsx         # Floating foods & orbit animation
+│   │   ├── Section.tsx      # Reusable section wrapper
+│   │   ├── About.tsx        # "The Chef" section
+│   │   ├── Skills.tsx       # "The Menu" - skills as dishes
+│   │   ├── Projects.tsx     # "Signature Recipes" section
+│   │   ├── Contact.tsx      # "Reservations" contact form
+│   │   ├── Footer.tsx       # Site footer
+│   │   └── Button.tsx       # Reusable button component
+│   ├── styles/
+│   │   └── index.css        # Global styles & Tailwind
+│   ├── App.tsx              # Main app component
+│   └── index.tsx            # Entry point
+├── index.html
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+├── vite.config.ts
+└── postcss.config.js
+```
 
 ## Sections
 
-1. **Hero** - Orbital dish display with floating ingredients
-2. **The Chef** - About section with cooking philosophy
-3. **Menu** - Skills in restaurant menu format
-4. **Recipes** - Projects as signature dishes
-5. **Reserve** - Contact as table reservation
+### The Chef (About)
+Personal introduction with culinary philosophy cards highlighting approach to development.
 
-## Quick Start
+### The Menu (Skills)
+Technical skills organized as restaurant menu categories:
+- **Appetizers**: Frontend technologies
+- **Main Course**: Backend technologies
+- **Sides**: DevOps & tools
+- **Desserts**: Testing, UI/UX, Agile
 
-Simply open `index.html` in a browser - no build process required.
+### Signature Recipes (Projects)
+Projects presented as recipe cards with:
+- Cooking time (development duration)
+- Difficulty rating
+- Servings (user reach)
+- Ingredients (tech stack)
 
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx serve .
-
-# Using PHP
-php -S localhost:8000
-```
-
-## Technologies
-
-- HTML5
-- CSS3 (Animations, Gradients, Grid)
-- Vanilla JavaScript
-- Google Fonts (Playfair Display, Raleway)
+### Reservations (Contact)
+Contact form styled as restaurant reservation with:
+- Project size selection
+- Timeline picker
+- Special requests textarea
 
 ## Customization
 
-1. **Colors**: Edit gold/burgundy variables in `:root`
-2. **Food Emojis**: Modify foods array in `script.js`
-3. **Menu Items**: Update skill items in HTML
-4. **Star Density**: Adjust `starCount` in `generateStars()`
+### Adding New Skills
+Edit `src/components/Skills.tsx` and add items to the appropriate menu category.
 
-## Typography
+### Adding New Projects
+Edit `src/components/Projects.tsx` and add new project objects to the `projects` array.
 
-- **Headings**: Playfair Display (elegant serif)
-- **Body**: Raleway (clean sans-serif)
-- Combined for sophisticated restaurant-style feel
+### Changing Colors
+Update the color values in `tailwind.config.js` under `theme.extend.colors`.
 
 ## License
 
-MIT License - Free for personal and commercial use.
+MIT License - Feel free to use this template for your own portfolio!
+
+---
+
+*"Crafting stellar digital experiences with the precision of a master chef"*

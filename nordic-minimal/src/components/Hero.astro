@@ -1,0 +1,161 @@
+---
+import Button from './Button.astro';
+---
+
+<section class="min-h-screen flex items-center relative overflow-hidden pt-20">
+  <!-- Background geometric shapes -->
+  <div class="absolute inset-0 pointer-events-none">
+    <!-- Large circle -->
+    <div
+      class="absolute -right-32 top-1/4 w-96 h-96 rounded-full
+             border border-nordic-gray-200 opacity-60"
+    >
+    </div>
+
+    <!-- Grid pattern -->
+    <div
+      class="absolute left-0 bottom-0 w-64 h-64 opacity-30"
+      style="background-image: radial-gradient(circle, #dadce0 1px, transparent 1px); background-size: 24px 24px;"
+    >
+    </div>
+
+    <!-- Diagonal line -->
+    <div
+      class="absolute top-1/3 left-1/4 w-px h-48 bg-nordic-gray-200 rotate-45 origin-top"
+    >
+    </div>
+
+    <!-- Small accent circle -->
+    <div
+      class="absolute right-1/4 bottom-1/3 w-3 h-3 rounded-full bg-nordic-accent"
+    >
+    </div>
+  </div>
+
+  <div class="container-nordic relative z-10">
+    <div class="grid-nordic items-center">
+      <!-- Content -->
+      <div class="col-span-4 md:col-span-6 lg:col-span-7">
+        <div class="space-y-8">
+          <!-- Eyebrow -->
+          <p
+            class="text-sm font-medium text-nordic-accent tracking-wide uppercase
+                   opacity-0 animate-fade-in"
+          >
+            Designer & Developer
+          </p>
+
+          <!-- Main heading -->
+          <h1
+            class="text-display-sm md:text-display-md lg:text-display-lg font-display
+                   opacity-0 animate-slide-up animate-delay-100"
+          >
+            Creating digital
+            <br />
+            experiences with
+            <br />
+            <span class="text-nordic-gray-500">clarity & purpose</span>
+          </h1>
+
+          <!-- Description -->
+          <p
+            class="text-lg md:text-xl text-nordic-gray-600 max-w-readable leading-relaxed
+                   opacity-0 animate-slide-up animate-delay-200"
+          >
+            I design and build thoughtful digital products that balance
+            aesthetics with functionality. Focused on creating clean,
+            user-centered experiences.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div
+            class="flex flex-wrap gap-4 pt-4
+                      opacity-0 animate-slide-up animate-delay-300"
+          >
+            <Button href="#projects" variant="primary" size="lg">
+              View projects
+            </Button>
+            <Button href="#about" variant="outline" size="lg">
+              Learn more
+            </Button>
+          </div>
+
+          <!-- Stats -->
+          <div
+            class="flex gap-12 pt-8 border-t border-nordic-gray-200
+                      opacity-0 animate-slide-up animate-delay-400"
+          >
+            <div>
+              <p class="text-3xl font-display font-semibold">5+</p>
+              <p class="text-sm text-nordic-gray-500 mt-1">Years experience</p>
+            </div>
+            <div>
+              <p class="text-3xl font-display font-semibold">40+</p>
+              <p class="text-sm text-nordic-gray-500 mt-1">Projects delivered</p>
+            </div>
+            <div>
+              <p class="text-3xl font-display font-semibold">15+</p>
+              <p class="text-sm text-nordic-gray-500 mt-1">Happy clients</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual element -->
+      <div class="hidden lg:block col-span-5">
+        <div class="relative aspect-square">
+          <!-- Geometric composition -->
+          <div
+            class="absolute inset-0 flex items-center justify-center
+                      opacity-0 animate-scale-in animate-delay-200"
+          >
+            <!-- Outer ring -->
+            <div
+              class="absolute w-full h-full rounded-full border border-nordic-gray-200"
+            >
+            </div>
+
+            <!-- Middle ring -->
+            <div
+              class="absolute w-3/4 h-3/4 rounded-full border border-nordic-gray-300"
+            >
+            </div>
+
+            <!-- Inner filled circle -->
+            <div
+              class="absolute w-1/2 h-1/2 rounded-full bg-nordic-gray-100
+                        flex items-center justify-center"
+            >
+              <div class="w-4 h-4 rounded-full bg-nordic-accent"></div>
+            </div>
+
+            <!-- Crossing lines -->
+            <div class="absolute w-full h-px bg-nordic-gray-200"></div>
+            <div class="absolute w-px h-full bg-nordic-gray-200"></div>
+          </div>
+
+          <!-- Floating elements -->
+          <div
+            class="absolute top-8 left-8 w-8 h-8 border border-nordic-gray-300"
+          >
+          </div>
+          <div
+            class="absolute bottom-12 right-12 w-6 h-6 rounded-full bg-nordic-gray-200"
+          >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div
+    class="absolute bottom-8 left-1/2 -translate-x-1/2
+            opacity-0 animate-fade-in animate-delay-500"
+  >
+    <div class="flex flex-col items-center gap-2 text-nordic-gray-400">
+      <span class="text-xs uppercase tracking-widest">Scroll</span>
+      <div class="w-px h-8 bg-nordic-gray-300 animate-pulse"></div>
+    </div>
+  </div>
+</section>

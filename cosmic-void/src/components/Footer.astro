@@ -1,0 +1,48 @@
+---
+interface SocialLink {
+  name: string;
+  href: string;
+  icon: string;
+}
+
+const socialLinks: SocialLink[] = [
+  { name: 'GitHub', href: '#', icon: '⌘' },
+  { name: 'LinkedIn', href: '#', icon: '◉' },
+  { name: 'Twitter', href: '#', icon: '✦' },
+];
+---
+
+<footer class="relative py-16 border-t border-white/10">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cosmic-cyan to-cosmic-purple flex items-center justify-center">
+          <span class="text-xl">✦</span>
+        </div>
+        <span class="font-display font-bold text-xl text-white">
+          Cosmic<span class="text-cosmic-cyan">Void</span>
+        </span>
+      </div>
+
+      <!-- Social Links -->
+      <div class="flex items-center gap-6">
+        {socialLinks.map((link) => (
+          <a
+            href={link.href}
+            class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center
+                   text-gray-400 hover:text-cosmic-cyan hover:border-cosmic-cyan transition-all duration-300"
+            aria-label={link.name}
+          >
+            {link.icon}
+          </a>
+        ))}
+      </div>
+
+      <!-- Copyright -->
+      <p class="text-gray-500 text-sm">
+        © {new Date().getFullYear()} CosmicVoid. Exploring the digital universe.
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,45 @@
+---
+interface Props {
+  name: string;
+  level: number;
+  icon?: string;
+}
+
+const { name, level, icon = '◆' } = Astro.props;
+---
+
+<div class="card group">
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl text-cosmic-cyan">{icon}</span>
+      <span class="font-display font-semibold text-white">{name}</span>
+    </div>
+    <span class="text-sm text-cosmic-cyan font-medium">{level}%</span>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="h-2 bg-cosmic-dark rounded-full overflow-hidden">
+    <div
+      class="skill-bar h-full bg-gradient-to-r from-cosmic-cyan to-cosmic-purple rounded-full transition-all duration-1000 ease-out"
+      style={`width: 0%; --target-width: ${level}%`}
+    ></div>
+  </div>
+</div>
+
+<script>
+  // Animate skill bars on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bar = entry.target as HTMLElement;
+        const targetWidth = bar.style.getPropertyValue('--target-width');
+        bar.style.width = targetWidth;
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.skill-bar').forEach(bar => {
+    observer.observe(bar);
+  });
+</script>

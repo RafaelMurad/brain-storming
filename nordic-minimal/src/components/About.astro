@@ -1,0 +1,120 @@
+---
+import Section from './Section.astro';
+
+interface Philosophy {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const philosophies: Philosophy[] = [
+  {
+    title: 'Simplicity',
+    description:
+      'Stripping away the unnecessary to focus on what truly matters. Every element serves a purpose.',
+    icon: 'circle',
+  },
+  {
+    title: 'Function',
+    description:
+      'Design should enhance usability, not hinder it. Beautiful solutions that work seamlessly.',
+    icon: 'square',
+  },
+  {
+    title: 'Craft',
+    description:
+      'Attention to detail at every level. From pixel-perfect designs to clean, maintainable code.',
+    icon: 'triangle',
+  },
+  {
+    title: 'Balance',
+    description:
+      'Harmony between aesthetics and performance. Creating experiences that feel effortless.',
+    icon: 'line',
+  },
+];
+---
+
+<Section
+  id="about"
+  title="About"
+  subtitle="A philosophy rooted in Scandinavian design principles"
+  number="01"
+>
+  <div class="space-y-16">
+    <!-- Introduction -->
+    <div data-animate class="space-y-6">
+      <p class="text-xl md:text-2xl text-nordic-gray-700 leading-relaxed">
+        I'm a designer and developer based in Stockholm, focused on creating
+        digital experiences that are both beautiful and functional.
+      </p>
+      <p class="text-lg text-nordic-gray-500 leading-relaxed max-w-readable">
+        With a background in interaction design and front-end development, I
+        bridge the gap between design vision and technical implementation. I
+        believe in the power of simplicity and the importance of thoughtful,
+        purposeful design.
+      </p>
+    </div>
+
+    <!-- Philosophy Cards -->
+    <div data-animate class="stagger">
+      <h3
+        class="text-sm font-medium text-nordic-gray-400 uppercase tracking-wide mb-8"
+      >
+        Design Philosophy
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {
+          philosophies.map((item) => (
+            <div class="card-nordic group hover-lift">
+              <div class="flex items-start gap-4">
+                {/* Icon */}
+                <div
+                  class="w-10 h-10 flex items-center justify-center flex-shrink-0
+                            border border-nordic-gray-200 rounded-lg
+                            group-hover:border-nordic-accent group-hover:bg-nordic-accent/5
+                            transition-all duration-300"
+                >
+                  {item.icon === 'circle' && (
+                    <div class="w-3 h-3 rounded-full border-2 border-nordic-gray-400 group-hover:border-nordic-accent transition-colors" />
+                  )}
+                  {item.icon === 'square' && (
+                    <div class="w-3 h-3 border-2 border-nordic-gray-400 group-hover:border-nordic-accent transition-colors" />
+                  )}
+                  {item.icon === 'triangle' && (
+                    <div
+                      class="w-0 h-0 border-l-[6px] border-r-[6px] border-b-[10px]
+                                border-l-transparent border-r-transparent border-b-nordic-gray-400
+                                group-hover:border-b-nordic-accent transition-colors"
+                    />
+                  )}
+                  {item.icon === 'line' && (
+                    <div class="w-4 h-0.5 bg-nordic-gray-400 group-hover:bg-nordic-accent transition-colors" />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div>
+                  <h4 class="font-display font-semibold mb-2">{item.title}</h4>
+                  <p class="text-sm text-nordic-gray-500 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Experience timeline hint -->
+    <div data-animate class="flex items-center gap-4 pt-8">
+      <div class="flex-1 h-px bg-nordic-gray-200"></div>
+      <span class="text-sm text-nordic-gray-400">
+        5+ years crafting digital experiences
+      </span>
+      <div class="flex-1 h-px bg-nordic-gray-200"></div>
+    </div>
+  </div>
+</Section>

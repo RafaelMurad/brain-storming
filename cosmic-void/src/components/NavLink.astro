@@ -1,0 +1,23 @@
+---
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<a
+  href={href}
+  class="nav-link relative font-medium text-gray-300 hover:text-white transition-colors duration-300 py-2"
+>
+  {label}
+  <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cosmic-cyan to-cosmic-purple
+               transition-all duration-300 group-hover:w-full"></span>
+</a>
+
+<style>
+  .nav-link:hover span {
+    width: 100%;
+  }
+</style>

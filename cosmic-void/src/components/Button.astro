@@ -1,0 +1,29 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { href, variant = 'primary', type = 'button', class: className = '' } = Astro.props;
+
+const baseClasses = 'inline-flex items-center justify-center gap-2 px-8 py-4 font-display font-semibold transition-all duration-300';
+
+const variantClasses = {
+  primary: 'bg-gradient-to-r from-cosmic-cyan to-cosmic-blue text-white rounded-full hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] hover:-translate-y-1',
+  secondary: 'border-2 border-cosmic-purple text-cosmic-purple rounded-full hover:bg-cosmic-purple/10 hover:shadow-[0_0_30px_rgba(157,78,221,0.3)]',
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
+---
+
+{href ? (
+  <a href={href} class={classes}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes}>
+    <slot />
+  </button>
+)}

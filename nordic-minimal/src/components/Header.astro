@@ -1,0 +1,156 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const navItems: NavItem[] = [
+  { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<header
+  class="fixed top-0 left-0 right-0 z-50 bg-nordic-white/80 backdrop-blur-md border-b border-nordic-gray-100"
+>
+  <nav class="container-nordic">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo -->
+      <a
+        href="/"
+        class="font-display font-semibold text-lg tracking-tight hover:text-nordic-accent transition-colors"
+      >
+        nordic<span class="text-nordic-accent">.</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-8">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="text-sm font-medium text-nordic-gray-600 hover:text-nordic-black link-underline"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <!-- CTA Button -->
+      <div class="hidden md:block">
+        <a
+          href="#contact"
+          class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium
+                 bg-nordic-black text-white rounded-full
+                 hover:bg-nordic-gray-800 transition-colors duration-300"
+        >
+          <span>Get in touch</span>
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 -mr-2 text-nordic-gray-600 hover:text-nordic-black"
+        aria-label="Toggle menu"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            class="menu-icon"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+          <path
+            class="close-icon hidden"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden bg-nordic-white border-t border-nordic-gray-100"
+  >
+    <div class="container-nordic py-6">
+      <ul class="space-y-4">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="block text-lg font-medium text-nordic-gray-600 hover:text-nordic-black
+                       py-2 transition-colors"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="pt-4">
+          <a
+            href="#contact"
+            class="inline-flex items-center gap-2 px-5 py-3 text-base font-medium
+                   bg-nordic-black text-white rounded-full w-full justify-center
+                   hover:bg-nordic-gray-800 transition-colors duration-300"
+          >
+            Get in touch
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.querySelector('.menu-icon');
+  const closeIcon = document.querySelector('.close-icon');
+
+  let isMenuOpen = false;
+
+  mobileMenuBtn?.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    mobileMenu?.classList.toggle('hidden', !isMenuOpen);
+    menuIcon?.classList.toggle('hidden', isMenuOpen);
+    closeIcon?.classList.toggle('hidden', !isMenuOpen);
+  });
+
+  // Close menu on link click
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      isMenuOpen = false;
+      mobileMenu?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    });
+  });
+</script>

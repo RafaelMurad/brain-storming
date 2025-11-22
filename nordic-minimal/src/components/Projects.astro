@@ -1,0 +1,132 @@
+---
+import Section from './Section.astro';
+import ProjectCard from './ProjectCard.astro';
+
+interface Project {
+  title: string;
+  description: string;
+  tags: string[];
+  year: string;
+  link?: string;
+  featured?: boolean;
+}
+
+const projects: Project[] = [
+  {
+    title: 'Fjord Banking',
+    description:
+      'A modern digital banking platform focusing on simplicity and user trust. Clean interfaces for complex financial operations.',
+    tags: ['Product Design', 'React', 'TypeScript'],
+    year: '2024',
+    link: '#',
+    featured: true,
+  },
+  {
+    title: 'Hygge Home',
+    description:
+      'E-commerce experience for Scandinavian furniture. Minimalist design that lets the products speak for themselves.',
+    tags: ['E-commerce', 'Next.js', 'Headless CMS'],
+    year: '2024',
+    link: '#',
+    featured: true,
+  },
+  {
+    title: 'Aurora Weather',
+    description:
+      'Weather application with focus on data visualization. Turning complex meteorological data into beautiful, understandable graphics.',
+    tags: ['Mobile App', 'Data Viz', 'Swift'],
+    year: '2023',
+    link: '#',
+  },
+  {
+    title: 'Lagom Analytics',
+    description:
+      'Dashboard for business intelligence. Presenting analytics in a way that enables clear decision-making.',
+    tags: ['Dashboard', 'Vue.js', 'D3.js'],
+    year: '2023',
+    link: '#',
+  },
+  {
+    title: 'Fika Social',
+    description:
+      'Community platform connecting remote workers. Building meaningful connections in digital spaces.',
+    tags: ['Platform', 'React Native', 'Node.js'],
+    year: '2023',
+    link: '#',
+  },
+  {
+    title: 'Skogen Brand',
+    description:
+      'Complete brand identity and website for a sustainable forestry company. Nature-inspired design language.',
+    tags: ['Branding', 'Website', 'Astro'],
+    year: '2022',
+    link: '#',
+  },
+];
+---
+
+<Section
+  id="projects"
+  title="Projects"
+  subtitle="Selected work from recent years"
+  number="02"
+>
+  <div class="space-y-8">
+    <!-- Project filters hint -->
+    <div
+      data-animate
+      class="flex items-center gap-6 text-sm text-nordic-gray-400 pb-4 border-b border-nordic-gray-100"
+    >
+      <span class="text-nordic-black font-medium">All</span>
+      <span class="hover:text-nordic-black cursor-pointer transition-colors"
+        >Product</span
+      >
+      <span class="hover:text-nordic-black cursor-pointer transition-colors"
+        >Web</span
+      >
+      <span class="hover:text-nordic-black cursor-pointer transition-colors"
+        >Mobile</span
+      >
+    </div>
+
+    <!-- Projects list -->
+    <div data-animate class="stagger space-y-6">
+      {
+        projects.map((project, index) => (
+          <ProjectCard
+            title={project.title}
+            description={project.description}
+            tags={project.tags}
+            year={project.year}
+            link={project.link}
+            featured={project.featured}
+            index={index}
+          />
+        ))
+      }
+    </div>
+
+    <!-- View more -->
+    <div data-animate class="pt-8">
+      <a
+        href="#"
+        class="inline-flex items-center gap-2 text-sm font-medium text-nordic-gray-500
+               hover:text-nordic-black transition-colors group"
+      >
+        <span>View all projects</span>
+        <svg
+          class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</Section>

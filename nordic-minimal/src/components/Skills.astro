@@ -1,0 +1,144 @@
+---
+import Section from './Section.astro';
+
+interface Skill {
+  name: string;
+  level: number;
+  category: string;
+}
+
+interface SkillCategory {
+  title: string;
+  skills: Skill[];
+}
+
+const skillCategories: SkillCategory[] = [
+  {
+    title: 'Design',
+    skills: [
+      { name: 'UI/UX Design', level: 95, category: 'design' },
+      { name: 'Design Systems', level: 90, category: 'design' },
+      { name: 'Prototyping', level: 88, category: 'design' },
+      { name: 'User Research', level: 82, category: 'design' },
+    ],
+  },
+  {
+    title: 'Development',
+    skills: [
+      { name: 'TypeScript', level: 92, category: 'dev' },
+      { name: 'React / Next.js', level: 90, category: 'dev' },
+      { name: 'CSS / Tailwind', level: 95, category: 'dev' },
+      { name: 'Node.js', level: 78, category: 'dev' },
+    ],
+  },
+  {
+    title: 'Tools',
+    skills: [
+      { name: 'Figma', level: 95, category: 'tools' },
+      { name: 'Git / GitHub', level: 88, category: 'tools' },
+      { name: 'VS Code', level: 90, category: 'tools' },
+      { name: 'Framer', level: 75, category: 'tools' },
+    ],
+  },
+];
+---
+
+<Section
+  id="skills"
+  title="Skills"
+  subtitle="Tools and technologies I work with"
+  number="03"
+>
+  <div class="space-y-12">
+    {
+      skillCategories.map((category, catIndex) => (
+        <div data-animate class="space-y-6">
+          {/* Category header */}
+          <div class="flex items-center gap-4">
+            <span class="text-sm font-mono text-nordic-accent">
+              0{catIndex + 1}
+            </span>
+            <h3 class="text-lg font-display font-semibold">{category.title}</h3>
+            <div class="flex-1 h-px bg-nordic-gray-200" />
+          </div>
+
+          {/* Skills grid */}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {category.skills.map((skill, skillIndex) => (
+              <div
+                class="group p-4 border border-nordic-gray-100 rounded-lg
+                          hover:border-nordic-gray-200 hover:bg-nordic-gray-50/30
+                          transition-all duration-300"
+                style={`animation-delay: ${(catIndex * 4 + skillIndex) * 50}ms`}
+              >
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-medium text-sm">{skill.name}</span>
+                  <span class="text-xs font-mono text-nordic-gray-400">
+                    {skill.level}%
+                  </span>
+                </div>
+
+                {/* Progress bar */}
+                <div class="h-1 bg-nordic-gray-100 rounded-full overflow-hidden">
+                  <div
+                    class="skill-bar h-full bg-nordic-accent rounded-full
+                              transform origin-left scale-x-0 transition-transform duration-700 ease-nordic"
+                    style={`--skill-level: ${skill.level}%`}
+                    data-level={skill.level}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+
+    <!-- Additional info -->
+    <div
+      data-animate
+      class="pt-8 border-t border-nordic-gray-200 flex flex-col md:flex-row gap-6"
+    >
+      <div class="flex-1 p-6 bg-nordic-gray-50 rounded-lg">
+        <h4 class="font-display font-semibold mb-2">Always Learning</h4>
+        <p class="text-sm text-nordic-gray-500">
+          Currently exploring WebGL, Three.js, and advanced animation
+          techniques.
+        </p>
+      </div>
+      <div class="flex-1 p-6 bg-nordic-gray-50 rounded-lg">
+        <h4 class="font-display font-semibold mb-2">Process Driven</h4>
+        <p class="text-sm text-nordic-gray-500">
+          I follow a structured approach: Research, Design, Build, Test, Iterate.
+        </p>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<script>
+  // Animate skill bars on intersection
+  const skillBars = document.querySelectorAll('.skill-bar');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const bar = entry.target as HTMLElement;
+          const level = bar.dataset.level;
+          bar.style.transform = `scaleX(${Number(level) / 100})`;
+          observer.unobserve(bar);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  skillBars.forEach((bar) => observer.observe(bar));
+</script>
+
+<style>
+  .skill-bar {
+    transition-delay: 200ms;
+  }
+</style>

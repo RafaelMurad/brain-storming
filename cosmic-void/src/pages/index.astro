@@ -1,0 +1,119 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Hero from '@/components/Hero.astro';
+import Section from '@/components/Section.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import SkillCard from '@/components/SkillCard.astro';
+import ContactForm from '@/components/ContactForm.astro';
+
+// Data
+const projects = [
+  {
+    title: 'Nebula Commerce',
+    description: 'A space-themed e-commerce platform with real-time inventory and cosmic checkout experience.',
+    tags: ['Next.js', 'Stripe', 'PostgreSQL'],
+  },
+  {
+    title: 'Stellar Analytics',
+    description: 'Real-time analytics dashboard with 3D data visualization and predictive algorithms.',
+    tags: ['React', 'D3.js', 'WebSocket'],
+  },
+  {
+    title: 'Cosmic API Gateway',
+    description: 'High-performance API gateway with intelligent routing and rate limiting.',
+    tags: ['Go', 'Redis', 'gRPC'],
+  },
+  {
+    title: 'Aurora Notes',
+    description: 'Distraction-free writing app with markdown support and seamless cloud sync.',
+    tags: ['TypeScript', 'Electron', 'SQLite'],
+  },
+];
+
+const skills = [
+  { name: 'TypeScript/JavaScript', level: 95, icon: '⟨/⟩' },
+  { name: 'React/Next.js', level: 90, icon: '⚛' },
+  { name: 'Node.js', level: 88, icon: '◈' },
+  { name: 'Python', level: 82, icon: '◇' },
+  { name: 'PostgreSQL', level: 85, icon: '◆' },
+  { name: 'AWS/Cloud', level: 78, icon: '☁' },
+];
+
+const aboutCards = [
+  {
+    title: 'Mission',
+    description: 'Building digital experiences that push the boundaries of whats possible on the web.',
+    icon: '🎯',
+  },
+  {
+    title: 'Approach',
+    description: 'Clean code, optimal performance, and user-centered design at every step.',
+    icon: '⚡',
+  },
+  {
+    title: 'Values',
+    description: 'Quality, transparency, and continuous learning guide every project.',
+    icon: '✨',
+  },
+];
+---
+
+<Layout title="Developer Portfolio" description="Full-stack developer crafting cosmic digital experiences">
+  <Hero
+    title="Crafting Digital Experiences"
+    subtitle="Full-Stack Developer"
+    description="I build scalable, performant web applications with modern technologies. From concept to deployment, I transform ideas into elegant digital solutions."
+  />
+
+  <!-- About Section -->
+  <Section id="about" title="About Me" subtitle="Passionate about creating impactful digital experiences">
+    <div class="grid md:grid-cols-3 gap-6">
+      {aboutCards.map((card) => (
+        <div class="card text-center">
+          <span class="text-4xl mb-4 block">{card.icon}</span>
+          <h3 class="font-display text-xl font-bold text-white mb-2">{card.title}</h3>
+          <p class="text-gray-400">{card.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-16 text-center">
+      <p class="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+        With over 5 years of experience in full-stack development, I specialize in building
+        modern web applications using React, Node.js, and cloud technologies. I believe in
+        writing clean, maintainable code that scales and delivers exceptional user experiences.
+      </p>
+    </div>
+  </Section>
+
+  <!-- Work Section -->
+  <Section id="work" title="Selected Work" subtitle="Recent projects I've had the pleasure of working on">
+    <div class="grid md:grid-cols-2 gap-6">
+      {projects.map((project) => (
+        <ProjectCard
+          title={project.title}
+          description={project.description}
+          tags={project.tags}
+        />
+      ))}
+    </div>
+  </Section>
+
+  <!-- Skills Section -->
+  <Section id="skills" title="Skills" subtitle="Technologies I work with daily">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {skills.map((skill) => (
+        <SkillCard
+          name={skill.name}
+          level={skill.level}
+          icon={skill.icon}
+        />
+      ))}
+    </div>
+  </Section>
+
+  <!-- Contact Section -->
+  <Section id="contact" title="Get in Touch" subtitle="Have a project in mind? Let's create something amazing together">
+    <ContactForm />
+  </Section>
+</Layout>

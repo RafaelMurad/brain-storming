@@ -1,70 +1,127 @@
 # NeonGrid Portfolio
 
-A cyberpunk high-tech futuristic UI portfolio with neon aesthetics and glitch effects.
+A cyberpunk-themed portfolio built with **SolidJS**, **TypeScript**, and **Tailwind CSS**.
+
+## Tech Stack
+
+- **Framework**: [SolidJS](https://www.solidjs.com/) v1.8
+- **Build Tool**: [Vite](https://vitejs.dev/) v5.0
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) v3.4
+- **Language**: TypeScript
 
 ## Features
 
-- **Scanlines Overlay**: Authentic CRT monitor effect
-- **Grid Background**: Animated perspective grid
-- **Glitch Effects**: Random glitch lines and text distortion
-- **Holographic Display**: Spinning ring animation in hero section
-- **Terminal Interface**: Retro command-line styled about section
-- **Neon Glow**: Cyan and magenta accent lights
-- **Cursor Glow**: Ambient light follows mouse movement
-- **Easter Egg**: Try the Konami code for "Hacker Mode"!
+- ⚡ **Reactive UI** - SolidJS fine-grained reactivity
+- 🎨 **Cyberpunk Theme** - Neon colors, scanlines, glitch effects
+- 🖥️ **Terminal UI** - Command-line styled about section
+- 🌐 **Grid Background** - Animated perspective grid
+- 📱 **Responsive** - Mobile-first design
+- 🔧 **Reusable Components** - Modular architecture
 
-## Theme
+## Project Structure
 
-Cyberpunk/high-tech design with:
-- Deep black background (#0a0a0f)
-- Neon cyan (#00fff9)
-- Neon magenta (#ff00ff)
-- Neon yellow (#ffff00)
-
-## Sections
-
-1. **Hero** - System online status with holographic display
-2. **About** - Terminal-style profile with info cards
-3. **Skills** - Skill modules with power levels
-4. **Projects** - Tech-styled project cards with status indicators
-5. **Contact** - Data transmission form
+```
+neon-grid/
+├── src/
+│   ├── components/
+│   │   ├── About.tsx         # About section with terminal
+│   │   ├── Button.tsx        # Cyber-styled button
+│   │   ├── Contact.tsx       # Contact form section
+│   │   ├── Footer.tsx        # Site footer
+│   │   ├── GridBackground.tsx # Animated grid + glitch
+│   │   ├── Header.tsx        # Navigation header
+│   │   ├── Hero.tsx          # Hero section
+│   │   ├── HoloDisplay.tsx   # Holographic visual
+│   │   ├── ProjectCard.tsx   # Project showcase card
+│   │   ├── Projects.tsx      # Projects section
+│   │   ├── Scanlines.tsx     # CRT scanline overlay
+│   │   ├── Section.tsx       # Reusable section wrapper
+│   │   ├── Skills.tsx        # Skills with progress bars
+│   │   └── Terminal.tsx      # Terminal component
+│   ├── styles/
+│   │   └── index.css         # Global styles + Tailwind
+│   ├── App.tsx               # Main app component
+│   └── index.tsx             # Entry point
+├── public/
+│   └── favicon.svg
+├── index.html
+├── vite.config.ts
+├── tailwind.config.js
+├── tsconfig.json
+└── package.json
+```
 
 ## Quick Start
 
-Simply open `index.html` in a browser - no build process required.
-
 ```bash
-# Using Python
-python -m http.server 8000
+# Install dependencies
+npm install
 
-# Using Node.js
-npx serve .
+# Start development server
+npm run dev
 
-# Using PHP
-php -S localhost:8000
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-## Technologies
+## Components
 
-- HTML5
-- CSS3 (Animations, Clip-path, Blend Modes)
-- Vanilla JavaScript
-- Google Fonts (Orbitron, Share Tech Mono)
+### Button
+Cyber-styled button with variants:
+```tsx
+<Button href="#projects" variant="primary">VIEW PROJECTS</Button>
+<Button variant="secondary">CONNECT</Button>
+```
+
+### Section
+Reusable section wrapper:
+```tsx
+<Section id="about" tag="<PROFILE>" title="ABOUT_ME">
+  {/* Content */}
+</Section>
+```
+
+### ProjectCard
+Showcase projects:
+```tsx
+<ProjectCard
+  id="PRJ_001"
+  title="PROJECT_NAME"
+  description="Description"
+  tags={['React', 'Node.js']}
+  status="DEPLOYED"
+  visual="cyber"
+/>
+```
 
 ## Customization
 
-1. **Neon Colors**: Edit CSS variables in `:root`
-2. **Glitch Intensity**: Modify animation keyframes
-3. **Grid Size**: Adjust `background-size` in `.grid-bg`
-4. **Scanline Density**: Change repeating gradient in `.scanlines`
+### Colors
+Edit `tailwind.config.js`:
+```js
+colors: {
+  neon: {
+    cyan: '#00fff9',
+    magenta: '#ff00ff',
+    yellow: '#ffff00',
+  },
+}
+```
 
-## Browser Support
+### Effects
+- **Scanlines**: Adjust opacity in `index.css`
+- **Grid**: Modify background-size in `.grid-bg`
+- **Glitch**: Customize keyframes in `index.css`
 
-Best viewed in modern browsers with CSS animation support:
-- Chrome 80+
-- Firefox 75+
-- Safari 13+
-- Edge 80+
+## Why SolidJS?
+
+- **Performance**: No virtual DOM, direct DOM updates
+- **Reactive**: Fine-grained reactivity without re-renders
+- **Small Bundle**: Minimal runtime overhead
+- **Familiar**: JSX syntax similar to React
 
 ## License
 

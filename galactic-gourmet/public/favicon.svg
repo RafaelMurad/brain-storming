@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="starGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e6c65c"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#b8942d"/>
+    </linearGradient>
+    <linearGradient id="centerGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#722f37"/>
+      <stop offset="100%" stop-color="#5a252c"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="#0a0a12"/>
+  <circle cx="50" cy="50" r="47" fill="none" stroke="url(#starGold)" stroke-width="2" opacity="0.5"/>
+
+  <!-- Main star shape -->
+  <path
+    d="M50 5 L57 37 L95 50 L57 63 L50 95 L43 63 L5 50 L43 37 Z"
+    fill="url(#starGold)"
+    filter="url(#glow)"
+  />
+
+  <!-- Center circle (plate) -->
+  <circle cx="50" cy="50" r="18" fill="#0a0a12"/>
+  <circle cx="50" cy="50" r="16" fill="none" stroke="url(#starGold)" stroke-width="1" opacity="0.6"/>
+
+  <!-- Chef hat silhouette in center -->
+  <path
+    d="M42 55 L42 48 C42 44 45 41 50 41 C55 41 58 44 58 48 L58 55 L42 55 Z"
+    fill="url(#centerGlow)"
+  />
+  <ellipse cx="50" cy="42" rx="10" ry="5" fill="url(#starGold)" opacity="0.9"/>
+
+  <!-- Small decorative stars -->
+  <circle cx="25" cy="25" r="2" fill="#d4af37" opacity="0.8"/>
+  <circle cx="75" cy="25" r="1.5" fill="#d4af37" opacity="0.6"/>
+  <circle cx="75" cy="75" r="2" fill="#d4af37" opacity="0.8"/>
+  <circle cx="25" cy="75" r="1.5" fill="#d4af37" opacity="0.6"/>
+</svg>

@@ -252,15 +252,23 @@ Each project is designed to be:
 
 ## Portfolio Websites
 
-5 futuristic portfolio website templates with unique themes:
+5 futuristic portfolio website templates built with modern frameworks:
 
-| Portfolio | Theme | Description |
-|-----------|-------|-------------|
-| [Cosmic Void](./cosmic-void/) | Deep Space | Parallax stars, floating planets, nebula effects |
-| [NeonGrid](./neon-grid/) | Cyberpunk | Neon colors, scanlines, glitch effects, terminal UI |
-| [AstralContact](./astral-contact/) | Alien | UFO animations, crop circles, signal frequencies |
-| [Nordic Minimal](./nordic-minimal/) | Scandinavian | Clean lines, whitespace, subtle animations |
-| [Galactic Gourmet](./galactic-gourmet/) | Space + Food | Culinary meets cosmos, menu-style skills |
+| Portfolio | Theme | Framework | Description |
+|-----------|-------|-----------|-------------|
+| [Cosmic Void](./cosmic-void/) | Deep Space | Astro | Parallax stars, floating planets, nebula effects |
+| [NeonGrid](./neon-grid/) | Cyberpunk | SolidJS | Neon colors, scanlines, glitch effects, terminal UI |
+| [AstralContact](./astral-contact/) | Alien | SolidJS | UFO animations, crop circles, signal frequencies |
+| [Nordic Minimal](./nordic-minimal/) | Scandinavian | Astro | Clean lines, whitespace, subtle animations |
+| [Galactic Gourmet](./galactic-gourmet/) | Space + Food | SolidJS | Culinary meets cosmos, menu-style skills |
+
+### Tech Stack (Portfolios)
+
+- **Frameworks**: Astro v4, SolidJS v1.8
+- **Build Tool**: Vite v5
+- **Styling**: Tailwind CSS v3.4
+- **Language**: TypeScript
+- **Fonts**: Google Fonts
 
 ### Quick Start (Portfolios)
 
@@ -268,22 +276,38 @@ Each project is designed to be:
 # Navigate to any portfolio
 cd cosmic-void  # or neon-grid, astral-contact, nordic-minimal, galactic-gourmet
 
-# Serve locally
-python -m http.server 8000
-# or
-npx serve .
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
 ### Portfolio Features
 
 All portfolio websites include:
+- **Reusable Components**: Modular, typed component architecture
+- **TypeScript**: Full type safety with interfaces
+- **Tailwind CSS**: Utility-first styling with custom themes
 - **Responsive Design**: Mobile-first approach
-- **Smooth Animations**: CSS animations and JavaScript effects
-- **Interactive Elements**: Hover states, parallax, scroll reveals
+- **Smooth Animations**: CSS and JS-powered effects
 - **Easter Eggs**: Hidden surprises (try Konami code or secret keywords!)
-- **No Build Process**: Pure HTML/CSS/JS - just open in browser
-- **Google Fonts**: Carefully selected typography
-- **Cross-browser Compatible**: Works in all modern browsers
+- **Fast Performance**: Astro's partial hydration, SolidJS's fine-grained reactivity
+
+### Component Examples
+
+```tsx
+// SolidJS Button Component
+<Button variant="primary" href="#projects">View Work</Button>
+
+// Astro Section Component
+<Section id="about" title="About" subtitle="Learn more">
+  <Content />
+</Section>
+```
 
 ---
 

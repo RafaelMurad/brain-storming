@@ -1,77 +1,177 @@
-# Nordic Minimal Portfolio
+# Nordic Minimal
 
-A clean Scandinavian futuristic portfolio following minimalist design principles.
+A clean, Scandinavian-inspired portfolio template built with Astro, TypeScript, and Tailwind CSS. This design emphasizes simplicity, whitespace, and purposeful interactions.
+
+## Design Philosophy
+
+Nordic Minimal follows core Scandinavian design principles:
+
+- **Simplicity** - Every element serves a purpose
+- **Function** - Beautiful solutions that work seamlessly
+- **Craft** - Attention to detail at every level
+- **Balance** - Harmony between aesthetics and performance
 
 ## Features
 
-- **Minimalist Design**: Clean lines, ample whitespace, subtle gradients
-- **Grid Layout**: Sophisticated section grid with sticky headers
-- **Smooth Animations**: Subtle reveal effects on scroll
-- **Custom Cursor**: Minimal cursor glow effect
-- **Geometric Shapes**: Abstract line animations in hero section
-- **Typography Focus**: Elegant font pairing with clear hierarchy
-- **Print Styles**: Optimized for printing
+- Clean, minimal design with lots of whitespace
+- Smooth scroll animations with Intersection Observer
+- Responsive grid layouts (12-column system)
+- Sticky section headers for better navigation
+- Animated skill bars
+- Clean contact form with validation
+- Mobile-friendly navigation
+- Subtle hover effects and transitions
+- Geometric decorative elements
 
-## Theme
+## Tech Stack
 
-Scandinavian minimalist design with:
-- Off-white background (#fafafa)
-- True black text (#0a0a0a)
-- Blue accent (#0066ff)
-- Subtle grays for hierarchy
+- **Framework**: [Astro](https://astro.build) v4
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) v3
+- **Language**: TypeScript
+- **Fonts**: Inter, Space Grotesk, JetBrains Mono
 
-## Design Principles
+## Color Palette
 
-1. **Simplicity**: Every element serves a purpose
-2. **Clarity**: Clear visual hierarchy and typography
-3. **Function**: Form follows function
-4. **Quality**: Attention to detail in every aspect
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Off White | `#fafafa` | Background |
+| Black | `#0a0a0a` | Primary text |
+| Accent Blue | `#0066ff` | Interactive elements |
+| Gray scale | `#f8f9fa` - `#202124` | Secondary elements |
 
-## Sections
+## Project Structure
 
-1. **Hero** - Clean introduction with geometric animation
-2. **About** - Philosophy and values with statistics
-3. **Work** - Project list with hover interactions
-4. **Expertise** - Clean skill cards with level indicators
-5. **Contact** - Simple, elegant contact form
-
-## Quick Start
-
-Simply open `index.html` in a browser - no build process required.
-
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx serve .
-
-# Using PHP
-php -S localhost:8000
+```
+nordic-minimal/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   ├── About.astro
+│   │   ├── Button.astro
+│   │   ├── Contact.astro
+│   │   ├── Footer.astro
+│   │   ├── Header.astro
+│   │   ├── Hero.astro
+│   │   ├── ProjectCard.astro
+│   │   ├── Projects.astro
+│   │   ├── Section.astro
+│   │   └── Skills.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   ├── pages/
+│   │   └── index.astro
+│   └── styles/
+│       └── global.css
+├── astro.config.mjs
+├── package.json
+├── tailwind.config.mjs
+└── tsconfig.json
 ```
 
-## Technologies
+## Getting Started
 
-- HTML5
-- CSS3 (Grid, Flexbox, Custom Properties)
-- Vanilla JavaScript
-- Google Fonts (Inter, Space Grotesk)
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. Navigate to the project directory:
+   ```bash
+   cd nordic-minimal
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:4321](http://localhost:4321) in your browser.
+
+## Available Commands
+
+| Command | Action |
+|---------|--------|
+| `npm run dev` | Start development server at `localhost:4321` |
+| `npm run build` | Build production site to `./dist/` |
+| `npm run preview` | Preview build locally before deploying |
 
 ## Customization
 
-1. **Colors**: Edit CSS variables in `:root`
-2. **Spacing**: Adjust `--section-padding` and `--container-width`
-3. **Typography**: Modify font sizes and weights
-4. **Grid**: Change section grid proportions
+### Colors
 
-## Accessibility
+Edit `tailwind.config.mjs` to modify the color palette:
 
-- Semantic HTML structure
-- Proper heading hierarchy
-- Focus states for all interactive elements
-- High contrast text
-- Print-friendly styles
+```js
+colors: {
+  nordic: {
+    white: '#fafafa',    // Background
+    black: '#0a0a0a',    // Text
+    accent: {
+      DEFAULT: '#0066ff', // Primary accent
+    },
+  },
+}
+```
+
+### Typography
+
+The template uses three font families:
+
+- **Inter** - Body text
+- **Space Grotesk** - Headings and display text
+- **JetBrains Mono** - Code and numbers
+
+Modify in `tailwind.config.mjs` under `fontFamily`.
+
+### Content
+
+Update content directly in the component files:
+
+- `Hero.astro` - Main headline and stats
+- `About.astro` - Philosophy cards and intro
+- `Projects.astro` - Project data array
+- `Skills.astro` - Skill categories and levels
+- `Contact.astro` - Contact form and info
+
+## Sections
+
+1. **Header** - Fixed navigation with mobile menu
+2. **Hero** - Large headline with geometric shapes
+3. **About** - Philosophy cards and introduction
+4. **Projects** - Featured work with hover effects
+5. **Skills** - Categorized skills with progress bars
+6. **Contact** - Form and alternative contact methods
+7. **Footer** - Social links and navigation
+
+## Animations
+
+The template includes subtle animations:
+
+- Fade in on scroll (Intersection Observer)
+- Staggered list animations
+- Skill bar fill animations
+- Hover lift effects
+- Line drawing effects
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
 ## License
 
-MIT License - Free for personal and commercial use.
+MIT License - feel free to use this template for personal or commercial projects.
+
+---
+
+Designed with Scandinavian simplicity.

@@ -1,69 +1,161 @@
-# AstralContact Portfolio
+# AstralContact
 
-A mysterious alien/extraterrestrial themed portfolio with otherworldly effects and cosmic elements.
+An alien/extraterrestrial themed portfolio built with SolidJS, TypeScript, and Tailwind CSS.
 
 ## Features
 
-- **Floating Particles**: Glowing green particle system
-- **Crop Circle Patterns**: Subtle circular background elements
-- **Hologram Display**: 3D rotating ring animation
-- **UFO Animation**: Animated spacecraft following mouse movement
-- **Signal Effects**: Pulsing signal waves and beacon animations
-- **Random Interference**: Occasional glitch line effects
-- **Easter Egg**: Type "ALIEN" to receive a secret transmission!
+- **UFO-style navigation** with animated toggle
+- **Signal badge** with dynamic strength indicator
+- **Hologram display** in the About section
+- **Signal frequency bars** for skills visualization
+- **Cosmic project cards** with status indicators
+- **Beacon contact form** with animated rings
+- **Floating particles** and star field backgrounds
+- **Crop circle patterns** as section decorations
+- **Green glow effects** throughout the design
 
-## Theme
+## Tech Stack
 
-Mysterious alien design with:
-- Void black background (#0a0a12)
-- Alien green (#39ff14)
-- Purple nebula (#9d4edd)
-- Teal accents (#2ec4b6)
+- **SolidJS** - Reactive UI framework
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **Vite** - Fast build tooling
 
-## Sections
+## Theme Colors
 
-1. **Hero** - Signal detection with floating planet and UFO
-2. **Transmission** - Holographic profile display
-3. **Signals** - Skill frequencies with signal strength bars
-4. **Artifacts** - Project cards with cosmic visuals
-5. **Contact** - Beacon-style contact form
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Alien Glow | `#39ff14` | Primary accent, highlights |
+| Purple | `#9d4edd` | Secondary accent |
+| Teal | `#2ec4b6` | Tertiary accent |
+| Void Black | `#0a0a12` | Background |
 
-## Quick Start
+## Getting Started
 
-Simply open `index.html` in a browser - no build process required.
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
 
 ```bash
-# Using Python
-python -m http.server 8000
+# Install dependencies
+npm install
 
-# Using Node.js
-npx serve .
+# Start development server
+npm run dev
 
-# Using PHP
-php -S localhost:8000
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-## Technologies
+## Project Structure
 
-- HTML5
-- CSS3 (Animations, Gradients, Transforms)
-- Vanilla JavaScript
-- Google Fonts (Audiowide, Exo 2)
+```
+astral-contact/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   ├── Header.tsx      # Navigation with UFO toggle
+│   │   ├── Hero.tsx        # Hero with signal badge, UFO animation
+│   │   ├── Section.tsx     # Reusable section with crop circles
+│   │   ├── About.tsx       # Transmission section with hologram
+│   │   ├── Skills.tsx      # Signal frequencies with bars
+│   │   ├── Projects.tsx    # Artifacts with cosmic cards
+│   │   ├── Contact.tsx     # Contact form with beacon
+│   │   ├── Footer.tsx      # Footer with system status
+│   │   └── Button.tsx      # Reusable button component
+│   ├── styles/
+│   │   └── index.css       # Global styles with Tailwind
+│   ├── App.tsx             # Main app component
+│   └── index.tsx           # Entry point
+├── index.html
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+├── vite.config.ts
+└── postcss.config.js
+```
+
+## Components
+
+### Header
+Navigation bar with UFO-style logo and mobile menu toggle with pulsing ring animation.
+
+### Hero
+Landing section featuring:
+- Animated UFO with tractor beam
+- Signal strength indicator
+- Typewriter greeting effect
+- Coordinate display
+
+### About
+Transmission log section with:
+- Rotating hologram display
+- Animated scan line effect
+- Terminal-style data cards
+- Stat cards with glow effects
+
+### Skills
+Signal frequencies display with:
+- Spectrum analyzer visualization
+- Category filter tabs
+- Animated skill bars
+- Frequency labels
+
+### Projects
+Artifacts gallery featuring:
+- Status filter (Active/Archived/Classified)
+- Cosmic project cards
+- Pattern visualizations
+- Technology tags
+
+### Contact
+Beacon transmission form with:
+- Terminal-style form design
+- Input validation with alien-themed errors
+- Beacon pulse animation
+- Social media links
+
+### Footer
+System status display with:
+- Live timestamp
+- Status indicators
+- Scroll to top button
 
 ## Customization
 
-1. **Alien Colors**: Edit CSS variables in `:root`
-2. **Particle Count**: Modify `generateParticles()` function
-3. **Crop Circles**: Adjust `generateCropCircles()` parameters
-4. **UFO Behavior**: Change mouse tracking in `initAlienEffects()`
+### Colors
+Edit `tailwind.config.js` to modify the alien theme colors:
 
-## Special Effects
+```js
+colors: {
+  alien: {
+    glow: '#39ff14',
+    purple: '#9d4edd',
+    teal: '#2ec4b6',
+    void: '#0a0a12',
+  }
+}
+```
 
-- **Planet with Rings**: CSS-only animated planet
-- **Signal Waves**: Expanding ring animations
-- **Portal/Wormhole**: Conic gradient backgrounds on project cards
-- **Constellation**: Radial gradient star patterns
+### Animations
+Custom animations are defined in `tailwind.config.js`:
+- `pulse-glow` - Glowing pulse effect
+- `float` - Floating motion
+- `signal-wave` - Expanding signal rings
+- `beacon` - Beacon pulse
+- `ufo-hover` - UFO hovering motion
 
 ## License
 
-MIT License - Free for personal and commercial use.
+MIT License - Feel free to use this template for your own portfolio!
+
+---
+
+*Transmitting from another world...*

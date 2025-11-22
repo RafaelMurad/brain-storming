@@ -1,0 +1,114 @@
+---
+import NavLink from './NavLink.astro';
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const navItems: NavItem[] = [
+  { label: 'About', href: '#about' },
+  { label: 'Work', href: '#work' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<header id="header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+  <nav class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cosmic-cyan to-cosmic-purple flex items-center justify-center
+                  transition-transform duration-300 group-hover:scale-110">
+        <span class="text-xl">✦</span>
+      </div>
+      <span class="font-display font-bold text-xl text-white">
+        Cosmic<span class="text-cosmic-cyan">Void</span>
+      </span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center gap-8">
+      {navItems.map((item) => (
+        <NavLink href={item.href} label={item.label} />
+      ))}
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+      aria-label="Toggle menu"
+    >
+      <span class="w-6 h-0.5 bg-white transition-all duration-300" id="menu-line-1"></span>
+      <span class="w-6 h-0.5 bg-white transition-all duration-300" id="menu-line-2"></span>
+      <span class="w-6 h-0.5 bg-white transition-all duration-300" id="menu-line-3"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden fixed inset-0 top-[72px] bg-cosmic-void/95 backdrop-blur-lg transform translate-x-full transition-transform duration-300"
+  >
+    <div class="flex flex-col items-center justify-center h-full gap-8">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="font-display text-2xl text-white hover:text-cosmic-cyan transition-colors"
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  // Scroll effect for header
+  const header = document.getElementById('header');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('bg-cosmic-void/80', 'backdrop-blur-lg', 'border-b', 'border-white/10');
+    } else {
+      header?.classList.remove('bg-cosmic-void/80', 'backdrop-blur-lg', 'border-b', 'border-white/10');
+    }
+  });
+
+  // Mobile menu toggle
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuLine1 = document.getElementById('menu-line-1');
+  const menuLine2 = document.getElementById('menu-line-2');
+  const menuLine3 = document.getElementById('menu-line-3');
+
+  let isMenuOpen = false;
+
+  mobileMenuBtn?.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+
+    if (isMenuOpen) {
+      mobileMenu?.classList.remove('translate-x-full');
+      menuLine1?.classList.add('rotate-45', 'translate-y-2');
+      menuLine2?.classList.add('opacity-0');
+      menuLine3?.classList.add('-rotate-45', '-translate-y-2');
+    } else {
+      mobileMenu?.classList.add('translate-x-full');
+      menuLine1?.classList.remove('rotate-45', 'translate-y-2');
+      menuLine2?.classList.remove('opacity-0');
+      menuLine3?.classList.remove('-rotate-45', '-translate-y-2');
+    }
+  });
+
+  // Close menu on link click
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      isMenuOpen = false;
+      mobileMenu?.classList.add('translate-x-full');
+      menuLine1?.classList.remove('rotate-45', 'translate-y-2');
+      menuLine2?.classList.remove('opacity-0');
+      menuLine3?.classList.remove('-rotate-45', '-translate-y-2');
+    });
+  });
+</script>
