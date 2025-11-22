@@ -1,0 +1,227 @@
+// AI Gateway - Smart AI Provider Proxy
+// Prisma Schema for API management, caching, usage tracking, and cost optimization
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// API Key for authentication
+model ApiKey {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  name        String
+  projectId   String
+  permissions String   @default("read,write") // comma-separated
+  rateLimit   Int      @default(100) // requests per minute
+
+  // Budget controls
+  monthlyBudget Float?  // max spend per month in USD
+  dailyBudget   Float?  // max spend per day in USD
+
+  isActive    Boolean  @default(true)
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  requests    Request[]
+  usageLogs   UsageLog[]
+}
+
+// Project/App using AI Gateway
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  settings    String   @default("{}") // JSON settings (default provider, model preferences)
+
+  // Provider API keys (encrypted in production)
+  openaiKey   String?
+  anthropicKey String?
+  cohereKey   String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  apiKeys     ApiKey[]
+  requests    Request[]
+  cache       CacheEntry[]
+  prompts     PromptTemplate[]
+}
+
+// Request log
+model Request {
+  id          String   @id @default(uuid())
+  projectId   String
+  apiKeyId    String?
+
+  // Request details
+  provider    String   // "openai", "anthropic", "cohere", "auto"
+  model       String   // e.g., "gpt-4", "claude-3-sonnet", etc.
+  endpoint    String   // "chat", "completion", "embedding", "image"
+
+  // Input/Output
+  inputHash   String   // Hash for cache lookup
+  promptTokens Int     @default(0)
+  completionTokens Int @default(0)
+  totalTokens Int      @default(0)
+
+  // Cost tracking
+  cost        Float    @default(0) // USD
+
+  // Cache
+  cacheHit    Boolean  @default(false)
+  cacheKey    String?
+
+  // Performance
+  latencyMs   Int      @default(0)
+
+  // Status
+  status      String   @default("pending") // "pending", "success", "error", "rate_limited", "budget_exceeded"
+  errorMessage String?
+
+  // Metadata
+  metadata    String   @default("{}") // Custom metadata
+
+  createdAt   DateTime @default(now())
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  apiKey      ApiKey?  @relation(fields: [apiKeyId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, createdAt])
+  @@index([inputHash])
+  @@index([status, createdAt])
+}
+
+// Response cache
+model CacheEntry {
+  id          String   @id @default(uuid())
+  projectId   String
+
+  // Cache key (hash of provider + model + input)
+  cacheKey    String   @unique
+
+  // Request fingerprint
+  provider    String
+  model       String
+  inputHash   String
+
+  // Cached response
+  response    String   // JSON response
+
+  // Token counts (for cost estimation)
+  promptTokens Int     @default(0)
+  completionTokens Int @default(0)
+
+  // Cache metadata
+  hitCount    Int      @default(0)
+  lastHitAt   DateTime?
+  expiresAt   DateTime?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([inputHash])
+  @@index([expiresAt])
+}
+
+// Prompt templates for reuse
+model PromptTemplate {
+  id          String   @id @default(uuid())
+  projectId   String
+
+  name        String
+  description String?
+
+  // Template content (supports {{variables}})
+  systemPrompt String?
+  userPrompt   String
+
+  // Default settings
+  provider    String   @default("auto")
+  model       String?
+  temperature Float    @default(0.7)
+  maxTokens   Int      @default(1000)
+
+  // Variables schema
+  variables   String   @default("[]") // JSON array of variable definitions
+
+  isActive    Boolean  @default(true)
+  version     Int      @default(1)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, name])
+}
+
+// Usage tracking for billing
+model UsageLog {
+  id          String   @id @default(uuid())
+  apiKeyId    String
+
+  // Time bucket
+  date        DateTime // Date (day granularity)
+
+  // Aggregated metrics
+  requestCount Int     @default(0)
+  tokenCount   Int     @default(0)
+  cacheHits    Int     @default(0)
+  cacheMisses  Int     @default(0)
+  totalCost    Float   @default(0)
+
+  // Breakdown by provider
+  providerBreakdown String @default("{}") // JSON {provider: {requests, tokens, cost}}
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  apiKey      ApiKey   @relation(fields: [apiKeyId], references: [id], onDelete: Cascade)
+
+  @@unique([apiKeyId, date])
+  @@index([date])
+}
+
+// Model pricing configuration
+model ModelPricing {
+  id          String   @id @default(uuid())
+
+  provider    String   // "openai", "anthropic", "cohere"
+  model       String   // Model identifier
+
+  // Pricing per 1K tokens
+  inputPrice  Float    // USD per 1K input tokens
+  outputPrice Float    // USD per 1K output tokens
+
+  // Model capabilities
+  contextWindow Int    @default(4096)
+  supportsVision Boolean @default(false)
+  supportsTools Boolean @default(false)
+
+  isActive    Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([provider, model])
+}
+
+// Feature flags
+model FeatureFlag {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  isEnabled   Boolean  @default(false)
+  percentage  Int      @default(100)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
