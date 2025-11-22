@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Prompt {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  description String?
+  category    String   @default("general")
+  tags        String   @default("[]") // JSON array
+  model       String   @default("gpt-4")
+
+  // Performance metrics
+  rating      Float    @default(0)
+  totalRuns   Int      @default(0)
+  successRate Float    @default(0)
+  avgLatency  Float    @default(0)
+  avgTokens   Int      @default(0)
+
+  // Metadata
+  isFavorite  Boolean  @default(false)
+  isPublic    Boolean  @default(false)
+  version     Int      @default(1)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  executions  PromptExecution[]
+  versions    PromptVersion[]
+  ratings     PromptRating[]
+}
+
+model PromptExecution {
+  id           String   @id @default(uuid())
+  promptId     String
+  prompt       Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  input        String?  // JSON input variables
+  output       String
+  model        String
+
+  // Metrics
+  latency      Int      // ms
+  inputTokens  Int
+  outputTokens Int
+  totalTokens  Int
+  cost         Float    @default(0)
+  success      Boolean  @default(true)
+  error        String?
+
+  createdAt    DateTime @default(now())
+}
+
+model PromptVersion {
+  id          String   @id @default(uuid())
+  promptId    String
+  prompt      Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  version     Int
+  content     String
+  changes     String?  // Description of changes
+
+  createdAt   DateTime @default(now())
+}
+
+model PromptRating {
+  id          String   @id @default(uuid())
+  promptId    String
+  prompt      Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  rating      Int      // 1-5 stars
+  feedback    String?
+  criteria    String   @default("{}") // JSON object with detailed ratings
+
+  createdAt   DateTime @default(now())
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  color       String   @default("#6366f1")
+  icon        String   @default("Folder")
+  count       Int      @default(0)
+
+  createdAt   DateTime @default(now())
+}
+
+model Settings {
+  id          String   @id @default("default")
+
+  // AI Settings
+  defaultModel     String  @default("gpt-4")
+  maxTokens        Int     @default(4096)
+  temperature      Float   @default(0.7)
+
+  // Display Settings
+  theme            String  @default("dark")
+  showMetrics      Boolean @default(true)
+  compactView      Boolean @default(false)
+
+  // Analytics
+  trackUsage       Boolean @default(true)
+  retentionDays    Int     @default(30)
+
+  updatedAt        DateTime @updatedAt
+}
