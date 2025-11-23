@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 30 20% 4%;
+  --foreground: 30 10% 98%;
+  --primary: 25 95% 53%;
+  --primary-foreground: 30 20% 4%;
+  --secondary: 30 10% 12%;
+  --accent: 30 10% 16%;
+  --muted-foreground: 30 10% 50%;
+  --border: 30 10% 16%;
+  --card: 30 15% 8%;
+}
+
+body { font-family: system-ui, sans-serif; background: hsl(var(--background)); color: hsl(var(--foreground)); }
+.btn { @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all; }
+.btn-primary { @apply bg-primary text-primary-foreground hover:opacity-90; }
+.card { @apply bg-card border border-border rounded-2xl p-6; }
+
+.meal-card { @apply relative overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-primary/50; }
+.meal-image { @apply w-full h-48 object-cover; }

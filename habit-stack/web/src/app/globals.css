@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --primary: 263 70% 50%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4% 16%;
+  --accent: 240 4% 20%;
+  --muted-foreground: 240 5% 50%;
+  --border: 240 4% 16%;
+  --card: 240 6% 10%;
+}
+
+body { font-family: system-ui, sans-serif; background: hsl(var(--background)); color: hsl(var(--foreground)); }
+.btn { @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all; }
+.btn-primary { @apply bg-primary text-primary-foreground hover:opacity-90; }
+.card { @apply bg-card border border-border rounded-2xl p-6; }
+
+.habit-check { @apply w-10 h-10 rounded-xl border-2 flex items-center justify-center cursor-pointer transition-all; }
+.habit-check.checked { @apply bg-primary border-primary; }
+.habit-check:not(.checked) { @apply border-border hover:border-primary/50; }
+
+.streak-flame { animation: flame 0.5s ease-in-out infinite alternate; }
+@keyframes flame { from { transform: scale(1); } to { transform: scale(1.1); } }
