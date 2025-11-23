@@ -7,7 +7,7 @@ A consolidated collection of **37 project ideas** organized by category. Each pr
 ```
 brain-storming/
 ├── apis/              # 14 Backend API services
-├── apps/              # 13 Full-stack applications
+├── apps/              # 14 Full-stack applications
 ├── portfolios/
 │   ├── web/           # 5 Portfolio websites
 │   └── mobile/        # 3 React Native portfolio apps
@@ -39,7 +39,7 @@ Backend services with REST APIs, databases, and authentication.
 
 ---
 
-## Apps (13 projects)
+## Apps (14 projects)
 
 Full-stack applications with UI, some with web + mobile versions.
 
@@ -50,6 +50,7 @@ Full-stack applications with UI, some with web + mobile versions.
 | [flow-matic](./apps/flow-matic/) | Visual workflow automation builder | Next.js, React Flow |
 | [frontend-forge](./apps/frontend-forge/) | Frontend coding exercise generator | Next.js |
 | [frontend-quiz-game](./apps/frontend-quiz-game/) | Gamified frontend dev quiz | Next.js + React Native |
+| [gitvision](./apps/gitvision/) | GitHub repo visualization dashboard | Next.js, React Flow |
 | [habit-stack](./apps/habit-stack/) | Habit tracking with streaks | Next.js + React Native |
 | [invoice-flow](./apps/invoice-flow/) | Invoice & expense management | Next.js + React Native |
 | [link-bio](./apps/link-bio/) | Link-in-bio builder for creators | Next.js + React Native |
@@ -134,11 +135,11 @@ npm run dev
 | Category | Count |
 |----------|-------|
 | APIs | 14 |
-| Apps | 13 |
+| Apps | 14 |
 | Web Portfolios | 5 |
 | Mobile Portfolios | 3 |
 | Frameworks | 1 |
-| **Total** | **36** |
+| **Total** | **37** |
 
 ---
 
