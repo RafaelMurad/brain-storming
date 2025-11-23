@@ -18,12 +18,12 @@
 
 @layer components {
   .text-neon {
-    @apply text-neon-cyan;
+    color: theme('colors.neon.cyan');
     text-shadow: 0 0 10px theme('colors.neon.cyan'), 0 0 20px theme('colors.neon.cyan');
   }
 
   .text-neon-magenta {
-    @apply text-neon-magenta;
+    color: theme('colors.neon.magenta');
     text-shadow: 0 0 10px theme('colors.neon.magenta'), 0 0 20px theme('colors.neon.magenta');
   }
 
