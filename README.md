@@ -1,314 +1,147 @@
-# Brain-Storming: Portfolio Projects Collection
+# Brain-Storming: Project Ideas Repository
 
-A collection of 4 production-ready MVP projects built with modern TypeScript, and 5 futuristic portfolio websites, all following Scandinavian design principles (minimal, functional, clean).
+A consolidated collection of **37 project ideas** organized by category. Each project is a self-contained idea ready to be spun off into its own repository when you're ready to develop it.
 
-## Projects Overview
+## Repository Structure
 
-| Project | Description | Port | Monetization |
-|---------|-------------|------|--------------|
-| [SnapForge](./snapforge/) | Screenshot & PDF API | 3001 | Usage-based SaaS |
-| [PulseWatch](./pulsewatch/) | Social Listening & Lead Gen | 3002 | Subscription SaaS |
-| [ZenTeam](./zenteam/) | Burnout Prevention Platform | 3003 | Per-seat SaaS |
-| [CelebrateKit](./celebratekit/) | Embeddable Celebration API | 3004 | Freemium API |
-
-## Quick Start
-
-Each project can be started independently:
-
-```bash
-# Navigate to any project
-cd snapforge  # or pulsewatch, zenteam, celebratekit
-
-# One-command setup
-npm run setup && npx tsx src/scripts/seed.ts && npm run dev
 ```
-
-## Tech Stack (All Projects)
-
-- **Runtime**: Node.js 18+ with TypeScript
-- **Framework**: Express.js
-- **Database**: SQLite (via Prisma) - PostgreSQL ready
-- **Validation**: Zod
-- **Testing**: Jest
-- **Linting**: ESLint + Prettier
-
-## Shared Patterns
-
-All projects follow these industry-standard patterns:
-
-### Architecture
-- Service layer pattern (routes → services → database)
-- Centralized error handling
-- Structured logging (Winston)
-- Request validation (Zod schemas)
-
-### Security
-- Rate limiting
-- API key authentication
-- CORS configuration
-- Helmet security headers
-
-### Developer Experience
-- TypeScript for type safety
-- Consistent code style (Prettier + ESLint)
-- Comprehensive tests
-- Hot reload development
-- Database GUI (Prisma Studio)
-
-### Feature Flags
-Each project includes a feature flag system for:
-- Gradual feature rollouts
-- A/B testing capability
-- Quick feature toggles
-
-## Project Details
-
-### 1. SnapForge - Screenshot & PDF API
-
-Capture screenshots and generate PDFs from any URL programmatically.
-
-**Key Features:**
-- PNG, JPEG, PDF formats
-- Custom viewports (up to 1920x1080)
-- Full page capture
-- Element selector targeting
-- Delay capture for dynamic content
-
-**Use Cases:**
-- Link preview generation
-- Website monitoring
-- Report automation
-- Social card generation
-
-[View SnapForge Documentation →](./snapforge/README.md)
+brain-storming/
+├── apis/              # 14 Backend API services
+├── apps/              # 13 Full-stack applications
+├── portfolios/
+│   ├── web/           # 5 Portfolio websites
+│   └── mobile/        # 3 React Native portfolio apps
+└── frameworks/        # 1 Reusable framework
+```
 
 ---
 
-### 2. PulseWatch - Social Listening & Lead Generation
+## APIs (14 projects)
 
-Monitor Reddit, Twitter, and Hacker News for potential customers and leads.
+Backend services with REST APIs, databases, and authentication.
 
-**Key Features:**
-- Multi-platform monitoring
-- AI-powered lead scoring (0-100)
-- Sentiment analysis
-- Keyword tracking
-- Real-time alerts
-
-**Use Cases:**
-- Finding potential customers
-- Competitor monitoring
-- Market research
-- Community engagement
-
-[View PulseWatch Documentation →](./pulsewatch/README.md)
-
----
-
-### 3. ZenTeam - Burnout Prevention Platform
-
-Help remote teams stay healthy with wellness tracking and burnout prediction.
-
-**Key Features:**
-- Daily check-ins (mood, energy, workload, stress)
-- Wellness scoring (0-100)
-- Burnout prediction & alerts
-- Team activity suggestions
-- Anonymous feedback
-
-**Use Cases:**
-- Remote team management
-- HR wellness programs
-- Team culture building
-- Employee retention
-
-[View ZenTeam Documentation →](./zenteam/README.md)
+| Project | Description | Tech Stack |
+|---------|-------------|------------|
+| [ai-gateway](./apis/ai-gateway/) | AI model proxy with usage tracking | Express, Prisma |
+| [analytics-hub](./apis/analytics-hub/) | Event tracking & metrics API | Express, Prisma |
+| [celebratekit](./apis/celebratekit/) | Embeddable celebration/confetti API | Express, Prisma |
+| [feature-flow](./apis/feature-flow/) | Feature flag management service | Express, Prisma |
+| [form-forge](./apis/form-forge/) | Form builder & submission API | Express, Prisma |
+| [image-kit](./apis/image-kit/) | Image processing & optimization API | Express, Prisma |
+| [link-preview](./apis/link-preview/) | URL metadata extraction API | Express, Prisma |
+| [notify-flow](./apis/notify-flow/) | Multi-channel notification service | Express, Prisma |
+| [pulsewatch](./apis/pulsewatch/) | Social listening & lead generation | Express, Prisma |
+| [realtime-hub](./apis/realtime-hub/) | WebSocket pub/sub service | Express, Prisma |
+| [short-link](./apis/short-link/) | URL shortener with analytics | Express, Prisma |
+| [snapforge](./apis/snapforge/) | Screenshot & PDF generation API | Express, Prisma |
+| [voice-api](./apis/voice-api/) | Speech-to-text transcription API | Express, Prisma |
+| [zenteam](./apis/zenteam/) | Team wellness & burnout prevention | Express, Prisma |
 
 ---
 
-### 4. CelebrateKit - Embeddable Celebration API
+## Apps (13 projects)
 
-Add confetti, achievements, and gamification to any web app.
+Full-stack applications with UI, some with web + mobile versions.
 
-**Key Features:**
-- Instant celebrations (confetti, fireworks, stars, hearts)
-- Achievement system
-- Leaderboards
-- Lightweight vanilla JS widget
-- Zero dependencies
-
-**Use Cases:**
-- User engagement
-- Gamification
-- Achievement unlocks
-- Purchase celebrations
-
-[View CelebrateKit Documentation →](./celebratekit/README.md)
+| Project | Description | Tech Stack |
+|---------|-------------|------------|
+| [collab-canvas](./apps/collab-canvas/) | Real-time collaborative whiteboard | Next.js, WebSocket |
+| [creative-framework-app](./apps/creative-framework-app/) | Creativity methods & AI ideation | Next.js |
+| [flow-matic](./apps/flow-matic/) | Visual workflow automation builder | Next.js, React Flow |
+| [frontend-forge](./apps/frontend-forge/) | Frontend coding exercise generator | Next.js |
+| [frontend-quiz-game](./apps/frontend-quiz-game/) | Gamified frontend dev quiz | Next.js + React Native |
+| [habit-stack](./apps/habit-stack/) | Habit tracking with streaks | Next.js + React Native |
+| [invoice-flow](./apps/invoice-flow/) | Invoice & expense management | Next.js + React Native |
+| [link-bio](./apps/link-bio/) | Link-in-bio builder for creators | Next.js + React Native |
+| [meal-plan-ai](./apps/meal-plan-ai/) | AI-powered meal planning | Next.js + React Native |
+| [nexus-ai](./apps/nexus-ai/) | AI chat interface | Next.js |
+| [prompt-lab](./apps/prompt-lab/) | Prompt testing & versioning | Next.js |
+| [split-pay](./apps/split-pay/) | QR-based restaurant bill splitting | Next.js + React Native |
+| [ux-portfolio-platform](./apps/ux-portfolio-platform/) | UX/UI designer portfolio builder | Next.js |
 
 ---
 
-## Integration Example
+## Portfolios (8 projects)
 
-These projects can work together! Here's how CelebrateKit integrates with the others:
+### Web Portfolios (5 projects)
 
-```javascript
-// SnapForge + CelebrateKit
-async function captureScreenshot(url) {
-  const result = await snapforge.capture(url);
-  CelebrateKit.confetti();
-  return result;
-}
+Futuristic portfolio website templates with unique themes.
 
-// PulseWatch + CelebrateKit
-if (mention.leadScore >= 80) {
-  CelebrateKit.stars();
-  await CelebrateKit.unlockAchievement('hot_lead_found');
-}
+| Project | Theme | Framework |
+|---------|-------|-----------|
+| [astral-contact](./portfolios/web/astral-contact/) | Alien/UFO | SolidJS |
+| [cosmic-void](./portfolios/web/cosmic-void/) | Deep Space | Astro |
+| [galactic-gourmet](./portfolios/web/galactic-gourmet/) | Space + Food | SolidJS |
+| [neon-grid](./portfolios/web/neon-grid/) | Cyberpunk | SolidJS |
+| [nordic-minimal](./portfolios/web/nordic-minimal/) | Scandinavian | Astro |
 
-// ZenTeam + CelebrateKit
-if (teamWellness.trend === 'improving') {
-  CelebrateKit.hearts();
-}
-```
+### Mobile Portfolios (3 projects)
 
-## Development
+React Native/Expo versions of the web portfolios.
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
+| Project | Based On |
+|---------|----------|
+| [cosmic-void-mobile](./portfolios/mobile/cosmic-void-mobile/) | cosmic-void |
+| [neon-grid-mobile](./portfolios/mobile/neon-grid-mobile/) | neon-grid |
+| [nordic-minimal-mobile](./portfolios/mobile/nordic-minimal-mobile/) | nordic-minimal |
 
-### Running All Projects
+---
 
-```bash
-# Terminal 1 - SnapForge
-cd snapforge && npm run dev
+## Frameworks (1 project)
 
-# Terminal 2 - PulseWatch
-cd pulsewatch && npm run dev
+| Project | Description |
+|---------|-------------|
+| [freelance-framework](./frameworks/freelance-framework/) | Framework for bootstrapping new apps with best practices |
 
-# Terminal 3 - ZenTeam
-cd zenteam && npm run dev
+---
 
-# Terminal 4 - CelebrateKit
-cd celebratekit && npm run dev
-```
+## How to Use This Repo
 
-### Running Tests
+### Exploring Ideas
+Browse the folders above to see all available project ideas. Each project has its own README with details.
+
+### Starting Development
+When ready to develop a project:
 
 ```bash
-# Run tests for a specific project
-cd snapforge && npm test
+# 1. Copy the project to a new location
+cp -r apis/snapforge ~/projects/snapforge
 
-# Run with coverage
-npm test -- --coverage
+# 2. Initialize a new git repo
+cd ~/projects/snapforge
+rm -rf .git
+git init
+
+# 3. Start developing!
+npm install
+npm run dev
 ```
 
-### Database Management
+### Tech Stack Overview
 
-```bash
-# Open database GUI
-npm run db:studio
+**APIs:** Node.js, Express, TypeScript, Prisma (SQLite/PostgreSQL), Zod
 
-# Run migrations
-npm run db:migrate
+**Apps:** Next.js, React, TypeScript, Tailwind CSS, Prisma
 
-# Generate Prisma client
-npm run db:generate
-```
+**Portfolios Web:** Astro or SolidJS, TypeScript, Tailwind CSS
 
-## Documentation
+**Portfolios Mobile:** React Native, Expo, TypeScript
 
-Each project includes:
-- `README.md` - Quick start and API reference
-- `docs/LEARNINGS.md` - Technical decisions and patterns (SnapForge)
-- `docs/MARKETING.md` - Go-to-market strategy (SnapForge)
-- `.env.example` - Environment configuration
+---
+
+## Project Count Summary
+
+| Category | Count |
+|----------|-------|
+| APIs | 14 |
+| Apps | 13 |
+| Web Portfolios | 5 |
+| Mobile Portfolios | 3 |
+| Frameworks | 1 |
+| **Total** | **36** |
+
+---
 
 ## License
 
 MIT License - All projects are open source.
-
----
-
-## About This Collection
-
-These projects were built as portfolio pieces demonstrating:
-
-1. **Full-Stack Development**: Backend APIs with TypeScript/Node.js
-2. **Database Design**: Relational schemas with Prisma ORM
-3. **API Design**: RESTful APIs with proper versioning
-4. **Security**: Authentication, rate limiting, validation
-5. **Testing**: Unit tests with Jest
-6. **DevOps Ready**: Health checks, graceful shutdown, logging
-7. **Documentation**: Comprehensive READMEs and API docs
-
-Each project is designed to be:
-- Production-ready out of the box
-- Easy to deploy and scale
-- Simple to extend with new features
-- Monetizable as a SaaS product
-
----
-
-## Portfolio Websites
-
-5 futuristic portfolio website templates built with modern frameworks:
-
-| Portfolio | Theme | Framework | Description |
-|-----------|-------|-----------|-------------|
-| [Cosmic Void](./cosmic-void/) | Deep Space | Astro | Parallax stars, floating planets, nebula effects |
-| [NeonGrid](./neon-grid/) | Cyberpunk | SolidJS | Neon colors, scanlines, glitch effects, terminal UI |
-| [AstralContact](./astral-contact/) | Alien | SolidJS | UFO animations, crop circles, signal frequencies |
-| [Nordic Minimal](./nordic-minimal/) | Scandinavian | Astro | Clean lines, whitespace, subtle animations |
-| [Galactic Gourmet](./galactic-gourmet/) | Space + Food | SolidJS | Culinary meets cosmos, menu-style skills |
-
-### Tech Stack (Portfolios)
-
-- **Frameworks**: Astro v4, SolidJS v1.8
-- **Build Tool**: Vite v5
-- **Styling**: Tailwind CSS v3.4
-- **Language**: TypeScript
-- **Fonts**: Google Fonts
-
-### Quick Start (Portfolios)
-
-```bash
-# Navigate to any portfolio
-cd cosmic-void  # or neon-grid, astral-contact, nordic-minimal, galactic-gourmet
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
-
-### Portfolio Features
-
-All portfolio websites include:
-- **Reusable Components**: Modular, typed component architecture
-- **TypeScript**: Full type safety with interfaces
-- **Tailwind CSS**: Utility-first styling with custom themes
-- **Responsive Design**: Mobile-first approach
-- **Smooth Animations**: CSS and JS-powered effects
-- **Easter Eggs**: Hidden surprises (try Konami code or secret keywords!)
-- **Fast Performance**: Astro's partial hydration, SolidJS's fine-grained reactivity
-
-### Component Examples
-
-```tsx
-// SolidJS Button Component
-<Button variant="primary" href="#projects">View Work</Button>
-
-// Astro Section Component
-<Section id="about" title="About" subtitle="Learn more">
-  <Content />
-</Section>
-```
-
----
-
-Built with ❤️ for the developer community.
