@@ -40,13 +40,6 @@ jobs:
           npm run build
           cp -r dist ../../../dist/stranger-things
 
-      - name: Build Neon Grid Portfolio
-        working-directory: portfolios/web/neon-grid
-        run: |
-          npm ci
-          npm run build
-          cp -r dist ../../../dist/neon-grid
-
       - name: Build Astral Contact Portfolio
         working-directory: portfolios/web/astral-contact
         run: |
@@ -177,18 +170,6 @@ jobs:
                   </div>
                   <br><br>
                   <a href="/brain-storming/stranger-things/">View Portfolio →</a>
-                </div>
-
-                <div class="card">
-                  <h2>Neon Grid</h2>
-                  <p>Cyberpunk themed portfolio with grid backgrounds and neon aesthetics</p>
-                  <div>
-                    <span class="tag">SolidJS</span>
-                    <span class="tag">TypeScript</span>
-                    <span class="tag">Vite</span>
-                  </div>
-                  <br><br>
-                  <a href="/brain-storming/neon-grid/">View Portfolio →</a>
                 </div>
 
                 <div class="card">
