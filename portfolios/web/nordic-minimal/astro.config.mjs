@@ -7,7 +7,8 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
   ],
-  site: 'https://nordic-minimal.dev',
+  site: 'https://rafaelmurad.github.io',
+  base: '/brain-storming/nordic-minimal',
   compressHTML: true,
   build: {
     inlineStylesheets: 'auto',
