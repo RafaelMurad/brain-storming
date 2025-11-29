@@ -20,9 +20,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: portfolios/web/stranger-things-portfolio
 
     steps:
       - name: Checkout
@@ -36,9 +33,11 @@ jobs:
           cache-dependency-path: portfolios/web/stranger-things-portfolio/package-lock.json
 
       - name: Install dependencies
+        working-directory: portfolios/web/stranger-things-portfolio
         run: npm ci
 
       - name: Build
+        working-directory: portfolios/web/stranger-things-portfolio
         run: npm run build
 
       - name: Setup Pages
@@ -47,7 +46,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: portfolios/web/stranger-things-portfolio/dist
+          path: ./portfolios/web/stranger-things-portfolio/dist
 
   deploy:
     environment:
