@@ -1,8 +1,12 @@
 # Stranger Things Portfolio
 
+[![Deploy to GitHub Pages](https://github.com/RafaelMurad/brain-storming/actions/workflows/deploy-stranger-things.yml/badge.svg)](https://github.com/RafaelMurad/brain-storming/actions/workflows/deploy-stranger-things.yml)
+
 A retro 80s/Stranger Things-inspired portfolio website built with **React**, **TypeScript**, **Vite**, and **Tailwind CSS**.
 
 > *"Building tomorrow's web with yesterday's aesthetic"*
+
+**🌐 Live Demo:** https://rafaelmurad.github.io/brain-storming/
 
 ## ✨ Features
 
