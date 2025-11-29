@@ -1,0 +1,264 @@
+name: Deploy All Portfolios to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'portfolios/web/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Create output directory
+        run: mkdir -p dist
+
+      - name: Build Stranger Things Portfolio
+        working-directory: portfolios/web/stranger-things-portfolio
+        run: |
+          npm ci
+          npm run build
+          cp -r dist ../../../dist/stranger-things
+
+      - name: Build Neon Grid Portfolio
+        working-directory: portfolios/web/neon-grid
+        run: |
+          npm ci
+          npm run build
+          cp -r dist ../../../dist/neon-grid
+
+      - name: Build Astral Contact Portfolio
+        working-directory: portfolios/web/astral-contact
+        run: |
+          npm ci
+          npm run build
+          cp -r dist ../../../dist/astral-contact
+
+      - name: Build Galactic Gourmet Portfolio
+        working-directory: portfolios/web/galactic-gourmet
+        run: |
+          npm ci
+          npm run build
+          cp -r dist ../../../dist/galactic-gourmet
+
+      - name: Build Cosmic Void Portfolio
+        working-directory: portfolios/web/cosmic-void
+        run: |
+          npm ci
+          npm run build
+          cp -r dist ../../../dist/cosmic-void
+
+      - name: Build Nordic Minimal Portfolio
+        working-directory: portfolios/web/nordic-minimal
+        run: |
+          npm ci
+          npm run build
+          cp -r dist ../../../dist/nordic-minimal
+
+      - name: Create Index Page
+        run: |
+          cat > dist/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Portfolio Showcase</title>
+            <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body {
+                font-family: 'Courier New', monospace;
+                background: linear-gradient(135deg, #0A0A0A 0%, #1A0000 100%);
+                color: #999;
+                min-height: 100vh;
+                padding: 2rem;
+              }
+              .container {
+                max-width: 1200px;
+                margin: 0 auto;
+              }
+              h1 {
+                font-size: 3rem;
+                color: #FF0000;
+                text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
+                text-align: center;
+                margin-bottom: 1rem;
+                letter-spacing: 0.1em;
+              }
+              .subtitle {
+                text-align: center;
+                color: #666;
+                margin-bottom: 3rem;
+                font-size: 1.2rem;
+              }
+              .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+              }
+              .card {
+                background: rgba(255, 0, 0, 0.05);
+                border: 1px solid #FF0000;
+                padding: 2rem;
+                transition: all 0.3s;
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+              }
+              .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+                border-color: #FF0000;
+              }
+              .card h2 {
+                color: #FF0000;
+                margin-bottom: 0.5rem;
+                font-size: 1.5rem;
+              }
+              .card p {
+                color: #999;
+                margin-bottom: 1rem;
+                line-height: 1.6;
+              }
+              .card a {
+                display: inline-block;
+                color: #FF0000;
+                text-decoration: none;
+                border: 1px solid #FF0000;
+                padding: 0.5rem 1.5rem;
+                transition: all 0.3s;
+              }
+              .card a:hover {
+                background: rgba(255, 0, 0, 0.1);
+                box-shadow: 0 0 10px #FF0000;
+              }
+              .tag {
+                display: inline-block;
+                font-size: 0.8rem;
+                color: #666;
+                border: 1px solid #333;
+                padding: 0.25rem 0.75rem;
+                margin-right: 0.5rem;
+                margin-bottom: 0.5rem;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>PORTFOLIO SHOWCASE</h1>
+              <p class="subtitle">A collection of unique portfolio templates</p>
+
+              <div class="grid">
+                <div class="card">
+                  <h2>Stranger Things</h2>
+                  <p>Retro 80s inspired portfolio with neon red effects and CRT aesthetics</p>
+                  <div>
+                    <span class="tag">React</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Vite</span>
+                  </div>
+                  <br><br>
+                  <a href="/brain-storming/stranger-things/">View Portfolio →</a>
+                </div>
+
+                <div class="card">
+                  <h2>Neon Grid</h2>
+                  <p>Cyberpunk themed portfolio with grid backgrounds and neon aesthetics</p>
+                  <div>
+                    <span class="tag">SolidJS</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Vite</span>
+                  </div>
+                  <br><br>
+                  <a href="/brain-storming/neon-grid/">View Portfolio →</a>
+                </div>
+
+                <div class="card">
+                  <h2>Astral Contact</h2>
+                  <p>Alien/UFO themed portfolio with extraterrestrial vibes</p>
+                  <div>
+                    <span class="tag">SolidJS</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Vite</span>
+                  </div>
+                  <br><br>
+                  <a href="/brain-storming/astral-contact/">View Portfolio →</a>
+                </div>
+
+                <div class="card">
+                  <h2>Galactic Gourmet</h2>
+                  <p>Space + food themed portfolio combining cosmic and culinary elements</p>
+                  <div>
+                    <span class="tag">SolidJS</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Vite</span>
+                  </div>
+                  <br><br>
+                  <a href="/brain-storming/galactic-gourmet/">View Portfolio →</a>
+                </div>
+
+                <div class="card">
+                  <h2>Cosmic Void</h2>
+                  <p>Deep space cosmos themed portfolio with stellar design</p>
+                  <div>
+                    <span class="tag">Astro</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Tailwind</span>
+                  </div>
+                  <br><br>
+                  <a href="/brain-storming/cosmic-void/">View Portfolio →</a>
+                </div>
+
+                <div class="card">
+                  <h2>Nordic Minimal</h2>
+                  <p>Scandinavian minimalist portfolio with clean design</p>
+                  <div>
+                    <span class="tag">Astro</span>
+                    <span class="tag">TypeScript</span>
+                    <span class="tag">Tailwind</span>
+                  </div>
+                  <br><br>
+                  <a href="/brain-storming/nordic-minimal/">View Portfolio →</a>
+                </div>
+              </div>
+            </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
