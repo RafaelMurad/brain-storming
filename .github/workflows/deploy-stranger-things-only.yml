@@ -39,13 +39,18 @@ jobs:
         working-directory: portfolios/web/stranger-things-portfolio
         run: npm run build
 
+      - name: Create deployment structure
+        run: |
+          mkdir -p deploy/stranger-things
+          cp -r portfolios/web/stranger-things-portfolio/dist/* deploy/stranger-things/
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./portfolios/web/stranger-things-portfolio/dist
+          path: ./deploy
 
   deploy:
     environment:
