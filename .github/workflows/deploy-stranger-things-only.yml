@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'portfolios/web/stranger-things-portfolio/**'
-      - '.github/workflows/deploy-stranger-things.yml'
+      - '.github/workflows/deploy-stranger-things-only.yml'
   workflow_dispatch:
 
 permissions:
