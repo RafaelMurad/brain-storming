@@ -39,13 +39,32 @@ jobs:
         working-directory: portfolios/web/stranger-things-portfolio
         run: npm run build
 
+      - name: Create deployment structure
+        run: |
+          mkdir -p deploy/stranger-things
+          cp -r portfolios/web/stranger-things-portfolio/dist/* deploy/stranger-things/
+          cat > deploy/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=/brain-storming/stranger-things/">
+            <link rel="canonical" href="/brain-storming/stranger-things/">
+            <title>Redirecting...</title>
+          </head>
+          <body>
+            <p>Redirecting to <a href="/brain-storming/stranger-things/">Stranger Things Portfolio</a>...</p>
+          </body>
+          </html>
+          EOF
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./portfolios/web/stranger-things-portfolio/dist
+          path: ./deploy
 
   deploy:
     environment:
