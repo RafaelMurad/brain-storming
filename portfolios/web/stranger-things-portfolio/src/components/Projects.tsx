@@ -1,122 +1,201 @@
+import { useMemo, useState } from 'react';
+
+const filters = [
+  { id: 'all', label: 'All cases' },
+  { id: 'experience', label: 'Product Experience' },
+  { id: 'systems', label: 'Systems & Platforms' },
+  { id: 'automation', label: 'Automation & AI' },
+];
+
+const caseFiles = [
+  {
+    id: 'CF-01',
+    title: 'WhatsApp Ops Agent',
+    classification: 'HIGH PRIORITY',
+    type: 'automation',
+    mission: 'Automated scheduling & reminder workflows for recurring orders using WhatsApp as the command channel.',
+    highlights: [
+      'TypeScript monorepo powering shared data contracts',
+      'Multi-market SLA alignment with localized content packs',
+    ],
+    outcomes: [
+      { label: 'Automation coverage', value: '68% flows' },
+      { label: 'Markets live', value: '5 EU' },
+      { label: 'Latency cut', value: '42%' },
+    ],
+    stack: ['TypeScript', 'Node.js', 'WhatsApp API', 'Temporal'],
+    status: 'ACTIVE OPERATIONS',
+    year: '2024',
+    role: 'Lead Frontend + Architect',
+    link: '#',
+  },
+  {
+    id: 'CF-02',
+    title: 'Chronos Picker',
+    classification: 'CLEARED',
+    type: 'experience',
+    mission: 'Enterprise date-time picker reimagined for restaurant fleets with accessibility-first constraints.',
+    highlights: [
+      'WCAG AA compliance verified across 13 locales',
+      'Composable API with 40+ integration surfaces',
+    ],
+    outcomes: [
+      { label: 'Weekly users', value: '7.4M' },
+      { label: 'Markets', value: '13' },
+      { label: 'Error drop', value: '31%' },
+    ],
+    stack: ['React', 'TypeScript', 'Storybook', 'Testing Library'],
+    status: 'DEPLOYED EU NETWORK',
+    year: '2023',
+    role: 'Senior Frontend Engineer',
+    link: '#',
+  },
+  {
+    id: 'CF-03',
+    title: 'Fulfilment Grid',
+    classification: 'CLASSIFIED',
+    type: 'systems',
+    mission: 'High-performance fulfilment scheduler orchestrating millions of restaurant orders with predictive load balancing.',
+    highlights: [
+      'Redux-powered data grid with intelligent diff streaming',
+      'Real-time alerting console for ops leads',
+    ],
+    outcomes: [
+      { label: 'Orders / day', value: '2.1M' },
+      { label: 'Throughput gain', value: '+18%' },
+      { label: 'Downtime', value: '< 0.2%' },
+    ],
+    stack: ['React', 'Redux Toolkit', 'WebSockets', 'NX'],
+    status: 'CONTINUOUS MONITORING',
+    year: '2022',
+    role: 'Frontend Platform',
+    link: '#',
+  },
+];
+
 export const Projects = () => {
-  const projects = [
-    {
-      id: 'PRJ_001',
-      title: 'WhatsApp Reminder App',
-      description: 'Building a TypeScript monorepo architecture for automated WhatsApp reminders with intelligent scheduling and notifications',
-      tech: ['TypeScript', 'Monorepo', 'WhatsApp API', 'Node.js'],
-      status: 'ACTIVE',
-      statusColor: 'neon-pink',
-      link: '#',
-    },
-    {
-      id: 'PRJ_002',
-      title: 'Date-Time Picker Component',
-      description: 'Enterprise-grade React component serving millions of users with full accessibility support and multi-market localization',
-      tech: ['React', 'TypeScript', 'Accessibility', 'i18n'],
-      status: 'DEPLOYED',
-      statusColor: 'neon-cyan',
-      link: '#',
-    },
-    {
-      id: 'PRJ_003',
-      title: 'Scheduled Fulfilment System',
-      description: 'High-performance order scheduling system handling millions of transactions across European markets with Redux state management',
-      tech: ['React', 'Redux', 'Performance', 'State Management'],
-      status: 'DEPLOYED',
-      statusColor: 'neon-cyan',
-      link: '#',
-    },
-  ];
+  const [activeFilter, setActiveFilter] = useState('all');
+
+  const visibleCases = useMemo(() => {
+    if (activeFilter === 'all') return caseFiles;
+    return caseFiles.filter((file) => file.type === activeFilter);
+  }, [activeFilter]);
 
   return (
-    <section id="projects" className="min-h-screen flex items-center justify-center px-4 py-20 relative">
-      {/* Background accent */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-5">
-        <div className="w-[1000px] h-[1000px] bg-st-neon-cyan blur-[200px]"></div>
-      </div>
-
-      <div className="max-w-6xl mx-auto w-full relative z-10">
-        {/* Section header */}
-        <div className="mb-16">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="text-st-red text-2xl animate-pulse">◆</div>
-            <h2 className="text-4xl md:text-6xl font-bold neon-red-subtle tracking-wider">
-              {'[ CASE FILES ]'}
-            </h2>
-          </div>
-          <div className="h-0.5 w-full bg-gradient-to-r from-st-red via-st-red to-transparent shadow-[0_0_10px_#FF0000]"></div>
-        </div>
-
-        {/* Projects grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="group neon-border-red bg-st-deep-black bg-opacity-70 backdrop-blur-sm hover:bg-opacity-90 transition-all duration-500 relative overflow-hidden"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-st-red via-transparent to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
-
-              <div className="p-6 relative z-10">
-                {/* Project header */}
-                <div className="flex items-center justify-between mb-5 pb-3 border-b border-st-gray-dark">
-                  <span className="text-st-neon-cyan font-mono text-sm tracking-wider font-bold">
-                    {project.id}
-                  </span>
-                  <span
-                    className={`text-xs font-mono px-3 py-1.5 border-2 ${
-                      project.statusColor === 'neon-pink'
-                        ? 'text-st-neon-pink border-st-neon-pink shadow-[0_0_10px_#FF006E]'
-                        : 'text-st-neon-cyan border-st-neon-cyan shadow-[0_0_10px_#00F0FF]'
-                    } animate-pulse`}
-                  >
-                    ● {project.status}
-                  </span>
-                </div>
-
-                {/* Project title */}
-                <h3 className="text-xl md:text-2xl font-bold text-st-red mb-4 group-hover:neon-red transition-all duration-300">
-                  {project.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-st-gray-light font-mono text-sm mb-6 leading-relaxed min-h-[100px]">
-                  {project.description}
-                </p>
-
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tech.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1.5 border border-st-gray-mid text-st-gray-light text-xs font-mono hover:border-st-neon-cyan hover:text-st-neon-cyan transition-all duration-300 bg-st-gray-dark bg-opacity-30"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Link */}
-                <a
-                  href={project.link}
-                  className="inline-flex items-center gap-2 text-st-red font-mono text-sm font-bold uppercase tracking-wider border-2 border-st-red px-4 py-2 hover:bg-st-red hover:text-st-deep-black transition-all duration-300 shadow-[0_0_10px_rgba(255,0,0,0.3)] hover:shadow-[0_0_20px_rgba(255,0,0,0.6)]"
-                >
-                  <span>Access File</span>
-                  <span className="text-lg">→</span>
-                </a>
-              </div>
-
-              {/* Corner accent */}
-              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-st-red opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
-              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-st-red opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
+    <section id="projects" className="relative py-32 px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-14 flex flex-col gap-6">
+          <div className="flex items-start gap-6">
+            <div className="evidence-stamp" aria-hidden="true">
+              <span>HL</span>
             </div>
-          ))}
+            <div>
+              <p className="text-xs font-mono text-text-tertiary tracking-[0.3em] mb-2 uppercase">
+                HAWKINS LAB // CLASSIFIED CASE FILES
+              </p>
+              <h2 className="text-5xl md:text-6xl font-bold text-st-red-glow font-benguiat" style={{ textShadow: '0 0 30px rgba(230, 46, 46, 0.4)' }}>
+                Evidence Board
+              </h2>
+            </div>
+          </div>
+          <div className="h-px bg-gradient-to-r from-st-red-primary to-transparent" />
+
+          <div className="flex flex-wrap gap-3">
+            {filters.map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => setActiveFilter(filter.id)}
+                className={`board-filter ${activeFilter === filter.id ? 'board-filter--active' : ''}`}
+                type="button"
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Bottom accent line */}
-        <div className="mt-16 h-px w-full bg-gradient-to-r from-transparent via-st-red to-transparent shadow-[0_0_10px_#FF0000]"></div>
+        <div className="evidence-board">
+          <div className="thread-overlay" aria-hidden="true" />
+          <div className="grid md:grid-cols-2 gap-10 relative">
+            {visibleCases.map((project) => (
+              <article key={project.id} className="case-card group">
+                <div className="case-pin" aria-hidden="true" />
+                <div className="case-thread case-thread--left" aria-hidden="true" />
+                <div className="case-thread case-thread--right" aria-hidden="true" />
+
+                <div className="case-card__header">
+                  <div>
+                    <p className="text-xs font-mono tracking-[0.35em] text-text-tertiary uppercase">FILE {project.id}</p>
+                    <h3 className="text-2xl md:text-3xl font-bold text-text-primary font-sans mt-2">
+                      {project.title}
+                    </h3>
+                  </div>
+                  <span className="case-classification" data-status={project.classification}>
+                    {project.classification}
+                  </span>
+                </div>
+
+                <div className="case-card__body">
+                  <p className="text-text-secondary text-base leading-relaxed font-sans">
+                    {project.mission}
+                  </p>
+
+                  <ul className="case-highlights">
+                    {project.highlights.map((item) => (
+                      <li key={item}>
+                        <span className="case-bullet" aria-hidden="true" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="case-outcomes">
+                    {project.outcomes.map((outcome) => (
+                      <div key={outcome.label} className="case-outcomes__item">
+                        <p className="text-xs font-mono tracking-[0.3em] text-text-tertiary uppercase">{outcome.label}</p>
+                        <p className="text-xl font-semibold text-text-primary">{outcome.value}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-mono text-text-tertiary tracking-[0.35em] uppercase mb-2">Stack Evidence</p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.stack.map((tech) => (
+                        <span key={tech} className="case-tag">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="case-card__footer">
+                  <div className="case-meta">
+                    <p>
+                      <span>Deployment</span>
+                      {project.status}
+                    </p>
+                    <p>
+                      <span>Role</span>
+                      {project.role}
+                    </p>
+                    <p>
+                      <span>Year</span>
+                      {project.year}
+                    </p>
+                  </div>
+                  <a href={project.link} className="case-link">
+                    Access case file
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,104 +1,127 @@
 export const Skills = () => {
-  const skillCategories = [
+  const categories = [
     {
-      category: 'Frontend',
+      name: 'Frontend Development',
       icon: '⚛',
       skills: [
-        { name: 'TypeScript', level: 95 },
-        { name: 'React', level: 95 },
-        { name: 'Redux', level: 90 },
-        { name: 'Next.js', level: 85 },
+        { name: 'TypeScript', proficiency: 5 },
+        { name: 'React', proficiency: 5 },
+        { name: 'Redux', proficiency: 4 },
+        { name: 'Next.js', proficiency: 4 },
       ],
     },
     {
-      category: 'Styling',
+      name: 'Styling & Design',
       icon: '🎨',
       skills: [
-        { name: 'Tailwind CSS', level: 90 },
-        { name: 'CSS/SCSS', level: 90 },
-        { name: 'Styled Components', level: 85 },
+        { name: 'Tailwind CSS', proficiency: 5 },
+        { name: 'CSS/SCSS', proficiency: 5 },
+        { name: 'Styled Components', proficiency: 4 },
       ],
     },
     {
-      category: 'Testing',
+      name: 'Testing & Quality',
       icon: '🧪',
       skills: [
-        { name: 'Jest', level: 85 },
-        { name: 'Testing Library', level: 90 },
-        { name: 'Cypress', level: 80 },
+        { name: 'Jest', proficiency: 4 },
+        { name: 'Testing Library', proficiency: 5 },
+        { name: 'Cypress', proficiency: 4 },
       ],
     },
     {
-      category: 'Tools',
+      name: 'Tools & Platform',
       icon: '⚙',
       skills: [
-        { name: 'Git', level: 90 },
-        { name: 'Vite', level: 85 },
-        { name: 'Webpack', level: 80 },
+        { name: 'Git', proficiency: 5 },
+        { name: 'Vite', proficiency: 4 },
+        { name: 'Webpack', proficiency: 4 },
       ],
     },
   ];
 
-  return (
-    <section id="skills" className="min-h-screen flex items-center justify-center px-4 py-20 relative">
-      {/* Background accent */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-5">
-        <div className="w-[1000px] h-[1000px] bg-st-neon-pink blur-[200px]"></div>
-      </div>
+  const competencies = [
+    'Enterprise-scale application development',
+    'TypeScript monorepo architecture',
+    'WCAG 2.1 AA accessibility standards',
+    'Multi-market i18n implementation',
+    'Performance optimization & monitoring',
+    'Component library development',
+  ];
 
-      <div className="max-w-6xl mx-auto w-full relative z-10">
-        {/* Section header */}
-        <div className="mb-16">
+  return (
+    <section id="skills" className="relative py-32 px-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="mb-20">
           <div className="flex items-center gap-4 mb-6">
-            <div className="text-st-red text-2xl animate-pulse">◈</div>
-            <h2 className="text-4xl md:text-6xl font-bold neon-red-subtle tracking-wider">
-              {'[ ABILITIES MATRIX ]'}
-            </h2>
+            <span className="text-4xl text-st-red-glow">◈</span>
+            <div>
+              <p className="text-xs font-mono text-text-tertiary tracking-[0.3em] mb-2">
+                EVALUATION PROTOCOL // TECHNICAL ASSESSMENT
+              </p>
+              <h2
+                className="text-5xl md:text-6xl font-bold text-st-red-glow font-mono"
+                style={{ textShadow: '0 0 30px rgba(230, 46, 46, 0.4)' }}
+              >
+                ABILITIES MATRIX
+              </h2>
+            </div>
           </div>
-          <div className="h-0.5 w-full bg-gradient-to-r from-st-red via-st-red to-transparent shadow-[0_0_10px_#FF0000]"></div>
+          <div className="h-px bg-gradient-to-r from-st-red-primary to-transparent" />
         </div>
 
-        {/* Skills grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {skillCategories.map((category, index) => (
-            <div
-              key={index}
-              className="neon-border-red bg-st-deep-black bg-opacity-70 backdrop-blur-sm p-8 hover:bg-opacity-90 transition-all duration-300 relative group"
-            >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-st-neon-pink via-transparent to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
-
+        {/* Skills organized by category */}
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {categories.map((category, i) => (
+            <div key={i} className="holo-card overflow-hidden">
               {/* Category header */}
-              <div className="flex items-center gap-3 mb-8 pb-4 border-b-2 border-st-gray-dark">
-                <span className="text-3xl">{category.icon}</span>
-                <h3 className="text-2xl md:text-3xl font-bold text-st-neon-pink font-mono tracking-wider">
-                  {category.category}
-                </h3>
+              <div className="border-b border-st-red-primary/30 bg-st-red-subtle px-8 py-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-mono text-text-tertiary tracking-wider mb-1">
+                      CATEGORY {String(i + 1).padStart(2, '0')}
+                    </p>
+                    <h3 className="text-2xl font-bold text-st-green-terminal phosphor-text font-mono">
+                      {category.name}
+                    </h3>
+                  </div>
+                  <span className="text-4xl">{category.icon}</span>
+                </div>
               </div>
 
-              {/* Skills list */}
-              <div className="space-y-6 relative z-10">
+              {/* Skills with 5-bar proficiency indicator */}
+              <div className="p-8 space-y-6">
                 {category.skills.map((skill, idx) => (
                   <div key={idx} className="group/skill">
-                    <div className="flex justify-between mb-3">
-                      <span className="text-st-gray-light font-mono font-bold tracking-wider">
+                    {/* Skill name and proficiency meter */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-text-primary font-mono font-bold tracking-wide">
                         {skill.name}
                       </span>
-                      <span className="text-st-red font-mono text-sm px-3 py-1 border border-st-red shadow-[0_0_5px_rgba(255,0,0,0.5)]">
-                        {skill.level}%
-                      </span>
+
+                      {/* 5-bar proficiency indicator */}
+                      <div className="flex gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <div
+                            key={i}
+                            className={`w-2 h-6 border transition-all duration-300 ${
+                              i < skill.proficiency
+                                ? 'bg-st-green-terminal border-st-green-terminal shadow-glow-green-subtle'
+                                : 'bg-transparent border-text-dim'
+                            } group-hover/skill:border-st-green-terminal/60`}
+                          />
+                        ))}
+                      </div>
                     </div>
-                    <div className="relative h-3 bg-st-gray-dark border-2 border-st-gray-mid overflow-hidden">
-                      {/* Animated progress bar */}
+
+                    {/* Skill bar - refined */}
+                    <div className="relative h-1 bg-bg-void overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-st-red via-st-neon-pink to-st-red shadow-[0_0_15px_#FF0000] transition-all duration-1000 ease-out relative"
-                        style={{
-                          width: `${skill.level}%`,
-                          animation: 'pulse 2s infinite'
-                        }}
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-st-green-terminal to-st-cyan-data transition-all duration-1000"
+                        style={{ width: `${(skill.proficiency / 5) * 100}%` }}
                       >
-                        {/* Scanning effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-pulse"></div>
+                        {/* Scan effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-50 animate-pulse" />
                       </div>
                     </div>
                   </div>
@@ -108,8 +131,29 @@ export const Skills = () => {
           ))}
         </div>
 
-        {/* Bottom accent line */}
-        <div className="mt-16 h-px w-full bg-gradient-to-r from-transparent via-st-red to-transparent shadow-[0_0_10px_#FF0000]"></div>
+        {/* Core competencies */}
+        <div className="p-8 bg-st-yellow-classified/5 border border-st-yellow-classified/30 backdrop-blur-sm holo-card">
+          <div className="flex items-start gap-4 mb-6">
+            <span className="text-3xl">⚡</span>
+            <div>
+              <h3 className="text-xl font-bold text-st-yellow-classified mb-2 font-mono">
+                SPECIAL QUALIFICATIONS
+              </h3>
+              <p className="text-xs font-mono text-text-tertiary tracking-wider uppercase">
+                High-Priority Competencies
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4 text-text-secondary font-sans">
+            {competencies.map((comp, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <span className="text-st-green-terminal mt-1">▸</span>
+                <span className="leading-relaxed">{comp}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
