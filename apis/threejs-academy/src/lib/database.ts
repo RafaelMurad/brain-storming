@@ -33,7 +33,11 @@ export const disconnectDatabase = async (): Promise<void> => {
 
 export const checkDatabaseHealth = async (): Promise<boolean> => {
   try {
-    await prisma.$queryRaw`SELECT 1`;
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise<never>((_, reject) => 
+      setTimeout(() => reject(new Error('Database health check timeout')), 3000)
+    );
+    await Promise.race([prisma.$queryRaw`SELECT 1`, timeoutPromise]);
     return true;
   } catch (error) {
     logger.error('Database health check failed:', error);

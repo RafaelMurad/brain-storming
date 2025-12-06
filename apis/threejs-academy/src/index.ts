@@ -58,17 +58,29 @@ app.use('/api/v1/achievements', achievementRoutes);
 app.use('/api/v1/exercises', exerciseRoutes);
 app.use('/api/v1/notes', notesRoutes);
 
+// Simple ping endpoint (no async operations)
+app.get('/ping', (_req, res) => {
+  res.json({ pong: true, timestamp: Date.now() });
+});
+
 // Health check
 app.get('/health', async (_req, res) => {
-  const dbHealthy = await checkDatabaseHealth();
-  res.status(dbHealthy ? 200 : 503).json({
-    success: dbHealthy,
-    data: {
-      status: dbHealthy ? 'healthy' : 'unhealthy',
-      database: dbHealthy ? 'connected' : 'disconnected',
-      timestamp: new Date().toISOString(),
-    },
-  });
+  try {
+    const dbHealthy = await checkDatabaseHealth();
+    res.status(dbHealthy ? 200 : 503).json({
+      success: dbHealthy,
+      data: {
+        status: dbHealthy ? 'healthy' : 'unhealthy',
+        database: dbHealthy ? 'connected' : 'disconnected',
+        timestamp: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    res.status(503).json({
+      success: false,
+      data: { status: 'error', database: 'error', timestamp: new Date().toISOString() },
+    });
+  }
 });
 
 // 404 handler
@@ -98,14 +110,57 @@ const shutdown = async () => {
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
 
+// Check if a port is available
+const isPortAvailable = (port: number): Promise<boolean> => {
+  return new Promise((resolve) => {
+    const net = require('net');
+    const server = net.createServer();
+    
+    server.once('error', (err: NodeJS.ErrnoException) => {
+      if (err.code === 'EADDRINUSE') {
+        resolve(false);
+      } else {
+        resolve(false);
+      }
+    });
+    
+    server.once('listening', () => {
+      server.close();
+      resolve(true);
+    });
+    
+    server.listen(port);
+  });
+};
+
+// Find an available port starting from the preferred port
+const findAvailablePort = async (startPort: number, maxAttempts: number = 10): Promise<number> => {
+  for (let i = 0; i < maxAttempts; i++) {
+    const port = startPort + i;
+    const available = await isPortAvailable(port);
+    if (available) {
+      return port;
+    }
+    logger.warn(`Port ${port} is in use, trying ${port + 1}...`);
+  }
+  throw new Error(`Could not find available port after ${maxAttempts} attempts starting from ${startPort}`);
+};
+
 // Start server
 const start = async () => {
   try {
     await connectDatabase();
     await seedAchievements();
     
-    app.listen(config.port, () => {
-      logger.info(`🚀 Three.js Academy API running on port ${config.port}`);
+    // Find an available port
+    const port = await findAvailablePort(config.port);
+    
+    if (port !== config.port) {
+      logger.warn(`Default port ${config.port} was unavailable, using port ${port}`);
+    }
+    
+    app.listen(port, () => {
+      logger.info(`🚀 Three.js Academy API running on port ${port}`);
       logger.info(`   Environment: ${config.nodeEnv}`);
       logger.info(`   Frontend URL: ${config.frontendUrl}`);
     });
