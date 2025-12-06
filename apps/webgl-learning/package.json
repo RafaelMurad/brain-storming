@@ -10,7 +10,10 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
-    "gl-matrix": "^3.4.3"
+    "@types/three": "^0.181.0",
+    "gl-matrix": "^3.4.3",
+    "gsap": "^3.13.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",

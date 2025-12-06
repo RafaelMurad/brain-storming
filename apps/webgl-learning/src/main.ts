@@ -101,17 +101,27 @@ const examples: ExampleDefinition[] = [
   }
 ];
 
+// Import Three.js background scene
+import { SceneBackground } from './background/SceneBackground';
+
 class App {
   private currentExample: Example | null = null;
   private canvas: HTMLCanvasElement;
   private examplesContainer: HTMLElement;
   private canvasContainer: HTMLElement;
   private currentCategory: string = 'all';
+  private sceneBackground: SceneBackground | null = null;
 
   constructor() {
     this.canvas = document.getElementById('webgl-canvas') as HTMLCanvasElement;
     this.examplesContainer = document.getElementById('examples-container')!;
     this.canvasContainer = document.getElementById('canvas-container')!;
+
+    // Initialize Three.js background
+    const threeContainer = document.getElementById('three-container');
+    if (threeContainer) {
+      this.sceneBackground = new SceneBackground(threeContainer);
+    }
 
     this.initNavigation();
     this.renderExamples();
@@ -152,21 +162,59 @@ class App {
       ? examples
       : examples.filter(ex => ex.difficulty === this.currentCategory);
 
-    filteredExamples.forEach(exampleDef => {
+    filteredExamples.forEach((exampleDef, index) => {
       const card = document.createElement('div');
       card.className = 'example-card';
+      card.style.animationDelay = `${index * 0.1}s`;
+      
+      // Get tags based on difficulty
+      const tags = this.getTagsForExample(exampleDef);
+      
+      // Extract number and clean name
+      const [num, ...nameParts] = exampleDef.name.split('. ');
+      const cleanName = nameParts.join('. ') || exampleDef.name;
+      
       card.innerHTML = `
-        <h3>${exampleDef.name}</h3>
+        <div class="card-header">
+          <span class="card-number">${num}</span>
+          <span class="difficulty ${exampleDef.difficulty}">${exampleDef.difficulty}</span>
+        </div>
+        <h3>${cleanName}</h3>
         <p>${exampleDef.description}</p>
-        <span class="difficulty ${exampleDef.difficulty}">${exampleDef.difficulty}</span>
+        <div class="card-footer">
+          <div class="card-tags">
+            ${tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+          </div>
+          <span class="card-action">Explore <span class="arrow">→</span></span>
+        </div>
       `;
 
       card.addEventListener('click', () => {
+        // Trigger pulse effect on background
+        if (this.sceneBackground) {
+          this.sceneBackground.pulseEffect();
+        }
         this.loadExample(exampleDef);
       });
 
       this.examplesContainer.appendChild(card);
     });
+  }
+
+  private getTagsForExample(exampleDef: ExampleDefinition): string[] {
+    const tagMap: Record<string, string[]> = {
+      'triangle': ['vertices', 'shaders'],
+      'colored-triangle': ['colors', 'varying'],
+      'square': ['indices', 'buffers'],
+      'animation': ['uniforms', 'loop'],
+      'texture': ['UV', 'sampling'],
+      'transformations': ['matrix', 'MVP'],
+      'cube-3d': ['3D', 'depth'],
+      'lighting': ['phong', 'normals'],
+      'particles': ['instancing', 'GPU'],
+      'terrain': ['noise', 'procedural'],
+    };
+    return tagMap[exampleDef.id] || ['webgl'];
   }
 
   private loadExample(exampleDef: ExampleDefinition): void {
