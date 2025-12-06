@@ -62,7 +62,7 @@ router.get('/github/callback', async (req, res: Response) => {
     const { code } = req.query;
     
     if (!code || typeof code !== 'string') {
-      return res.redirect(`${config.frontendUrl}?error=no_code`);
+      return res.redirect(`${config.frontendUrl}/learning.html?error=no_code`);
     }
     
     // Exchange code for access token
@@ -82,7 +82,7 @@ router.get('/github/callback', async (req, res: Response) => {
     const tokenData = await tokenResponse.json() as any;
     
     if (tokenData.error) {
-      return res.redirect(`${config.frontendUrl}?error=token_error`);
+      return res.redirect(`${config.frontendUrl}/learning.html?error=token_error`);
     }
     
     // Get user info
@@ -112,9 +112,9 @@ router.get('/github/callback', async (req, res: Response) => {
     );
     
     // Redirect to frontend with token
-    res.redirect(`${config.frontendUrl}?token=${result.token}`);
-  } catch (error) {
-    res.redirect(`${config.frontendUrl}?error=auth_failed`);
+    res.redirect(`${config.frontendUrl}/learning.html?token=${result.token}`);
+  } catch {
+    res.redirect(`${config.frontendUrl}/learning.html?error=auth_failed`);
   }
 });
 
