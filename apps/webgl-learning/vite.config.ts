@@ -6,6 +6,8 @@ export default defineConfig({
   plugins: [
     (monacoEditorPlugin as any).default({
       languageWorkers: ['typescript', 'json', 'css', 'html'],
+      publicPath: 'monacoeditorwork',
+      globalAPI: true,
     }),
   ],
   resolve: {
@@ -27,7 +29,7 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    open: true
+    open: false,
   },
   optimizeDeps: {
     include: ['monaco-editor'],

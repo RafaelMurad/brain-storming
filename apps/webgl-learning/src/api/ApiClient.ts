@@ -58,7 +58,7 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3020/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
 const TOKEN_KEY = 'threejs_academy_token';
 
 class ApiClient {
@@ -116,7 +116,7 @@ class ApiClient {
       throw new Error('Fingerprint not initialized');
     }
 
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/anonymous`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fingerprint: this.fingerprint })

@@ -1,11 +1,13 @@
 /**
  * Three.js Academy - Main Application Entry Point
- * Orchestrates the learning platform
+ * Orchestrates the learning platform with state-of-the-art features
  */
 
 import { marked } from 'marked';
 import { MonacoEditor } from './editor';
 import { Sandbox } from './sandbox';
+import { ConsolePanel } from './console';
+import { CodeValidator, EXERCISE_VALIDATORS, THREE_JS_RULES } from './validation';
 import { api } from './api';
 import {
   curriculum,
@@ -19,9 +21,26 @@ import {
   type LessonExercise
 } from './curriculum';
 
+// Gamification constants
+const XP_PER_LESSON = 100;
+const XP_PER_EXERCISE = 25;
+const XP_BONUS_NO_HINTS = 50;
+const XP_BONUS_FIRST_TRY = 30;
+
+interface UserProgress {
+  xp: number;
+  level: number;
+  streak: number;
+  lastActiveDate: string;
+  completedLessons: string[];
+  achievements: string[];
+}
+
 class LearningApp {
   private editor: MonacoEditor | null = null;
   private sandbox: Sandbox | null = null;
+  private consolePanel: ConsolePanel | null = null;
+  private validator: CodeValidator | null = null;
   
   private currentModuleId: string | null = null;
   private currentLessonId: string | null = null;
@@ -29,6 +48,18 @@ class LearningApp {
   
   private completedLessons: Set<string> = new Set();
   private hintsRevealed = 0;
+  private attemptCount = 0;
+  private autoRunEnabled = false;
+  
+  // User progress
+  private userProgress: UserProgress = {
+    xp: 0,
+    level: 1,
+    streak: 0,
+    lastActiveDate: '',
+    completedLessons: [],
+    achievements: [],
+  };
   
   // DOM Elements
   private elements: Record<string, HTMLElement | null> = {};
@@ -38,6 +69,7 @@ class LearningApp {
     // Actual app initialization happens via init() method
     this.initElements();
     this.initEventListeners();
+    this.loadProgress();
   }
 
   private initElements(): void {
@@ -86,6 +118,154 @@ class LearningApp {
     this.elements.achievementToast = document.getElementById('achievement-toast');
     this.elements.achievementTitle = document.getElementById('achievement-title');
     this.elements.achievementDescription = document.getElementById('achievement-description');
+    
+    // Console panel container
+    this.elements.consoleContainer = document.getElementById('console-container');
+    
+    // XP and Level display
+    this.elements.xpDisplay = document.getElementById('xp-display');
+    this.elements.levelDisplay = document.getElementById('level-display');
+    this.elements.streakDisplay = document.getElementById('streak-display');
+    
+    // Validation indicators
+    this.elements.validationPanel = document.getElementById('validation-panel');
+  }
+
+  // ============ GAMIFICATION & PROGRESS ============
+  
+  private loadProgress(): void {
+    try {
+      const saved = localStorage.getItem('threejs-academy-progress');
+      if (saved) {
+        const data = JSON.parse(saved);
+        this.userProgress = { ...this.userProgress, ...data };
+        this.completedLessons = new Set(this.userProgress.completedLessons);
+        
+        // Check streak
+        this.updateStreak();
+      }
+    } catch (e) {
+      console.warn('Failed to load progress:', e);
+    }
+    this.renderProgress();
+  }
+
+  private saveProgress(): void {
+    try {
+      this.userProgress.completedLessons = Array.from(this.completedLessons);
+      localStorage.setItem('threejs-academy-progress', JSON.stringify(this.userProgress));
+      
+      // Also sync to backend if available
+      if (this.currentLessonId) {
+        api.updateProgress(this.currentLessonId, {
+          status: 'IN_PROGRESS',
+        }).catch(() => {
+          // Silently fail - offline mode
+        });
+      }
+    } catch (e) {
+      console.warn('Failed to save progress:', e);
+    }
+  }
+
+  private updateStreak(): void {
+    const today = new Date().toDateString();
+    const lastActive = this.userProgress.lastActiveDate;
+    
+    if (lastActive) {
+      const lastDate = new Date(lastActive);
+      const daysDiff = Math.floor((Date.now() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      if (daysDiff === 1) {
+        // Consecutive day - increment streak
+        this.userProgress.streak++;
+      } else if (daysDiff > 1) {
+        // Streak broken
+        this.userProgress.streak = 1;
+      }
+    } else {
+      this.userProgress.streak = 1;
+    }
+    
+    this.userProgress.lastActiveDate = today;
+    this.saveProgress();
+  }
+
+  private addXP(amount: number, reason: string): void {
+    this.userProgress.xp += amount;
+    
+    // Level up check (100 XP per level, increasing)
+    const newLevel = Math.floor(this.userProgress.xp / 100) + 1;
+    const leveledUp = newLevel > this.userProgress.level;
+    
+    if (leveledUp) {
+      this.userProgress.level = newLevel;
+      this.showAchievement(`Level ${newLevel}! 🎉`, `You've reached level ${newLevel}!`);
+    }
+    
+    // Show XP toast
+    this.showXPGain(amount, reason);
+    this.renderProgress();
+    this.saveProgress();
+  }
+
+  private showXPGain(amount: number, reason: string): void {
+    const toast = document.createElement('div');
+    toast.className = 'xp-toast';
+    toast.innerHTML = `+${amount} XP <span style="opacity:0.7">${reason}</span>`;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 80px;
+      right: 24px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #FF4D00 0%, #FF6B2C 100%);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(255, 77, 0, 0.4);
+      z-index: 10000;
+      animation: xpSlideIn 0.3s ease-out, xpFadeOut 0.3s ease-in 2s forwards;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.remove(), 2500);
+  }
+
+  private calculateScore(): number {
+    let score = 100;
+    score -= this.hintsRevealed * 10;
+    score -= (this.attemptCount - 1) * 5;
+    return Math.max(0, score);
+  }
+
+  private renderProgress(): void {
+    const stats = getCurriculumStats();
+    
+    // Update sidebar progress
+    if (this.elements.completedCount) {
+      this.elements.completedCount.textContent = String(this.completedLessons.size);
+    }
+    if (this.elements.totalCount) {
+      this.elements.totalCount.textContent = String(stats.totalLessons);
+    }
+    if (this.elements.totalProgress) {
+      const pct = (this.completedLessons.size / stats.totalLessons) * 100;
+      (this.elements.totalProgress as HTMLElement).style.width = `${pct}%`;
+    }
+    
+    // Update XP/Level display (if elements exist)
+    if (this.elements.xpDisplay) {
+      this.elements.xpDisplay.textContent = `${this.userProgress.xp} XP`;
+    }
+    if (this.elements.levelDisplay) {
+      this.elements.levelDisplay.textContent = `Level ${this.userProgress.level}`;
+    }
+    if (this.elements.streakDisplay) {
+      this.elements.streakDisplay.textContent = `🔥 ${this.userProgress.streak} day streak`;
+    }
   }
 
   private initEventListeners(): void {
@@ -168,7 +348,7 @@ class LearningApp {
       const user = await api.init();
       if (user) {
         this.updateUserAvatar(user);
-        await this.loadProgress();
+        await this.loadProgressFromAPI();
       }
     } catch (error) {
       console.error('Failed to initialize API:', error);
@@ -201,7 +381,7 @@ class LearningApp {
     }
   }
 
-  private async loadProgress(): Promise<void> {
+  private async loadProgressFromAPI(): Promise<void> {
     try {
       const progress = await api.getAllProgress();
       progress.forEach(p => {
@@ -211,7 +391,7 @@ class LearningApp {
       });
       this.updateProgressUI();
     } catch (error) {
-      console.error('Failed to load progress:', error);
+      console.error('Failed to load progress from API:', error);
     }
   }
 
@@ -435,13 +615,146 @@ class LearningApp {
     const container = this.elements.editorContainer;
     if (!container) return;
 
+    // Reset attempt count for new lesson
+    this.attemptCount = 0;
+
     // Create new editor with options
     this.editor = new MonacoEditor({
       container: container as HTMLElement,
       language: 'typescript',
       value: lesson.exercises.length > 0 ? lesson.exercises[0].starterCode : '',
+      autoRun: this.autoRunEnabled,
+      autoRunDelay: 800,
+      onRun: (code) => this.executeCode(code),
+      onChange: (code) => this.onCodeChange(code),
     });
     await this.editor.init();
+
+    // Initialize console panel
+    this.initConsolePanel();
+    
+    // Initialize validator for current exercise
+    this.initValidator(lesson.exercises[0]);
+  }
+
+  private initConsolePanel(): void {
+    // Create console container if it doesn't exist
+    let consoleContainer = document.getElementById('console-container');
+    if (!consoleContainer) {
+      // Look for the console tab's content area
+      const previewWrapper = document.querySelector('.preview-wrapper');
+      if (previewWrapper) {
+        consoleContainer = document.createElement('div');
+        consoleContainer.id = 'console-container';
+        consoleContainer.style.cssText = `
+          display: none;
+          height: 100%;
+          flex: 1;
+        `;
+        previewWrapper.appendChild(consoleContainer);
+      }
+    }
+
+    if (consoleContainer && !this.consolePanel) {
+      this.consolePanel = new ConsolePanel({
+        container: consoleContainer,
+        onClear: () => console.log('Console cleared'),
+      });
+    }
+
+    // Wire up console tab switching
+    const consoleTabs = document.querySelectorAll('.panel-tab');
+    consoleTabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const tabName = target.dataset.tab;
+        
+        const previewContainer = this.elements.previewContainer;
+        const consoleContainer = document.getElementById('console-container');
+        
+        if (tabName === 'console') {
+          if (previewContainer) previewContainer.style.display = 'none';
+          if (consoleContainer) consoleContainer.style.display = 'block';
+        } else {
+          if (previewContainer) previewContainer.style.display = 'block';
+          if (consoleContainer) consoleContainer.style.display = 'none';
+        }
+      });
+    });
+  }
+
+  private initValidator(exercise?: LessonExercise): void {
+    if (!exercise) {
+      this.validator = null;
+      return;
+    }
+
+    // Create validator based on exercise ID
+    const exerciseId = exercise.id;
+    
+    if (exerciseId === 'first-scene-setup') {
+      this.validator = EXERCISE_VALIDATORS.firstScene();
+    } else if (exerciseId === 'create-cube') {
+      this.validator = EXERCISE_VALIDATORS.firstCube();
+    } else if (exerciseId === 'spinning-cube') {
+      this.validator = EXERCISE_VALIDATORS.animationLoop();
+    } else if (exerciseId.includes('light')) {
+      this.validator = EXERCISE_VALIDATORS.lighting();
+    } else {
+      // Default validator with basic scene checks
+      this.validator = new CodeValidator();
+      this.validator.addRules(
+        THREE_JS_RULES.sceneCreated,
+        THREE_JS_RULES.renderCalled,
+      );
+    }
+  }
+
+  private onCodeChange(code: string): void {
+    // Real-time validation
+    if (this.validator) {
+      const results = this.validator.validate(code);
+      this.renderValidationResults(results);
+    }
+  }
+
+  private renderValidationResults(results: { results: Array<{ passed: boolean; description: string; severity: string }>; isComplete: boolean }): void {
+    // Find or create validation indicator
+    let indicator = document.querySelector('.validation-indicator') as HTMLElement | null;
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.className = 'validation-indicator';
+      indicator.style.cssText = `
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: flex;
+        gap: 4px;
+        z-index: 100;
+      `;
+      this.elements.editorContainer?.appendChild(indicator);
+    }
+
+    // Show checkmarks/x for each validation rule
+    const html = results.results.map(r => {
+      const icon = r.passed ? '✓' : r.severity === 'error' ? '✗' : '○';
+      const color = r.passed ? '#00FF88' : r.severity === 'error' ? '#FF4D4D' : '#666';
+      return `<span title="${r.description}" style="color:${color};font-size:12px;">${icon}</span>`;
+    }).join('');
+
+    indicator.innerHTML = html;
+
+    // Update complete button state
+    if (this.elements.completeBtn) {
+      const btn = this.elements.completeBtn as HTMLButtonElement;
+      btn.disabled = !results.isComplete;
+      btn.style.opacity = results.isComplete ? '1' : '0.5';
+    }
+  }
+
+  private async executeCode(code: string): Promise<void> {
+    this.attemptCount++;
+    await this.runCode();
   }
 
   private renderExercise(exercise: LessonExercise): void {
@@ -490,14 +803,26 @@ class LearningApp {
       this.elements.previewOverlay.style.display = 'none';
     }
 
+    // Log to console panel
+    this.consolePanel?.addSystemMessage('Executing code...');
+
     // Initialize sandbox if needed
     if (!this.sandbox) {
       const container = this.elements.previewContainer;
       if (container) {
         this.sandbox = new Sandbox({
           container: container as HTMLElement,
-          onLog: (msg) => console.log('[Sandbox]', msg),
-          onError: (err) => console.error('[Sandbox Error]', err),
+          onLog: (msg) => {
+            console.log('[Sandbox]', msg);
+            this.consolePanel?.log(msg);
+          },
+          onError: (err) => {
+            console.error('[Sandbox Error]', err);
+            this.consolePanel?.error(err);
+          },
+          onSceneReady: (info) => {
+            this.consolePanel?.info(`Scene ready: ${info.objectCount} objects`);
+          },
         });
       }
     }
@@ -505,9 +830,24 @@ class LearningApp {
     // Execute code
     if (this.sandbox) {
       try {
-        await this.sandbox.execute(code);
+        const result = await this.sandbox.execute(code);
+        
+        if (result.success) {
+          this.consolePanel?.info(`✓ Execution complete (${result.executionTime}ms)`);
+          
+          // Validate the result
+          if (this.validator) {
+            const validation = this.validator.validate(code);
+            if (validation.isComplete) {
+              this.consolePanel?.info('🎉 All exercise requirements met!');
+            }
+          }
+        } else if (result.error) {
+          this.consolePanel?.error(`Execution failed: ${result.error}`);
+        }
       } catch (error) {
         console.error('Execution error:', error);
+        this.consolePanel?.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
   }
@@ -556,8 +896,31 @@ class LearningApp {
   private async markLessonComplete(): Promise<void> {
     if (!this.currentLessonId) return;
 
+    // Check if already completed
+    const wasAlreadyComplete = this.completedLessons.has(this.currentLessonId);
+
     // Add to completed set
     this.completedLessons.add(this.currentLessonId);
+
+    // Award XP if not already completed
+    if (!wasAlreadyComplete) {
+      let xpEarned = XP_PER_LESSON;
+      let bonusReason = '';
+
+      // Bonus for no hints used
+      if (this.hintsRevealed === 0) {
+        xpEarned += XP_BONUS_NO_HINTS;
+        bonusReason = ' (No hints bonus!)';
+      }
+
+      // Bonus for first try
+      if (this.attemptCount <= 1) {
+        xpEarned += XP_BONUS_FIRST_TRY;
+        bonusReason += bonusReason ? ' + First try!' : ' (First try bonus!)';
+      }
+
+      this.addXP(xpEarned, `Lesson complete${bonusReason}`);
+    }
 
     // Update UI
     this.updateProgressUI();
@@ -571,7 +934,7 @@ class LearningApp {
       // Check for new achievements
       const newAchievements = await api.checkAchievements();
       if (newAchievements.length > 0) {
-        this.showAchievement(newAchievements[0]);
+        this.showAchievement(newAchievements[0].name, newAchievements[0].description);
       }
     } catch (error) {
       console.error('Failed to save progress:', error);
@@ -586,6 +949,21 @@ class LearningApp {
         btn.textContent = 'Mark Complete';
         btn.classList.remove('primary');
       }, 2000);
+    }
+
+    // Check for module completion achievement
+    const result = getLesson(this.currentLessonId);
+    if (result) {
+      const moduleComplete = result.module.lessons.every(
+        lesson => this.completedLessons.has(lesson.meta.id)
+      );
+      if (moduleComplete) {
+        this.showAchievement(
+          `Module Complete! 🏆`,
+          `You've mastered "${result.module.title}"!`
+        );
+        this.addXP(200, 'Module completion bonus');
+      }
     }
   }
 
@@ -616,17 +994,19 @@ class LearningApp {
     }
   }
 
-  private showAchievement(achievement: { name: string; description: string; icon: string }): void {
+  private showAchievement(title: string, description: string): void {
     if (this.elements.achievementTitle) {
-      this.elements.achievementTitle.textContent = achievement.name;
+      this.elements.achievementTitle.textContent = title;
     }
     if (this.elements.achievementDescription) {
-      this.elements.achievementDescription.textContent = achievement.description;
+      this.elements.achievementDescription.textContent = description;
     }
     
     const icon = document.querySelector('.achievement-icon');
     if (icon) {
-      icon.textContent = achievement.icon;
+      // Extract emoji from title if present, otherwise use default
+      const emojiMatch = title.match(/[\u{1F300}-\u{1F9FF}]/u);
+      icon.textContent = emojiMatch ? emojiMatch[0] : '🏆';
     }
 
     this.elements.achievementToast?.classList.add('visible');
@@ -634,19 +1014,6 @@ class LearningApp {
     setTimeout(() => {
       this.elements.achievementToast?.classList.remove('visible');
     }, 5000);
-  }
-
-  private async saveProgress(): Promise<void> {
-    if (!this.currentLessonId || !this.editor) return;
-
-    try {
-      await api.updateProgress(this.currentLessonId, {
-        currentCode: this.editor.getCode(),
-        status: 'IN_PROGRESS'
-      });
-    } catch (error) {
-      console.error('Failed to save progress:', error);
-    }
   }
 
   // Public method to go back to landing
@@ -680,8 +1047,8 @@ class LearningApp {
    * Load a lesson by module and lesson slug
    */
   public loadLessonBySlug(moduleSlug: string, lessonSlug: string): void {
-    const lessonId = `${moduleSlug}/${lessonSlug}`;
-    this.navigateToLesson(lessonId);
+    // Lesson IDs are simple strings like 'first-scene', not paths
+    this.navigateToLesson(lessonSlug);
   }
 }
 

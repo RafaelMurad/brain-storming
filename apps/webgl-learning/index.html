@@ -425,9 +425,72 @@
       .nav-tabs { gap: 24px; overflow-x: auto; padding-bottom: 24px; }
       .footer-content { flex-direction: column; gap: 24px; text-align: center; }
     }
+
+    /* Platform Navigation */
+    .platform-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      z-index: 1000;
+      padding: 0 24px;
+    }
+
+    .platform-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .platform-nav-link:hover {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+
+    .platform-nav-link.active {
+      color: var(--accent);
+      background: var(--accent-subtle);
+      border-color: rgba(255, 77, 0, 0.3);
+    }
+
+    .platform-nav-icon {
+      font-size: 18px;
+    }
+
+    #app {
+      padding-top: 48px;
+    }
   </style>
 </head>
 <body>
+  <!-- Platform Navigation -->
+  <nav class="platform-nav">
+    <a href="/" class="platform-nav-link active">
+      <span class="platform-nav-icon">🎨</span>
+      <span>WebGL Studio</span>
+    </a>
+    <a href="/learning.html" class="platform-nav-link">
+      <span class="platform-nav-icon">🎓</span>
+      <span>Three.js Academy</span>
+    </a>
+  </nav>
+
   <div id="three-container"></div>
   <div class="noise-overlay"></div>
   <div class="scanlines"></div>

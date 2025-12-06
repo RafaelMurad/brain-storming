@@ -36,6 +36,9 @@ export class Sandbox {
     this.container = options.container;
     this.options = options;
 
+    // Clear any existing content in container
+    this.container.innerHTML = '';
+
     // Create iframe
     this.iframe = document.createElement('iframe');
     this.iframe.style.cssText = `
@@ -45,6 +48,7 @@ export class Sandbox {
       background: #0a0a0a;
     `;
     this.iframe.sandbox.add('allow-scripts');
+    this.iframe.sandbox.add('allow-same-origin');
     
     // Set up message handler
     this.messageHandler = this.handleMessage.bind(this);
@@ -79,8 +83,8 @@ export class Sandbox {
       z-index: 1000;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r170/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.170.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
   <div id="error-overlay"></div>
