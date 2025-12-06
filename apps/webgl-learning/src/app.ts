@@ -80,6 +80,7 @@ class LearningApp {
     this.elements.solutionBtn = document.getElementById('solution-btn');
     this.elements.runBtn = document.getElementById('run-btn');
     this.elements.userAvatar = document.getElementById('user-avatar');
+    this.elements.githubLoginBtn = document.getElementById('github-login-btn');
 
     // Sidebar
     this.elements.totalProgress = document.getElementById('total-progress');
@@ -343,16 +344,39 @@ class LearningApp {
   }
 
   private async initApp(): Promise<void> {
-    // Initialize API (fingerprint auth)
+    // Check if this is a fresh login (token in URL)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isNewLogin = urlParams.has('token');
+    const hasError = urlParams.get('error');
+
+    if (hasError) {
+      this.showNotification('Login failed. Please try again.', 'error');
+    }
+
+    // Initialize API (check for existing session or OAuth callback)
     try {
       const user = await api.init();
+      
       if (user) {
         this.updateUserAvatar(user);
+        this.showLoggedInState();
         await this.loadProgressFromAPI();
+        
+        // Show welcome message for new logins
+        if (isNewLogin) {
+          this.showNotification(`Welcome, ${user.name || user.githubUsername || 'Learner'}! 🎉`, 'success');
+        }
+      } else {
+        this.showLoggedOutState();
       }
-    } catch (error) {
-      console.error('Failed to initialize API:', error);
+    } catch {
+      this.showLoggedOutState();
     }
+
+    // Setup GitHub login button
+    this.elements.githubLoginBtn?.addEventListener('click', () => {
+      api.loginWithGitHub();
+    });
 
     // Render curriculum stats
     this.renderStats();
@@ -363,22 +387,89 @@ class LearningApp {
     // Render landing page modules
     this.renderModulesGrid();
 
-    // Check URL for lesson parameter
-    const urlParams = new URLSearchParams(window.location.search);
+    // Check URL for lesson parameter (reuse urlParams from above)
     const lessonId = urlParams.get('lesson');
     if (lessonId) {
       this.navigateToLesson(lessonId);
     }
   }
 
-  private updateUserAvatar(user: { githubAvatar?: string | null; githubUsername?: string | null }): void {
+  private updateUserAvatar(user: { name?: string | null; avatar?: string | null; githubAvatar?: string | null; githubUsername?: string | null }): void {
     if (!this.elements.userAvatar) return;
 
     if (user.githubAvatar) {
       this.elements.userAvatar.innerHTML = `<img src="${user.githubAvatar}" alt="" style="width: 100%; height: 100%; border-radius: 50%;">`;
+    } else if (user.avatar) {
+      this.elements.userAvatar.innerHTML = `<img src="${user.avatar}" alt="" style="width: 100%; height: 100%; border-radius: 50%;">`;
     } else if (user.githubUsername) {
       this.elements.userAvatar.textContent = user.githubUsername.charAt(0).toUpperCase();
+    } else if (user.name) {
+      this.elements.userAvatar.textContent = user.name.charAt(0).toUpperCase();
     }
+  }
+
+  private showLoggedInState(): void {
+    if (this.elements.githubLoginBtn) {
+      (this.elements.githubLoginBtn as HTMLElement).style.display = 'none';
+    }
+    if (this.elements.userAvatar) {
+      (this.elements.userAvatar as HTMLElement).style.display = 'flex';
+    }
+  }
+
+  private showLoggedOutState(): void {
+    if (this.elements.githubLoginBtn) {
+      (this.elements.githubLoginBtn as HTMLElement).style.display = 'flex';
+    }
+    if (this.elements.userAvatar) {
+      (this.elements.userAvatar as HTMLElement).style.display = 'none';
+    }
+  }
+
+  private showNotification(message: string, type: 'success' | 'error' | 'info' = 'info'): void {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      padding: 16px 24px;
+      background: ${type === 'success' ? 'rgba(0, 255, 136, 0.15)' : type === 'error' ? 'rgba(255, 77, 0, 0.15)' : 'rgba(0, 212, 255, 0.15)'};
+      border: 1px solid ${type === 'success' ? 'rgba(0, 255, 136, 0.3)' : type === 'error' ? 'rgba(255, 77, 0, 0.3)' : 'rgba(0, 212, 255, 0.3)'};
+      border-radius: 12px;
+      color: ${type === 'success' ? '#00FF88' : type === 'error' ? '#FF4D00' : '#00D4FF'};
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 10000;
+      animation: slideIn 0.3s ease-out;
+      backdrop-filter: blur(12px);
+    `;
+    notification.textContent = message;
+    
+    // Add animation keyframes if not exists
+    if (!document.getElementById('notification-styles')) {
+      const style = document.createElement('style');
+      style.id = 'notification-styles';
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100px); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100px); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(notification);
+    
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease-in forwards';
+      setTimeout(() => notification.remove(), 300);
+    }, 4000);
   }
 
   private async loadProgressFromAPI(): Promise<void> {

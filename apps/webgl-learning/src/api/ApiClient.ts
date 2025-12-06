@@ -3,11 +3,11 @@
  * Handles all communication with the backend API
  */
 
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
-
 export interface User {
   id: string;
-  fingerprint: string;
+  fingerprint?: string;
+  name?: string;
+  avatar?: string;
   githubId?: string | null;
   githubUsername?: string | null;
   githubAvatar?: string | null;
@@ -64,23 +64,31 @@ const TOKEN_KEY = 'threejs_academy_token';
 class ApiClient {
   private token: string | null = null;
   private user: User | null = null;
-  private fingerprint: string | null = null;
   private initialized = false;
 
   /**
    * Initialize the API client
-   * Loads fingerprint and attempts auto-login
+   * Checks for existing token or handles OAuth callback
    */
   async init(): Promise<User | null> {
     if (this.initialized) return this.user;
 
-    // Load saved token
-    this.token = localStorage.getItem(TOKEN_KEY);
-
-    // Generate fingerprint
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    this.fingerprint = result.visitorId;
+    // Check for OAuth callback token in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const callbackToken = urlParams.get('token');
+    
+    if (callbackToken) {
+      // Save the token from OAuth callback
+      this.token = callbackToken;
+      localStorage.setItem(TOKEN_KEY, callbackToken);
+      
+      // Clean up URL
+      const cleanUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, '', cleanUrl);
+    } else {
+      // Load saved token
+      this.token = localStorage.getItem(TOKEN_KEY);
+    }
 
     // Try to validate existing token
     if (this.token) {
@@ -98,41 +106,9 @@ class ApiClient {
       }
     }
 
-    // Auto-login with fingerprint
-    try {
-      const response = await this.login();
-      return response;
-    } catch {
-      this.initialized = true;
-      return null;
-    }
-  }
-
-  /**
-   * Login with fingerprint (anonymous auth)
-   */
-  async login(): Promise<User | null> {
-    if (!this.fingerprint) {
-      throw new Error('Fingerprint not initialized');
-    }
-
-    const response = await fetch(`${API_BASE_URL}/auth/anonymous`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fingerprint: this.fingerprint })
-    });
-
-    const data: ApiResponse<{ token: string; user: User }> = await response.json();
-
-    if (data.success && data.data) {
-      this.token = data.data.token;
-      this.user = data.data.user;
-      localStorage.setItem(TOKEN_KEY, this.token);
-      this.initialized = true;
-      return this.user;
-    }
-
-    throw new Error(data.error || 'Login failed');
+    // No valid token - user needs to login via GitHub
+    this.initialized = true;
+    return null;
   }
 
   /**
@@ -153,11 +129,24 @@ class ApiClient {
   }
 
   /**
-   * Link GitHub account
+   * Start GitHub OAuth login - redirects to GitHub
+   */
+  loginWithGitHub(): void {
+    window.location.href = `${API_BASE_URL}/auth/github`;
+  }
+
+  /**
+   * Get GitHub auth URL for linking account
    */
   getGitHubAuthUrl(): string {
-    const redirectUri = encodeURIComponent(window.location.origin + '/auth/github/callback');
-    return `${API_BASE_URL}/auth/github?redirect_uri=${redirectUri}`;
+    return `${API_BASE_URL}/auth/github`;
+  }
+
+  /**
+   * Check if user is logged in
+   */
+  isLoggedIn(): boolean {
+    return this.user !== null;
   }
 
   /**
