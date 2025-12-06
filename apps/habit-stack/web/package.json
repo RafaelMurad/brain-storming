@@ -8,9 +8,9 @@
     "start": "next start -p 4011"
   },
   "dependencies": {
-    "next": "14.2.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "next": "16.0.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "@prisma/client": "^5.12.0",
     "zustand": "^4.5.2",
     "lucide-react": "^0.365.0",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.12.0",
-    "@types/react": "^18.2.75",
+    "@types/react": "^19.0.0",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "prisma": "^5.12.0",

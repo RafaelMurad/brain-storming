@@ -4,12 +4,12 @@
   "private": true,
   "scripts": { "dev": "next dev -p 4012", "build": "next build" },
   "dependencies": {
-    "next": "14.2.0", "react": "^18.3.1", "react-dom": "^18.3.1",
+    "next": "16.0.7", "react": "^19.0.0", "react-dom": "^19.0.0",
     "@prisma/client": "^5.12.0", "zustand": "^4.5.2", "openai": "^4.29.0",
     "lucide-react": "^0.365.0", "clsx": "^2.1.0", "tailwind-merge": "^2.2.2"
   },
   "devDependencies": {
-    "@types/node": "^20.12.0", "@types/react": "^18.2.75",
+    "@types/node": "^20.12.0", "@types/react": "^19.0.0",
     "autoprefixer": "^10.4.19", "tailwindcss": "^3.4.3", "typescript": "^5.4.3", "prisma": "^5.12.0"
   }
 }
