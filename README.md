@@ -1,6 +1,20 @@
-# Brain-Storming: Project Ideas Repository
+# 🧠 Brain-Storming: Project Ideas Incubator
 
 A consolidated collection of **37 project ideas** organized by category. Each project is a self-contained idea ready to be spun off into its own repository when you're ready to develop it.
+
+---
+
+## 🚀 Graduated Projects
+
+Ideas that grew up and left the nest! These projects have been developed and moved to their own repositories.
+
+| Project | Description | Repository | Status |
+|---------|-------------|------------|--------|
+| **ShaderForge** | Interactive 3D graphics learning platform for Three.js and WebGL | [github.com/RafaelMurad/shaderforge](https://github.com/RafaelMurad/shaderforge) | ✅ Live |
+
+*Originally: `apps/webgl-learning` + `apis/threejs-academy`*
+
+---
 
 ## Repository Structure
 
@@ -113,10 +127,16 @@ cd ~/projects/snapforge
 rm -rf .git
 git init
 
-# 3. Start developing!
+# 3. Create a GitHub repo and push
+gh repo create snapforge --public --source=. --push
+
+# 4. Start developing!
 npm install
 npm run dev
 ```
+
+### AI-Assisted Development
+Check out my [dev-playbook](https://github.com/RafaelMurad/dev-playbook) for workflows and guides on AI-assisted development, including collaboration frameworks and prompt templates.
 
 ### Tech Stack Overview
 
