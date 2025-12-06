@@ -1,0 +1,165 @@
+// Three.js Academy Database Schema
+// Learning Platform with Progress Tracking & Achievements
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User accounts (anonymous fingerprint or GitHub OAuth)
+model User {
+  id            String   @id @default(uuid())
+  fingerprint   String?  @unique // Hashed device fingerprint for anonymous users
+  email         String?  @unique
+  githubId      String?  @unique
+  name          String?
+  avatar        String?
+  isAnonymous   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  progress      Progress[]
+  submissions   ExerciseSubmission[]
+  achievements  UserAchievement[]
+  notes         LessonNote[]
+  sessions      Session[]
+}
+
+// User sessions for JWT tracking
+model Session {
+  id            String   @id @default(uuid())
+  userId        String
+  token         String   @unique
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// Lesson progress tracking
+model Progress {
+  id            String   @id @default(uuid())
+  userId        String
+  lessonId      String   // e.g., "01-fundamentals/01-scene"
+  moduleId      String   // e.g., "01-fundamentals"
+  status        String   @default("not-started") // not-started, in-progress, completed
+  attempts      Int      @default(0)
+  timeSpentSecs Int      @default(0)
+  bestScore     Int?     // 0-100 validation score
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([moduleId])
+  @@index([status])
+}
+
+// Code submissions for exercises
+model ExerciseSubmission {
+  id            String   @id @default(uuid())
+  userId        String
+  lessonId      String
+  code          String   // User's submitted code
+  passed        Boolean  @default(false)
+  score         Int      @default(0) // 0-100
+  feedback      String?  // Validation feedback
+  executionTime Int?     // ms
+  createdAt     DateTime @default(now())
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([lessonId])
+  @@index([createdAt])
+}
+
+// Achievement definitions
+model Achievement {
+  id            String   @id @default(uuid())
+  code          String   @unique // e.g., "first-scene", "shader-master"
+  name          String
+  description   String
+  icon          String   @default("trophy") // trophy, star, cube, light, shader, rocket
+  points        Int      @default(10)
+  rarity        String   @default("common") // common, rare, epic, legendary
+  triggerType   String   // lesson-complete, module-complete, speed, streak, special
+  triggerValue  String?  // JSON conditions
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  unlocks       UserAchievement[]
+}
+
+// User achievement unlocks
+model UserAchievement {
+  id            String   @id @default(uuid())
+  userId        String
+  achievementId String
+  unlockedAt    DateTime @default(now())
+
+  // Relations
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+}
+
+// User notes per lesson
+model LessonNote {
+  id            String   @id @default(uuid())
+  userId        String
+  lessonId      String
+  content       String   // Markdown content
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+}
+
+// Showcase projects (unlocked after module completion)
+model ShowcaseProject {
+  id            String   @id @default(uuid())
+  code          String   @unique // e.g., "particle-galaxy"
+  name          String
+  description   String
+  thumbnail     String?
+  requiredModule String  // Module ID required to unlock
+  difficulty    String   @default("intermediate")
+  tags          String   // JSON array of tags
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+}
+
+// Analytics events
+model AnalyticsEvent {
+  id            String   @id @default(uuid())
+  userId        String?
+  eventType     String   // page-view, lesson-start, lesson-complete, code-run, etc.
+  eventData     String?  // JSON metadata
+  createdAt     DateTime @default(now())
+
+  @@index([eventType])
+  @@index([createdAt])
+}
