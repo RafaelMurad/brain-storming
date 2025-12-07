@@ -3,14 +3,14 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useSearchParams } from 'next/navigation';
 import { useState, Suspense } from 'react';
-import { Github, Mail, Loader2 } from 'lucide-react';
+import { Github, Mail, Loader2, User } from 'lucide-react';
 
 function LoginForm() {
-  const { signInWithGithub, signInWithGoogle, isLoading } = useAuth();
+  const { signInWithGithub, signInWithGoogle, signInAsGuest, isLoading } = useAuth();
   const searchParams = useSearchParams();
-  const [isSigningIn, setIsSigningIn] = useState<'github' | 'google' | null>(null);
+  const [isSigningIn, setIsSigningIn] = useState<'github' | 'google' | 'guest' | null>(null);
 
-  const redirectTo = searchParams.get('redirectTo') || '/dashboard';
+  const _redirectTo = searchParams.get('redirectTo') || '/dashboard';
 
   const handleGithubSignIn = async () => {
     setIsSigningIn('github');
@@ -30,6 +30,11 @@ function LoginForm() {
       console.error('Google sign in failed:', error);
       setIsSigningIn(null);
     }
+  };
+
+  const handleGuestSignIn = () => {
+    setIsSigningIn('guest');
+    signInAsGuest();
   };
 
   return (
@@ -117,6 +122,24 @@ function LoginForm() {
             <Mail className="w-5 h-5" />
             <span>Email (Coming Soon)</span>
           </button>
+
+          {/* Guest Mode */}
+          <button
+            onClick={handleGuestSignIn}
+            disabled={isLoading || isSigningIn !== null}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+          >
+            {isSigningIn === 'guest' ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <User className="w-5 h-5" />
+            )}
+            <span>Continue as Guest</span>
+          </button>
+
+          <p className="mt-3 text-center text-xs text-[var(--color-muted)]">
+            Guest progress is stored locally and won&apos;t sync across devices
+          </p>
         </div>
 
         {/* Terms */}
