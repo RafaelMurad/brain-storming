@@ -6,7 +6,9 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/Button';
 import { useProgress } from '@/hooks/useProgress';
+import { useSubscription } from '@/hooks/useSubscription';
 import { getLessonByPhaseAndOrder, type Lesson } from '@/content/curriculum';
+import { UpgradePrompt } from '@/components/ui/UpgradePrompt';
 import {
   ArrowLeft,
   ArrowRight,
@@ -38,8 +40,10 @@ export default function LessonPage() {
   const params = useParams();
   const router = useRouter();
   const { completeLesson, lessonProgress } = useProgress();
+  const { checkPhaseAccess, isLoading: subscriptionLoading } = useSubscription();
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [hasAccess, setHasAccess] = useState(true);
   const [activeTab, setActiveTab] = useState<'theory' | 'exercise'>('theory');
   const [hintsUsed, setHintsUsed] = useState(0);
   const [showHint, setShowHint] = useState(false);
@@ -52,7 +56,7 @@ export default function LessonPage() {
     newLevel?: number;
   } | null>(null);
 
-  // Load lesson data
+  // Load lesson data and check access
   useEffect(() => {
     const phaseIdStr = params.phaseId as string;
     const lessonIdStr = params.lessonId as string;
@@ -73,7 +77,13 @@ export default function LessonPage() {
     }
 
     setLesson(lessonData);
-  }, [params, router]);
+
+    // Check subscription access
+    if (!subscriptionLoading) {
+      const canAccess = checkPhaseAccess(phaseId);
+      setHasAccess(canAccess);
+    }
+  }, [params, router, checkPhaseAccess, subscriptionLoading]);
 
   const handleComplete = async () => {
     if (!lesson) return;
@@ -108,10 +118,33 @@ export default function LessonPage() {
     setShowHint(true);
   };
 
-  if (!lesson) {
+  if (!lesson || subscriptionLoading) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
         <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+      </div>
+    );
+  }
+
+  // Show upgrade prompt if user doesn't have access
+  if (!hasAccess) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] flex flex-col">
+        <div className="border-b border-[var(--color-border)] px-4 py-3">
+          <Link
+            href="/learn"
+            className="inline-flex items-center gap-2 text-sm text-[var(--color-muted)] hover:text-[var(--color-foreground)]"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to lessons
+          </Link>
+        </div>
+        <div className="flex-1 flex items-center justify-center p-8">
+          <UpgradePrompt
+            phaseId={lesson.phaseId}
+            feature={`Phase ${lesson.phaseId}: ${lesson.title}`}
+          />
+        </div>
       </div>
     );
   }
